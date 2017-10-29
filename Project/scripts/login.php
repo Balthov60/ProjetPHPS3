@@ -14,21 +14,24 @@ include('../classes/SQLServices.php');
 $dbHandler = new SQLServices($hostnameDB, $dbName, $userDB, $passwordDB);
 
 if(isset($_POST['username']) && isset($_POST['password'])) {
-    $_SESSION['username'] = $_POST['username'];
-    $_SESSION['password'] = $_POST['password'];
+    $_SESSION['user']['username'] = $_POST['username'];
+    $_SESSION['user']['password'] = $_POST['password'];
 
-    if ($dbHandler->isRegistered($_SESSION['username'], $_SESSION['password']))
+    if ($dbHandler->isRegistered($_SESSION['user']['username'], $_SESSION['user']['password']))
     {
-        $_SESSION['connected'] = 1;
-        header('Location:../user/user_index.php');
+        $_SESSION['user']['isConnected'] = true;
+        $_SESSION['user']['isAdmin'] = false;
+        header('Location:../index.php');
     }
-    elseif ($dbHandler->isAdmin($_SESSION['username'], $_SESSION['password']))
+    elseif ($dbHandler->isAdmin($_SESSION['user']['username'], $_SESSION['user']['password']))
     {
-        $_SESSION['connected'] = 1;
-        header('Location:../admin/admin_panel.php');
+        $_SESSION['user']['isConnected'] = true;
+        $_SESSION['user']['isAdmin'] = true;
+        header('Location:../index.php');
     }
     else
     {
+        $_SESSION['user']['isConnected'] = false;
         header('Location:../login.html?error_connexion=noIdentified');
     }
 }

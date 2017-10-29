@@ -93,10 +93,8 @@ class HeaderBar
                 <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"#\">Zone Administrateur</a>
                 </li>
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Deconnexion</a>
-                </li>
             ";
+        $this->displayLogoutNavItem();
     }
     private function displayBasicHomepageNavItems() {
         echo "
@@ -106,20 +104,16 @@ class HeaderBar
                 <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"#\">Mon panier</a>
                 </li>
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Deconnexion</a>
-                </li>
             ";
+        $this->displayLogoutNavItem();
     }
     private function displayAdminPanelNavItems() {
         echo "
                 <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"#\">Accueil</a>
                 </li>
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Deconnexion</a>
-                </li>
-            ";
+             ";
+        $this->displayLogoutNavItem();
     }
     private function displayBasicPanelNavItems() {
         echo "
@@ -129,10 +123,8 @@ class HeaderBar
                 <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"#\">Mon panier</a>
                 </li>
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Deconnexion</a>
-                </li>
-            ";
+             ";
+        $this->displayLogoutNavItem();
     }
     // TODO : Find Better name for "panier"
     private function displayShopNavItems() {
@@ -143,9 +135,14 @@ class HeaderBar
                 <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"#\">Mon Espace</a>
                 </li>
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Deconnexion</a>
-                </li>
             ";
+        $this->displayLogoutNavItem();
+    }
+
+    private function displayLogoutNavItem() {
+        echo "
+            <li class=\"nav-item\">
+                <a class=\"nav-link\" href=\"../../../ProjetPHPS3/Project/scripts/logout.php\">Deconnexion</a>
+            </li>";
     }
 }

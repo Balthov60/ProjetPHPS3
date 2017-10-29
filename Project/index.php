@@ -1,3 +1,8 @@
+<?php
+session_start();
+initSession();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -11,7 +16,7 @@
 <body>
 <div id="main-content">
 
-    <?php new HomePage(false, false); ?>
+    <?php new HomePage($_SESSION["user"]["isConnected"], $_SESSION["user"]["isAdmin"]); ?>
 
 
     <div id="photos" class="container bg-secondary" style="height: 1000px">
@@ -35,3 +40,15 @@
 
 </body>
 </html>
+
+<?php
+function initSession() {
+    if (!isset($_SESSION["user"]["isConnected"]) || !is_bool($_SESSION["user"]["isConnected"])) {
+        $_SESSION["user"]["isConnected"] = false;
+        $_SESSION["user"]["isAdmin"] = false;
+    }
+    else if (!isset($_SESSION["user"]["isAdmin"]) || !is_bool($_SESSION["user"]["isAdmin"])) {
+        $_SESSION["user"]["isAdmin"] = false;
+    }
+}
+?>
