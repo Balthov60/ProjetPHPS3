@@ -6,12 +6,12 @@
 
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/project-style.css" rel="stylesheet">
-    <?php include_once("./classes/HeaderBar.php") ?>
+    <?php include_once("./classes/HomePage.php") ?>
 </head>
 <body>
 <div id="main-content">
 
-    <?php $navigationBar = new HeaderBar(true, true, "HomePage"); ?>
+    <?php new HomePage(false, false); ?>
 
 
     <div id="photos" class="container bg-secondary" style="height: 1000px">

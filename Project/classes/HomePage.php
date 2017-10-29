@@ -1,10 +1,12 @@
 <?php
 
+include_once("HeaderBar.php");
+
 class HomePage
 {
 
-    function addNavigationBar($isConnected = false, $isAdmin = false) {
-        $navBar = new HeaderBar($isConnected, $isAdmin, 'HomePage');
+    function __construct($isConnected = false, $isAdmin = false) {
+        new HeaderBar($isConnected, $isAdmin, 'HomePage');
     }
 
 }

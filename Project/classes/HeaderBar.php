@@ -81,10 +81,10 @@ class HeaderBar
     private function displayDisconnectedNavItems() {
         echo "
                 <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Se connecter</a>
+                    <a class=\"nav-link\" href=\"../../../ProjetPHPS3/Project/login.html\">Se connecter</a>
                 </li>
                 <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">S'inscrire</a>
+                    <a class=\"nav-link\" href=\"../../../ProjetPHPS3/Project/signup.html\">S'inscrire</a>
                 </li>
             ";
     }

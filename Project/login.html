@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Projet PHP</title>
-    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <title>Catalogue - Log In</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/form-page.css"/>
 </head>
-<body>
+<body class="bg-dark">
 
-<!-- Formulaire de Connexion -->
-<div id="coForm_container">
-    <form method="post" action="scripts/login.php">
-        <legend>Log-In</legend>
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" name="submit" class="button" value="Subscribe">
+<div>
+
+    <form method="post" action="scripts/login.php" class="form-container bg-light">
+
+        <h2 class="form-heading">Se Connecter</h2>
+
+        <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Se souvenir de moi
+            </label>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Connexion</button>
+        <a href="signup.html" id="signInLink">Pas encore inscrit ?</a>
     </form>
-    <a href="signup.html" id="signInLink">Not registered yet ?</a>
 
 </div>
 

@@ -2,17 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up</title>
+    <title>Catalogue - Sign Up</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/form-page.css"/>
 </head>
-<body>
-    <div id="coForm_container">
-        <form method="post" action="scripts/signup.php">
-            <legend>Sign-Up</legend>
-            <input type="text" name="username" placeholder="Username">
-            <input type="password" name="password" placeholder="Password">
-            <input type="submit" name="submit" class="button" value="Sign Up">
-        </form>
-        <a href="login.html" id="backMenuLink">Back to main page</a>
-    </div>
+<body class="bg-dark">
+
+<div>
+
+    <form method="post" action="scripts/signup.php" class="form-container bg-light">
+
+        <h2 class="form-heading">S'inscrire</h2>
+
+        <input type="email" name="mail" class="form-control" placeholder="E-mail" required autofocus>
+        <input type="text" name="username" class="form-control" placeholder="Username" required>
+
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
+        <input type="password" name="password-confirmation" class="form-control" placeholder="Confirm Password" required>
+
+        <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block"  value="Sign Up">
+        <a href="login.html" id="backMenuLink">Déjà inscrit ?</a>
+    </form>
+
+</div>
+
 </body>
 </html>
