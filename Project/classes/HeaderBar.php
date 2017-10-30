@@ -1,5 +1,7 @@
 <?php
 
+include('SQLServices.php');
+
 class HeaderBar
 {
 
@@ -37,16 +39,12 @@ class HeaderBar
         echo "</ul></div></nav>";
     }
     private function displayExtendedHeaderBar() {
-        echo "
-            <div class=\"bg-dark collapse\" id=\"advanced-menu\">
-                <form action=\"\" method=\"post\" class=\"container d-flex justify-content-between\">
-                    <label class=\"text-white\">
-                        TAG 1
-                        <input type=\"checkbox\"/>
-                    </label>
-                    <!-- TODO: PHP for tag imp -->
-                    <input type=\"submit\" class=\"btn\">
-                </form>
+        echo "<div class=\"bg-dark collapse\" id=\"advanced-menu\">
+                <form action=\"\" method=\"post\" class=\"container d-flex\">
+            ";
+        $this->displayTags();
+        echo "<input type=\"submit\" class=\"btn\">
+              </form>
             </div>
 
             <a data-toggle=\"collapse\" href=\"#advanced-menu\" aria-expanded=\"false\" aria-controls=\"collapseExample\">
@@ -144,5 +142,30 @@ class HeaderBar
             <li class=\"nav-item\">
                 <a class=\"nav-link\" href=\"../../../ProjetPHPS3/Project/scripts/logout.php\">Deconnexion</a>
             </li>";
+    }
+
+    /* Display Extended Header Bar Methods */
+
+    // TODO: Fix Include variables.inc.php
+    // TODO: Improve graphics
+    private function displayTags() {
+        $hostnameDB = "localhost";
+        $userDB = "root";
+        $passwordDB = '';
+        $dbName = "projetphps3";
+
+        $db = new SQLServices($hostnameDB, $dbName, $userDB, $passwordDB);
+        $result = $db->getData("keyword", "name_keyword");
+
+        foreach($result as $value) {
+            $this->displayTag($value[0]);
+        }
+    }
+    private function displayTag($tagName) {
+        echo "
+            <label class=\"text-white\">
+                $tagName
+                <input type=\"checkbox\" name=$tagName/>
+            </label>";
     }
 }

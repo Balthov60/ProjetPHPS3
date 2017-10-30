@@ -88,7 +88,7 @@ class SQLServices
         if ($cursor == false) {
             return null;
         }
-        $result = $cursor->fetchAll(PDO::FETCH_ASSOC);
+        $result = $cursor->fetchAll(PDO::FETCH_BOTH);
         $cursor->closeCursor();
         return $result;
     }
