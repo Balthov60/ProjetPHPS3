@@ -2,14 +2,9 @@
 class ImageHandler
 {
     private $sqlService;
-    function __construct()
+    function __construct($sqlService)
     {
-        $hostnameDB = "localhost";
-        $userDB = "root";
-        $passwordDB = '';
-        $dbName = "projetphps3";
-
-        $this->sqlService = new SQLServices($hostnameDB, $dbName, $userDB, $passwordDB);
+        $this->sqlService = $sqlService;
     }
 
 
@@ -39,7 +34,7 @@ class ImageHandler
                 {
                     foreach ($imagesName as $key => $line)
                     {
-                        echo "<img src=\"librairy/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
+                        echo "<img src=\"library/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
                     }
                 }
             }
@@ -51,12 +46,12 @@ class ImageHandler
                 {
                     foreach ($imagesName as $key => $line)
                     {
-                        echo "<img src=\"librairy/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
+                        echo "<img src=\"library/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
                     }
                 }
                 else
                 {
-                    echo "<img src=\"librairy/images_copyright/$imagesName\" alt=\"$imagesName\" id=\"$imagesName._image\" >";
+                    echo "<img src=\"library/images_copyright/$imagesName\" alt=\"$imagesName\" id=\"$imagesName._image\" >";
                 }
             }
         }
@@ -65,7 +60,7 @@ class ImageHandler
             $imageName = $this->sqlService->getData('image', 'name_image');
             if (!is_null($imageName)) {
                 foreach ($imageName as $key => $line) {
-                    echo "<img class=\"image-display\" src=\"../../../ProjetPHPS3/Project/librairy/images_copyright/$line[0]\" 
+                    echo "<img class=\"image-display\" src=\"../../../ProjetPHPS3/Project/library/images_copyright/$line[0]\" 
                                alt=\"$line[0]\" id=\"$line[0]._image\" >";
                 }
             }
@@ -97,12 +92,12 @@ class ImageHandler
             $idStringLength = stripos($imageSelected, '._image'); //Find the 'id' string position in the image name
             $imageSelected = substr($imageSelected, 0,$idStringLength); //Delete the 'id' attribute string from the image name
             $this->sqlService->removeData('image',"name_image = '$imageSelected'", 1);
-            unlink ("../librairy/images_copyright/$imageSelected");
-            unlink("../librairy/images/$imageSelected");
+            unlink ("../library/images_copyright/$imageSelected");
+            unlink("../library/images/$imageSelected");
         }
     }
 
-    function uploadImageInDB($fileName, $targetFile, $imageFileType)
+    function uploadImage($fileName, $targetFile, $imageFileType)
     {
         if (!(move_uploaded_file($fileName, $targetFile)))
             header("Location:../index.php?error=errorUpload");
@@ -129,9 +124,9 @@ class ImageHandler
     function add_copyright($fileName, $imageFileType)
     {
         if($imageFileType == "png")
-            $photo = imagecreatefrompng("../librairy/images/$fileName");
+            $photo = imagecreatefrompng("../library/images/$fileName");
         else
-            $photo = imagecreatefromjpeg("../librairy/images/$fileName");
+            $photo = imagecreatefromjpeg("../library/images/$fileName");
 
         $width_photo = imagesx($photo);
         $height_photo = imagesy($photo);
@@ -140,9 +135,9 @@ class ImageHandler
         imageline($photo,$width_photo,0,0,$height_photo,$couleur);
 
         if($imageFileType == "png")
-            imagepng($photo, "../librairy/images_copyright/$fileName");
+            imagepng($photo, "../library/images_copyright/$fileName");
         else
-            imagejpeg($photo, "../librairy/images_copyright/$fileName");
+            imagejpeg($photo, "../library/images_copyright/$fileName");
 
         imagedestroy($photo);
     }

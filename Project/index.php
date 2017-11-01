@@ -16,6 +16,11 @@ getKeywords();
 <body>
 <div id="main-content">
     <?php
+    /* Create SQLService */
+    include_once("./includes/variables.inc.php");
+    include_once("./classes/SQLServices.php");
+    $sqlService = new SQLServices($host, $dbName, $user, $password);
+
     /* Create Valid Page */
     if (isset($_GET["page"]) && $_SESSION["user"]["isConnected"] == true) {
         if ($_GET["page"] == "panel")
@@ -39,13 +44,13 @@ getKeywords();
         else
         {
             include_once("./classes/HomePage.php");
-            new HomePage($_SESSION["user"]["isConnected"], $_SESSION["user"]["isAdmin"]);
+            new HomePage($_SESSION["user"]["isConnected"], $_SESSION["user"]["isAdmin"], $sqlService);
         }
     }
     else
     {
         include_once("./classes/HomePage.php");
-        new HomePage($_SESSION["user"]["isConnected"], $_SESSION["user"]["isAdmin"]);
+        new HomePage($_SESSION["user"]["isConnected"], $_SESSION["user"]["isAdmin"], $sqlService);
     }
     ?>
 </div>

@@ -2,7 +2,7 @@
 include('../classes/SQLServices.php');
 include('../includes/variables.inc.php');
 
-$sqlService = new SQLServices($hostnameDB, $dbName, $userDB, $passwordDB);
+$sqlService = new SQLServices($host, $dbName, $user, $password);
 
 $checkBoxesName = $sqlService->getData('keyword', 'id_keyword');
 $keywordsSelected = "";

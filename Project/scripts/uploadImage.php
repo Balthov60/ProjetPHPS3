@@ -2,63 +2,75 @@
 include('../classes/SQLServices.php');
 include('../classes/ImageHandler.php');
 include('../includes/variables.inc.php');
-global $imageHandler, $sqlService;
-$sqlService = new SQLServices($hostnameDB,$dbName, $userDB, $passwordDB);
-$imageHandler = new ImageHandler($sqlService);
-$target_dir = "../../../ProjetPHPS3/Project/librairy/images/";
-$target_file = $target_dir . basename($_FILES['pictureToUpload']["name"]);
-$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
-// Check if image file is a actual image or fake image
-if(!checkThereIsImage())
-    header("Location:../index.php?error=errorNoImage");
-// Check if file already exists
-elseif(!checkExistingFile())
-    header("Location:../index.php?error=errorExistingFile");
-// Check file size
-elseif(!checkImageSize())
-    header('Location:../index.php?error=errorSize');
-// Allow certain file formats
-elseif(!checkImageFormat())
-    header('Location:../index.php?error=errorFormat');
-// If there are no errors, then upload image
+$targetDirectory = "../../../ProjetPHPS3/Project/library/images/";
+$targetFile = $targetDirectory . basename($_FILES['pictureToUpload']["name"]);
+$imageFileType = pathinfo($targetFile,PATHINFO_EXTENSION);
+
+/* Prevent access trough URL */
+
+if (!isset($_POST["submit"]))
+    header("Location:../index.php?error=emptyForm");
+
+/* Test if image is valid */
+
+if(!isValidImage())
+{
+    header("Location:../index.php?error=invalidImage");
+}
+else if(!fileAlreadyExist($targetFile))
+{
+    header("Location:../index.php?error=fileAlreadyExist");
+}
+else if(imageTooBig())
+{
+    header('Location:../index.php?error=imageTooBig');
+}
+else if(!validExtension($imageFileType)) // Allow only JPG, JPEG & PNG
+{
+    header('Location:../index.php?error=invalidExtension');
+}
 else
-    uploadImage();
-
-
-function checkThereIsImage()
 {
-    if(isset($_POST["submit"]))
-    {
-        $check = getimagesize($_FILES['pictureToUpload']["tmp_name"]);
-        if($check == false)
-            return false;
+    $sqlService = new SQLServices($host,$dbName, $user, $password);
+    uploadImage($sqlService, $targetFile, $imageFileType);
+}
+
+/* Image Validation Function */
+
+function isValidImage()
+{
+    if(getimagesize($_FILES["pictureToUpload"]["tmp_name"]) == false)
+        return false;
+
+    return true;
+}
+function fileAlreadyExist($targetFile)
+{
+    if (file_exists($targetFile))
+        return false;
+
+    return true;
+}
+function imageTooBig()
+{
+    if ($_FILES["pictureToUpload"]["size"] > 5000000)
         return true;
-    }
+
+    return false;
 }
-function checkExistingFile()
+function validExtension($imageFileType)
 {
-    global $target_file;
-    if (file_exists($target_file))
-        return false;
-    return true;
-}
-function checkImageSize()
-{
-    if ($_FILES['pictureToUpload']["size"] > 5000000)
-        return false;
-    return true;
-}
-function checkImageFormat()
-{
-    global $imageFileType;
     if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg")
         return false;
+
     return true;
 }
-function uploadImage()
+
+/* Upload */
+
+function uploadImage($sqlService, $targetFile, $imageFileType)
 {
-    global $imageHandler, $target_file, $imageFileType;
-    $imageHandler->uploadImageInDB($_FILES['pictureToUpload']["tmp_name"], $target_file, $imageFileType);
+    $imageHandler = new ImageHandler($sqlService);
+    $imageHandler->uploadImage($_FILES['pictureToUpload']["tmp_name"], $targetFile, $imageFileType);
 }
-?>

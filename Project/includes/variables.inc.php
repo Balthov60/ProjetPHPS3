@@ -1,7 +1,7 @@
 <?php
 
 //DB variables
-$hostnameDB = "localhost";
-$userDB = "root";
-$passwordDB = '';
+$host = "localhost";
+$user = "root";
+$password = '';
 $dbName = "projetphps3";

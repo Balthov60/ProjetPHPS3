@@ -2,7 +2,7 @@
 
 include('../classes/SQLServices.php');
 include('../includes/variables.inc.php');
-$dbHandler = new SQLServices($hostnameDB, $dbName, $userDB, $passwordDB);
+$dbHandler = new SQLServices($host, $dbName, $user, $password);
 
 if(isset($_POST['username']) && isset($_POST['password']))
 {

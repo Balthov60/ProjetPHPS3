@@ -11,7 +11,7 @@ include('../includes/variables.inc.php');
 include('../classes/SQLServices.php');
 
 //Déclaration des variables
-$dbHandler = new SQLServices($hostnameDB, $dbName, $userDB, $passwordDB);
+$dbHandler = new SQLServices($host, $dbName, $user, $password);
 
 if(isset($_POST['username']) && isset($_POST['password'])) {
     $_SESSION['user']['username'] = $_POST['username'];

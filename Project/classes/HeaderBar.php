@@ -1,7 +1,5 @@
 <?php
 
-include('SQLServices.php');
-
 class HeaderBar
 {
     /**
