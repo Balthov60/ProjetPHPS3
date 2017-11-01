@@ -16,6 +16,13 @@ echo 'Bonjour '.$_SESSION['username'].', vous etes admin c\'est cool';
 <head>
 </head>
 <body>
+    <div id="main-content">
+        <?php
+            new HomePage($_SESSION["user"]["isConnected"], $_SESSION["user"]["isAdmin"]);
 
+            new AdminPanel();
+            
+        ?>
+    </div>
 </body>
 </html>
