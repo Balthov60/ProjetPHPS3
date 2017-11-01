@@ -34,10 +34,10 @@ class AdminPanel
             <form action="../../../ProjetPHPS3/Project/scripts/uploadImage.php"
                   method="post" enctype="multipart/form-data">
 
-                <input type="file" class="form-control col-xs-2" name="pictureToUpload" value="Choose Image..">
+                <input type="file" class="form-control col-xs-2" name="pictureToUpload" value="Choose Image...">
                 <div id="keyword-list-container">
                     <input type="text" onkeyup="filterKeyword()" name="keyword_input" id="keyword-search"
-                           placeholder="Keyword1,Keyword2,Keyword3..">
+                           placeholder="Keyword1,Keyword2,Keyword3...">
                            <?php //TODO: Implement space handling with trunc() ?>
 
                     <ul id="keywordList">

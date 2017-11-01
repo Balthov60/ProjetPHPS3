@@ -191,13 +191,14 @@ class SQLServices
     function displayKeywordList()
     {
         $keyword_list = $this->getData('keyword', 'name_keyword');
+
         if (isset($keyword_list)) {
-            foreach ($keyword_list as $row) {
-                    echo '<li><a>' . htmlspecialchars($row[0]) . '</a></li>';
+            foreach ($keyword_list as $value) {
+                    echo "<li><a>" . htmlspecialchars($value[0]) . "</a></li>";
             }
         }
         else {
-            echo "<li><a>No Keyword Found</a></li>";
+            echo "<li>No Keyword Found</li>";
         }
     }
 }
