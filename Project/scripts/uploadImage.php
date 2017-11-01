@@ -5,22 +5,22 @@ include('../includes/variables.inc.php');
 global $imageHandler, $sqlService;
 $sqlService = new SQLServices($hostnameDB,$dbName, $userDB, $passwordDB);
 $imageHandler = new ImageHandler($sqlService);
-$target_dir = "C://Users/sntri/Documents/IUT/2eme_Annee/PHP/ProjetPHPS3/Project/images/";
+$target_dir = "C://Users/sntri/Documents/IUT/2eme_Annee/PHP/projetphps3/ProjetPHPS3/Project/librairy/images/";
 $target_file = $target_dir . basename($_FILES['pictureToUpload']["name"]);
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
 // Check if image file is a actual image or fake image
 if(!checkThereIsImage())
-    header("Location:../admin/admin_panel.php?error=errorNoImage");
+    header("Location:../index.php?error=errorNoImage");
 // Check if file already exists
 elseif(!checkExistingFile())
-    header("Location:../admin/admin_panel.php?error=errorExistingFile");
+    header("Location:../index.php?error=errorExistingFile");
 // Check file size
 elseif(!checkImageSize())
-    header('Location:../admin/admin_panel.php?error=errorSize');
+    header('Location:../index.php?error=errorSize');
 // Allow certain file formats
 elseif(!checkImageFormat())
-    header('Location:../admin/admin_panel.php?error=errorFormat');
+    header('Location:../index.php?error=errorFormat');
 // If there are no errors, then upload image
 else
     uploadImage();

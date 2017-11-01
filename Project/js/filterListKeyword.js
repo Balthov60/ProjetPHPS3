@@ -23,18 +23,34 @@ function filterKeyword()
             nb_keyword_available--;
         }
     }
-
 }
+$(document).ready(function(){
 
-$("li").click(function() {
-    filterList = $("#keyword-search").val().split(",");
-    if (filterList.length > 1)
+    $("#keywordList li a").click(function() {
+        var filterList = $("#keyword-search").val().split(",");
+        if (filterList.length > 1)
+        {
+            filterList = filterList.splice(0, filterList.length - 1);
+            $("#keyword-search").val(filterList.concat() + "," + $(this).text());
+        }
+        else
+        {
+            $("#keyword-search").val($(this).text());
+        }
+    });
+
+    /* Keyword List */
+    $("#keywordList").hide();
+    $("#keyword-search").focus(function()
     {
-        filterList = filterList.splice(0, filterList.length - 1);
-        $("#keyword-search").val(filterList.concat() + "," + $(this).text());
-    }
-    else
+        $("#keywordList").show(150);
+    });
+
+    $("#keyword-search").focusout(function()
     {
-        $("#keyword-search").val($(this).text());
-    }
-});
+        $("#keywordList").hide(150);
+    });
+
+
+
+})

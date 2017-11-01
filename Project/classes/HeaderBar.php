@@ -89,7 +89,7 @@ class HeaderBar
     private function displayAdminHomepageNavItems() {
         echo "
                 <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Zone Administrateur</a>
+                    <a class=\"nav-link\" href=\"admin/admin_panel.php\">Zone Administrateur</a>
                 </li>
             ";
         $this->displayLogoutNavItem();

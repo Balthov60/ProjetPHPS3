@@ -26,3 +26,107 @@
     height: 25px;
     width: auto;
 }
+
+
+/* Upload Form */
+
+#upload-form-container {
+    margin-top: 5%;
+    margin-left: 25%;
+    margin-bottom: 20px;
+    background-color: #fefefe;
+    padding:20px;
+    border: 1px solid #888;
+    border-radius: 2px;
+    width: 50%; /* Could be more or less, depending on screen size */
+    height: 60%;
+}
+
+#upload-form-container form a
+{
+    margin: auto;
+}
+
+.submit-price-container
+{
+    margin-top: 20px;
+    height: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#submit-upload
+{
+    background-color: #FFFFFF;
+    color: #212529;
+    padding: auto;
+    font-size: 13px;
+    border: 1px solid #00c7fc;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    width: 15%;
+    height: 33px;
+}
+
+#submit-upload:hover
+{
+    background-color: #eaeaea;
+}
+
+
+
+
+/* Keyword SearchBar and List */
+
+
+#keyword-list-container
+{
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+#keyword-search {
+
+    width: 100%; /* Full-width */
+    font-size: 16px; /* Increase font-size */
+    padding: 12px 20px 12px 40px; /* Add some padding */
+    border: 1px solid #ddd; /* Add a grey border */
+    margin-bottom: 5px; /* Add some space below the input */
+    border-radius: 3px;
+}
+
+#keyword-search:focus
+{
+    border-color: #00c7fc;
+}
+
+#keywordList {
+
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+    margin-bottom: 25px;
+
+}
+
+#keywordList li a {
+    border: 1px solid #ddd; /* Add a border to all links */
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6; /* Grey background color */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove default text underline */
+    font-size: 18px; /* Increase the font-size */
+    color: black; /* Add a black text color */
+    display: block; /* Make it into a block element to fill the whole list */
+}
+
+#keywordList li a:hover:not(.header) {
+    background-color: #eee; /* Add a hover effect to all links, except for headers */
+}
+

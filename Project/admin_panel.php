@@ -10,23 +10,26 @@ getKeywords();
     <meta charset="UTF-8">
     <title>Catalogue</title>
 
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/project-style.css" rel="stylesheet">
-    <?php include_once("./classes/HomePage.php") ?>
-    <?php include_once("classes/ImageHandler.php") ?>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/project-style.css" rel="stylesheet">
+    <?php
+        include_once("classes/HomePage.php");
+        include_once("classes/AdminPanel.php");
+        include_once("classes/ImageHandler.php");
+        include_once("includes/variables.inc.php");
+    ?>
 </head>
 <body>
 <div id="main-content">
 
-    <?php new HomePage($_SESSION["user"]["isConnected"], $_SESSION["user"]["isAdmin"]); ?>
+    <?php
+        new HomePage($_SESSION["user"]["isConnected"], $_SESSION["user"]["isAdmin"]);
+    ?>
 
 
     <div id="photos" class="container bg-secondary" style="height: 1000px">
-        <?php
-            $imageHandler =  new ImageHandler();
-            $imageHandler->displayImageWithKeyword();
-        ?>
-
+        <?php $imageHandler = new ImageHandler(new SQLServices($hostnameDB, $dbName, $userDB, $passwordDB));
+        $imageHandler->displayImageWithKeyword($keywords) ?>
     </div>
 
     <footer>
@@ -44,7 +47,6 @@ getKeywords();
 <script src="js/jquery.min.3.1.2.js"></script>
 <script src="./js/bootstrap.min.js"></script>
 <script src="js/filterListKeyword.js"></script>
-
 
 </body>
 </html>
