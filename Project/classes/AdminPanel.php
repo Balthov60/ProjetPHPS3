@@ -21,6 +21,8 @@ class AdminPanel
         $this->displayUploadForm();
         $this->displayModifForm();
         echo "</div>";
+
+        new FooterBar();
     }
 
     function displayUploadForm()

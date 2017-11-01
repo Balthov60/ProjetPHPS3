@@ -7,14 +7,13 @@ class HomePage
 
     function __construct($isConnected = false, $isAdmin = false) {
         new HeaderBar($isConnected, $isAdmin, 'HomePage');
-        ?>
-        <div class="container bg-secondary" style="height: 1000px">
-                <?php
-                    $imageHandler = new ImageHandler();
-                    $imageHandler->displayImageWithKeyword();
-                ?>
-        </div>
-    <?php
+
+        echo "<div class=\"container bg-secondary\" style=\"height: 1000px\">";
+        $imageHandler = new ImageHandler();
+        $imageHandler->displayImageWithKeyword();
+        echo "</div>";
+
+        new FooterBar();
     }
 
 }
