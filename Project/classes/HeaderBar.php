@@ -8,7 +8,7 @@ class HeaderBar
      * HeaderBar constructor.
      * @param $isConnected
      * @param $isAdmin
-     * @param $currentPage (HomePage, Shop or Panel)
+     * @param $currentPage (HomePage, Cart or Panel)
      */
     function __construct($isConnected, $isAdmin, $currentPage)
     {
@@ -64,9 +64,9 @@ class HeaderBar
         {
             $this->displayBasicPanelNavItems();
         }
-        else if ($currentPage == "Shop") 
+        else if ($currentPage == "Cart")
         {
-            $this->displayShopNavItems();
+            $this->displayCartNavItems();
         }
     }
 
@@ -90,7 +90,7 @@ class HeaderBar
     private function displayBasicHomepageNavItems()
     {
         $this->displayUserPanelNavItem();
-        $this->displayShopNavItem();
+        $this->displayCartNavItem();
         $this->displayLogoutNavItem();
     }
     private function displayAdminPanelNavItems() 
@@ -101,10 +101,10 @@ class HeaderBar
     private function displayBasicPanelNavItems()
     {
         $this->displayHomePageNavItem();
-        $this->displayShopNavItem();
+        $this->displayCartNavItem();
         $this->displayLogoutNavItem();
     }
-    private function displayShopNavItems() 
+    private function displayCartNavItems()
     {
         $this->displayHomePageNavItem();
         $this->displayUserPanelNavItem();
@@ -125,11 +125,10 @@ class HeaderBar
         </li>
     <?php
     }
-    //TODO: Find Better name for Mon Panier
-    private function displayShopNavItem()
+    private function displayCartNavItem()
     { ?>
         <li class="nav-item">
-            <a class="nav-link" href="../../../ProjetPHPS3/Project/index.php?page=shop">Mon Panier</a>
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/index.php?page=cart">Mon Panier</a>
         </li>
     <?php
     }
