@@ -40,7 +40,7 @@ class AdminPanel
                            placeholder="Keyword1,Keyword2,Keyword3..">
                            <?php //TODO: Implement space handling with trunc() ?>
 
-                    <ul id="keywordList">";
+                    <ul id="keywordList">
                         <?php $this->sqlService->displayKeywordList(); ?>
                     </ul>
                 </div>
