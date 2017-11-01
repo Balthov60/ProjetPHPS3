@@ -16,9 +16,5 @@ foreach ($checkBoxesName as $key => $line)
     }
 }
 
-if($_GET['page'] == "admin")
-    header("Location:../admin/admin_panel.php?keywords=$keywordsSelected");
-
-elseif($_GET['page'] == "index")
-    header("Location:../index.php?keywords=$keywordsSelected");
+header("Location:../index.php?keywords=$keywordsSelected");
 ?>
