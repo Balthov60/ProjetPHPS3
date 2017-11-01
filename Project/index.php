@@ -1,6 +1,7 @@
 <?php
 session_start();
 initSession();
+getKeywords();
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +13,7 @@ initSession();
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/project-style.css" rel="stylesheet">
     <?php include_once("./classes/HomePage.php") ?>
+    <?php include_once("classes/ImageHandler.php") ?>
 </head>
 <body>
 <div id="main-content">
@@ -20,7 +22,11 @@ initSession();
 
 
     <div id="photos" class="container bg-secondary" style="height: 1000px">
-        <!-- TODO: photo imp -->
+        <?php
+            $imageHandler =  new ImageHandler();
+            $imageHandler->displayImageWithKeyword();
+        ?>
+
     </div>
 
     <footer>
@@ -37,6 +43,8 @@ initSession();
 <!-- JavaScript -->
 <script src="js/jquery.min.3.1.2.js"></script>
 <script src="./js/bootstrap.min.js"></script>
+<script src="js/filterListKeyword.js"></script>
+
 
 </body>
 </html>
@@ -50,5 +58,14 @@ function initSession() {
     else if (!isset($_SESSION["user"]["isAdmin"]) || !is_bool($_SESSION["user"]["isAdmin"])) {
         $_SESSION["user"]["isAdmin"] = false;
     }
+}
+
+function getKeywords()
+{
+    global $keywords;
+    if(isset($_GET['keywords']))
+        $keywords = $_GET['keywords'];
+    else
+        $keywords = null;
 }
 ?>
