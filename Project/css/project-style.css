@@ -130,3 +130,11 @@
     background-color: #eee; /* Add a hover effect to all links, except for headers */
 }
 
+/* images */
+
+.image-display {
+    margin: 10px;
+    width: auto;
+    height: 20%;
+}
+

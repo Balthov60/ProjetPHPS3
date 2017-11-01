@@ -65,7 +65,8 @@ class ImageHandler
             $imageName = $this->sqlService->getData('image', 'name_image');
             if (!is_null($imageName)) {
                 foreach ($imageName as $key => $line) {
-                    echo "<img src=\"librairy/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
+                    echo "<img class=\"image-display\" src=\"../../../ProjetPHPS3/Project/librairy/images_copyright/$line[0]\" 
+                               alt=\"$line[0]\" id=\"$line[0]._image\" >";
                 }
             }
         }

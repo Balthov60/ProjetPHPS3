@@ -109,7 +109,7 @@ class SQLServices
 
             echo $query;
 
-            $this->db->exec($query);
+            $this->db->exec($query) or die(print_r($this->db->errorInfo()));
         }
     }
 

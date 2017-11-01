@@ -5,7 +5,7 @@ include('../includes/variables.inc.php');
 global $imageHandler, $sqlService;
 $sqlService = new SQLServices($hostnameDB,$dbName, $userDB, $passwordDB);
 $imageHandler = new ImageHandler($sqlService);
-$target_dir = "C://Users/sntri/Documents/IUT/2eme_Annee/PHP/projetphps3/ProjetPHPS3/Project/librairy/images/";
+$target_dir = "../../../ProjetPHPS3/Project/librairy/images/";
 $target_file = $target_dir . basename($_FILES['pictureToUpload']["name"]);
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
