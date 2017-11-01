@@ -4,7 +4,6 @@ include('SQLServices.php');
 
 class HeaderBar
 {
-
     /**
      * HeaderBar constructor.
      * @param $isConnected
@@ -13,7 +12,7 @@ class HeaderBar
      */
     function __construct($isConnected, $isAdmin, $currentPage)
     {
-        echo " <header class=\"sticky-top\"> ";
+        echo "<header class=\"sticky-top\">";
 
         $this->displayNavBar($isConnected, $isAdmin, $currentPage);
         if ($currentPage == "HomePage") {
@@ -23,120 +22,117 @@ class HeaderBar
         echo "</header>";
     }
 
-    private function displayNavBar($isConnected, $isAdmin, $currentPage) {
-        echo "
-            <nav class=\"navbar navbar-dark bg-dark\">
-            <div class=\"container d-flex justify-content-between\">
-
-                <div class=\"navbar-brand d-flex\">
-                    <img src=\"./images/logo.png\" id=\"logo\">
-                    <h1 class=\"text-white align-self-center\">Catalogue</h1>
-                </div>
-            ";
-
-        echo "<ul class=\"navbar-nav d-flex\">";
-        $this->displayNavItems($isConnected, $isAdmin, $currentPage);
-        echo "</ul></div></nav>";
-    }
-    private function displayExtendedHeaderBar() {
-        echo "<div class=\"bg-dark collapse\" id=\"advanced-menu\">
-                <form action=\"\" method=\"post\" class=\"container d-flex\">
-            ";
-        $this->displayTags();
-        echo "<input type=\"submit\" class=\"btn\">
-              </form>
-            </div>
-
-            <a data-toggle=\"collapse\" href=\"#advanced-menu\" aria-expanded=\"false\" aria-controls=\"collapseExample\">
-                <img src=\"images/advanced_menu.png\" class=\"center-horizontaly\" id=\"advanced-menu-button\" >
-            </a>";
-    }
-
+    /*****************************/
     /* Display Nav Items Methods */
+    /*****************************/
+    
+    private function displayNavBar($isConnected, $isAdmin, $currentPage)
+    { ?>
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container d-flex justify-content-between">
+                <div class="navbar-brand d-flex">
+                    <img src="../../../ProjetPHPS3/Project/images/logo.png" id="logo" alt="websiteLogo">
+                    <h1 class="text-white align-self-center">Catalogue</h1>
+                </div>
+
+                <ul class="navbar-nav d-flex">
+                    <?php $this->displayNavItems($isConnected, $isAdmin, $currentPage); ?>
+                </ul>
+            </div>
+        </nav>
+    <?php
+    }
 
     private function displayNavItems($isConnected, $isAdmin, $currentPage) {
         if (!$isConnected)
         {
             $this->displayDisconnectedNavItems();
         }
-        else if ($isAdmin && $currentPage == "HomePage") {
+        else if ($isAdmin && $currentPage == "HomePage") 
+        {
             $this->displayAdminHomepageNavItems();
         }
-        else if ($currentPage == "HomePage") {
+        else if ($currentPage == "HomePage") 
+        {
             $this->displayBasicHomepageNavItems();
         }
-        else if ($isAdmin && $currentPage == "Panel") {
+        else if ($isAdmin && $currentPage == "Panel")
+        {
             $this->displayAdminPanelNavItems();
         }
-        else if ($currentPage == "Panel") {
+        else if ($currentPage == "Panel") 
+        {
             $this->displayBasicPanelNavItems();
         }
-        else if ($currentPage == "Shop") {
+        else if ($currentPage == "Shop") 
+        {
             $this->displayShopNavItems();
         }
     }
 
-    private function displayDisconnectedNavItems() {
-        echo "
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"../../../ProjetPHPS3/Project/login.html\">Se connecter</a>
-                </li>
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"../../../ProjetPHPS3/Project/signup.html\">S'inscrire</a>
-                </li>
-            ";
+    private function displayDisconnectedNavItems()
+    { ?>
+        <li class="nav-item">
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/login.html">Se connecter</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/signup.html">S'inscrire</a>
+        </li>
+    <?php
     }
-    private function displayAdminHomepageNavItems() {
-        echo "
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Zone Administrateur</a>
-                </li>
-            ";
+    private function displayAdminHomepageNavItems()
+    { ?>
+        <li class="nav-item">
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/index.php?page=panel">Zone Administrateur</a>
+        </li>
+        <?php $this->displayLogoutNavItem();
+    }
+    private function displayBasicHomepageNavItems()
+    {
+        $this->displayUserPanelNavItem();
+        $this->displayShopNavItem();
         $this->displayLogoutNavItem();
     }
-    private function displayBasicHomepageNavItems() {
-        echo "
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Mon espace</a>
-                </li>
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Mon panier</a>
-                </li>
-            ";
+    private function displayAdminPanelNavItems() 
+    {
+        $this->displayHomePageNavItem();
         $this->displayLogoutNavItem();
     }
-    private function displayAdminPanelNavItems() {
-        echo "
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Accueil</a>
-                </li>
-             ";
+    private function displayBasicPanelNavItems()
+    {
+        $this->displayHomePageNavItem();
+        $this->displayShopNavItem();
         $this->displayLogoutNavItem();
     }
-    private function displayBasicPanelNavItems() {
-        echo "
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Accueil</a>
-                </li>
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Mon panier</a>
-                </li>
-             ";
-        $this->displayLogoutNavItem();
-    }
-    // TODO : Find Better name for "panier"
-    private function displayShopNavItems() {
-        echo "
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Accueil</a>
-                </li>
-                <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Mon Espace</a>
-                </li>
-            ";
+    private function displayShopNavItems() 
+    {
+        $this->displayHomePageNavItem();
+        $this->displayUserPanelNavItem();
         $this->displayLogoutNavItem();
     }
 
+    private function displayUserPanelNavItem()
+    { ?>
+        <li class="nav-item">
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/index.php?page=panel">Mon Espace</a>
+        </li>
+    <?php
+    }
+    private function displayHomePageNavItem()
+    { ?>
+        <li class="nav-item">
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/index.php">Accueil</a>
+        </li>
+    <?php
+    }
+    //TODO: Find Better name for Mon Panier
+    private function displayShopNavItem()
+    { ?>
+        <li class="nav-item">
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/index.php?page=shop">Mon Panier</a>
+        </li>
+    <?php
+    }
     private function displayLogoutNavItem() {
         echo "
             <li class=\"nav-item\">
@@ -145,6 +141,22 @@ class HeaderBar
     }
 
     /* Display Extended Header Bar Methods */
+
+    private function displayExtendedHeaderBar()
+    { ?>
+        <div class="bg-dark collapse" id="advanced-menu">
+            <form action="" method="post" class="container d-flex">
+                <?php $this->displayTags(); ?>
+                <input type="submit" class="btn">
+            </form>
+        </div>
+
+        <a data-toggle="collapse" href="#advanced-menu" aria-expanded="false" aria-controls="collapseExample">
+            <img src="../../../ProjetPHPS3/Project/images/advanced_menu.png" class="center-horizontaly"
+                 id="advanced-menu-button" alt="Activer Menu Avancé">
+        </a>
+    <?php
+    }
 
     // TODO: Fix Include variables.inc.php
     // TODO: Improve graphics
@@ -161,11 +173,12 @@ class HeaderBar
             $this->displayTag($value[0]);
         }
     }
-    private function displayTag($tagName) {
-        echo "
-            <label class=\"text-white\">
-                $tagName
-                <input type=\"checkbox\" name=$tagName/>
-            </label>";
+    private function displayTag($tagName)
+    { ?>
+        <label class="text-white">
+            <?php echo $tagName ?>
+            <input type="checkbox" name=$tagName/>
+        </label>";
+    <?php
     }
 }

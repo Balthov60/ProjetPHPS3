@@ -18,16 +18,16 @@ getKeywords();
 <body>
 <div id="main-content">
 
-    <?php new HomePage($_SESSION["user"]["isConnected"], $_SESSION["user"]["isAdmin"]); ?>
+    <?php
 
+    if (isset($_GET["page"]) && $_GET["page"] == "panel" && $_SESSION["user"]["isAdmin"] == true) {
+        new AdminPanel();
+    }
+    else {
+        new HomePage($_SESSION["user"]["isConnected"], $_SESSION["user"]["isAdmin"]);
+    }
 
-    <div id="photos" class="container bg-secondary" style="height: 1000px">
-        <?php
-            $imageHandler =  new ImageHandler();
-            $imageHandler->displayImageWithKeyword();
-        ?>
-
-    </div>
+    ?>
 
     <footer>
         <div class="bg-dark">

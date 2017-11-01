@@ -7,10 +7,14 @@ class HomePage
 
     function __construct($isConnected = false, $isAdmin = false) {
         new HeaderBar($isConnected, $isAdmin, 'HomePage');
-        if($isAdmin)
-        {
-            new AdminPanel();
-        }
+        ?>
+        <div class="container bg-secondary" style="height: 1000px">
+                <?php
+                    $imageHandler = new ImageHandler();
+                    $imageHandler->displayImageWithKeyword();
+                ?>
+        </div>
+    <?php
     }
 
 }
