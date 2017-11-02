@@ -8,7 +8,7 @@ if (isset($_POST)) {
         if ($keyword == "submit")
             continue;
 
-        $keywordsSelected .= "$keyword&";
+        $keywordsSelected .= "$keyword+";
     }
     $keywordsSelected = substr($keywordsSelected, 0, -1);
 }

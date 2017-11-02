@@ -11,8 +11,13 @@ class HomePage
         new HeaderBar($isConnected, $isAdmin, 'HomePage');
 
         echo "<div class=\"container bg-secondary images-container\" style=\"height: 1000px\">";
+
         $imageHandler = new ImageHandler($sqlService);
-        $imageHandler->displayImages();
+        if (isset($_GET["keywords"]))
+            $imageHandler->displayImages($_GET["keywords"]);
+        else
+            $imageHandler->displayImages();
+
         echo "</div>";
 
         new FooterBar();
