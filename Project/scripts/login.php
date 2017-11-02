@@ -21,6 +21,7 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
     {
         $_SESSION['user']['isConnected'] = true;
         $_SESSION['user']['isAdmin'] = false;
+        $_SESSION['user']['id'] = $dbHandler->getUserId($_SESSION['user']['username']);
         header('Location:../index.php');
     }
     elseif ($dbHandler->isAdmin($_SESSION['user']['username'], $_SESSION['user']['password']))

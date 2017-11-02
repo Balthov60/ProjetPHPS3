@@ -142,9 +142,10 @@ class HeaderBar
     private function displayExtendedHeaderBar()
     { ?>
         <div class="bg-dark collapse" id="advanced-menu">
-            <form action="" method="post" class="container d-flex">
+            <form action="../../../ProjetPHPS3/Project/scripts/displayImagesWithKeywords.php"
+                  method="post" class="container d-flex">
                 <?php $this->displayTags(); ?>
-                <input type="submit" class="btn">
+                <input type="submit" name="submit" class="btn align-self-end">
             </form>
         </div>
 
@@ -172,10 +173,10 @@ class HeaderBar
     }
     private function displayTag($tagName)
     { ?>
-        <label class="text-white">
+        <label class="text-white tags">
             <?php echo $tagName ?>
-            <input type="checkbox" name=$tagName/>
-        </label>";
+            <input type="checkbox" name="<?php echo $tagName ?>"/>
+        </label>
     <?php
     }
 }

@@ -2,6 +2,8 @@
 class ImageHandler
 {
     private $sqlService;
+    // TODO: Make it constant
+    private static $tableJoin = "image i JOIN image_keyword ik ON i.id_image = ik.id_image";
 
     function __construct(SQLServices $sqlService)
     {
@@ -64,19 +66,15 @@ class ImageHandler
         // Link All KeyWord with Image
         foreach ($keywordArray as $keyword)
         {
-            $keywordID = $this->sqlService->getData('keyword', 'id_keyword',
+            $keywordExist = $this->sqlService->getData('keyword', 'name_keyword',
                 array("where" => "name_keyword = '$keyword'")
             );
             // Create keyword if not exist
-            if(empty($keywordID))
+            if(empty($keywordExist))
             {
                 $this->addNewKeyword($keyword);
-                $keywordID = $this->sqlService->getData('keyword', 'id_keyword',
-                    array("where" => "name_keyword = '$keyword'")
-                );
             }
-            $keywordID = $this->sqlService->extractValueFromArray($keywordID);
-            $this->linkKeywordToPicture($keywordID, $imageID);
+            $this->linkKeywordToPicture($keyword, $imageID);
         }
     }
     private function getArrayOfKeywordFromString($string) {
@@ -96,12 +94,12 @@ class ImageHandler
             )
         );
     }
-    private function linkKeywordToPicture($keywordID, $imageID) {
+    private function linkKeywordToPicture($keyword, $imageID) {
         $this->sqlService->insertData('image_keyword',
             array(
                 array(
                     'id_image' => $imageID,
-                    'id_keyword' => $keywordID,
+                    'keyword_name' => $keyword,
                 )
             )
         );
@@ -137,128 +135,77 @@ class ImageHandler
 
     /* Display Image Methods */
 
-    public function displayImages($idKeywords = null) {
-        if (empty($idKeywords)) {
+    public function displayImages($keywords = null) {
+        if (empty($keywords)) {
             $this->displayAllImages();
         }
         else
         {
-            $this->displayImagesWithKeywords($idKeywords);
+            $this->displayImagesWithKeywords($keywords);
         }
     }
 
     private function displayAllImages() {
         $images = $this->sqlService->getData('image', 'name_image');
         if (!is_null($images)) {
-            foreach ($images as $key => $line) {
-                echo "<img class=\"image-display\" 
-                           src=\"../../../ProjetPHPS3/Project/library/images_copyright/$line[0]\" 
-                           alt=\"$line[0]\" id=\"$line[0]._image\" >";
+            foreach ($images as $key => $value) {
+                $this->displayCopyrightedImage($value[0]);
             }
         }
     }
-    private function displayImagesWithKeywords($idKeywords = null)
+    private function displayImagesWithKeywords($keywords)
     {
-        $tableJoin = "image i JOIN image_keyword ik ON i.id_image = ik.id_image
-                        JOIN keyword k ON ik.id_keyword = k.id_keyword";
-        $idKeywords = substr($idKeywords, 1 ); //Delete the first ','
-        $keywordsArray = explode(',', $idKeywords); //Delete the ',' between each id_keywords and stock them in array
-
-        if(sizeof($keywordsArray) > 1) //If there are several keywords given in parameters
+        if(strpos($keywords, " ") !== false) // Check if there are multiple keywords
         {
-            $cptKeywords = sizeof($keywordsArray);
-            $whereClause = "";
-            foreach ($keywordsArray as $key => $idKeyword) {
-                if ($cptKeywords < 1 || $cptKeywords == sizeof($keywordsArray))
-                    $whereClause .= "ik.id_keyword = $idKeyword ";
-                else
-                    $whereClause .= "OR ik.id_keyword = $idKeyword ";
-                $cptKeywords--;
-            }
-            $optionsArray = ["where" => $whereClause];
-            $imagesName = $this->sqlService->getData($tableJoin, 'distinct name_image', $optionsArray);
-            if (is_array($imagesName)) {
-                foreach ($imagesName as $key => $line) {
-                    echo "<img src=\"library/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
-                }
-            }
+            $keywordsArray = explode(' ', $keywords);
+            $this->displayImagesWithMultipleKeywords($keywordsArray);
         }
-        else //If there is only one keyword given in parameters
+        else
         {
-            $optionsArray = ["where" => "ik.id_keyword = $idKeywords"];
-            $imagesName = $this->sqlService->getData($tableJoin, 'name_image', $optionsArray);
-            if(is_array($imagesName)) //If there are several images returned by the query
+            $this->displayImagesWithSingleKeyword($keywords);
+        }
+    }
+
+    private function displayImagesWithSingleKeyword($keyword) {
+        $imagesName = $this->sqlService->getData(self::$tableJoin, 'name_image',
+            array("where" => "ik.keyword_name = '$keyword'")
+        );
+        $this->displayCopyrightedImages($imagesName);
+    }
+    private function displayImagesWithMultipleKeywords($keywords) {
+        $whereClause = "";
+        foreach ($keywords as $keyword) {
+            $whereClause .= "OR ik.keyword_name = '$keyword' ";
+        }
+        $whereClause = substr($whereClause, 3);
+
+        $imagesName = $this->sqlService->getData(self::$tableJoin, 'distinct name_image',
+            array("where" => $whereClause)
+        );
+        $this->displayCopyrightedImages($imagesName);
+    }
+
+    public static function displayCopyrightedImages($imagesName) {
+        if(sizeof($imagesName) > 0)
+        {
+            foreach ($imagesName as $key => $value)
             {
-                foreach ($imagesName as $key => $line)
-                {
-                    echo "<img src=\"library/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
-                }
-            }
-            else
-            {
-                echo "<img src=\"library/images_copyright/$imagesName\" alt=\"$imagesName\" id=\"$imagesName._image\" >";
+                self::displayCopyrightedImage($value[0]);
             }
         }
-    }
-    function displayCheckbox()
-    {
-        $checkBoxesName = $this->sqlService->getData('keyword', 'id_keyword, name_keyword');
-        if(!is_null($checkBoxesName))
+        else
         {
-            foreach ($checkBoxesName as $key => $line)
-            {
-                foreach ($line as $column => $value_column)
-                {
-                    if($column == 'id_keyword')
-                        $id = $value_column;
-                    else
-                        $keyword = $value_column;
-                }
-                echo "<div class=\"p-2 checkbox-label-container\" ><input class=\"checkbox\" type=\"checkbox\" name=" . "\"$id" . "_checkbox\"><label class=\"checkbox-label\" for=" . "\"$id" . "_checkbox\" >$keyword</label></div>";
-            }
+            echo "Pas d'image correspondante.";
         }
     }
-
-    function deleteArrayOfImage($listOfSelectedImage)
-    {
-        foreach ($listOfSelectedImage as $key => $imageSelected)
-        {
-            $idStringLength = stripos($imageSelected, '._image'); //Find the 'id' string position in the image name
-            $imageSelected = substr($imageSelected, 0,$idStringLength); //Delete the 'id' attribute string from the image name
-            $this->sqlService->removeData('image',"name_image = '$imageSelected'", 1);
-            unlink ("../library/images_copyright/$imageSelected");
-            unlink("../library/images/$imageSelected");
-        }
+    public static function displayCopyrightedImage($imageName) {
+        echo "<img src=\"../../../ProjetPHPS3/Project/library/images_copyright/$imageName\" 
+                           alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display\">";
     }
 
-    function keywordsSelected()
-    {
-        $checkBoxesName = $this->sqlService->getData('keyword', 'id_keyword');
-        $keywordsSelected = "";
-        foreach ($checkBoxesName as $key => $line)
-        {
-            foreach ($line as $column => $id_checkBox)
-            {
-                if(isset($_POST["$id_checkBox"."_checkbox"]))
-                    $keywordsSelected .= ",$id_checkBox";
-            }
-        }
-        $keywordsSelected = substr($keywordsSelected,1);
-        $keywordsSelected = explode(',', $keywordsSelected);
-        return $keywordsSelected;
+    public static function displayClearImage($imageName) {
+        echo "<img src=\"../../../ProjetPHPS3/Project/library/images/$imageName\" 
+                           alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display\">";
     }
-
-    function deleteKeywordAssociatedToImage($arrayImageToDelete)
-    {
-        foreach ($arrayImageToDelete as $key => $imageSelected)
-        {
-            $idStringLength = stripos($imageSelected, '._image'); //Find the 'id' string position in the image name
-            $imageSelected = substr($imageSelected, 0,$idStringLength); //Delete the 'id' attribute string from the image name
-            $idImage = $this->sqlService->getData('image', 'id_image', array("where" =>"name_image = '$imageSelected'"));
-            $idImage = $this->sqlService->extractValueFromArray($idImage);
-            $this->sqlService->removeData('image_keyword',"id_image = '$idImage' ", 1000);
-        }
-    }
-
-
+    
 }

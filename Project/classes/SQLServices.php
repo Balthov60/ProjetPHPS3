@@ -1,6 +1,6 @@
 <?php
 
-// TODO: PHPDoc and CamelCase
+// TODO: Fill PHPDoc
 class SQLServices
 {
     private $db;
@@ -10,6 +10,23 @@ class SQLServices
             $this->db =  new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8', $user, $password);
         } catch (Exception $e) {
             die('Error : ' . $e->getMessage());
+        }
+    }
+
+    /*********************/
+    /* Utilities Methods */
+    /*********************/
+
+    /**
+     * @param $array
+     * @return mixed
+     */
+    function extractValueFromArray($array)
+    {
+        foreach ($array as $key => $value)
+        {
+            foreach ($value as $key_value => $value_value)
+                return $value_value;
         }
     }
 
@@ -57,12 +74,16 @@ class SQLServices
         return substr($sqlString, 0, -2) . ") ";
     }
 
+    /*********************/
+    /* Data Manipulation */
+    /*********************/
+
     /**
      * @param $table
      * @param $select
      * @param null $options : where, group_by, limit, order_by
      *
-     * @return data matching the request
+     * @return array of data matching the request
      */
     function getData($table, $select, $options = null)
     {
@@ -85,14 +106,18 @@ class SQLServices
         }
 
         $cursor = $this->db->query($query);
-        if ($cursor == false) {
+        if ($cursor == false)
             return null;
-        }
+
         $result = $cursor->fetchAll(PDO::FETCH_BOTH);
         $cursor->closeCursor();
         return $result;
     }
 
+    /**
+     * @param $table
+     * @param $values
+     */
     function insertData($table, $values)
     {
         foreach($values as $value) {
@@ -107,12 +132,15 @@ class SQLServices
 
             $query .= self::formatDataForValueInsertion($value);
 
-            echo $query;
-
             $this->db->exec($query) or die(print_r($this->db->errorInfo()));
         }
     }
 
+    /**
+     * @param $table
+     * @param $optionWhere
+     * @param $limit
+     */
     function removeData($table, $optionWhere, $limit) {
         $query = "DELETE FROM $table ";
 
@@ -126,6 +154,11 @@ class SQLServices
         $this->db->exec($query);
     }
 
+    /**
+     * @param $table
+     * @param $optionWhere
+     * @param $value
+     */
     function updateData($table, $optionWhere, $value) {
         $query = "UPDATE $table ";
         $query .= "SET $value ";
@@ -137,33 +170,18 @@ class SQLServices
         $this->db->exec($query);
     }
 
-    function displayData($table, $select, $options = null) {
-        $data = $this->getData($table, $select, $options);
-
-        if (isset($data)) {
-            echo "<table>";
-            foreach ($data as $row) {
-                echo '<tr>';
-                foreach($row as $value) {
-                    echo '<td>' . htmlspecialchars($value) . '</td>';
-                }
-                echo '</tr>';
-            }
-            echo "</table>";
-        }
-        else {
-            echo "Data Not Found";
-        }
-    }
-
-    // TODO: update DB isAdmin - injection SQL - simple quote
+    /**
+     * @param $username
+     * @param $password
+     * @return bool
+     */
     function isAdmin($username, $password)
     {
         $statement = "SELECT count(*) FROM user ";
         $statement .= "WHERE username = '$username' ";
         $statement .= "AND password = '" . md5($password) . "' ";
         $statement .= "AND admin = 1";
-        echo $statement;
+
         $query = $this->db->query($statement);
 
         if ($query->fetchColumn() == 0)
@@ -172,13 +190,17 @@ class SQLServices
         return true;
     }
 
+    /**
+     * @param $username
+     * @param $password
+     * @return bool
+     */
     function isRegistered($username, $password)
     {
         $statement = "SELECT count(*) FROM user ";
         $statement .= "WHERE username = '$username' ";
         $statement .= "AND password = '".md5($password)."' ";
         $statement .= "AND admin = 0";
-        echo $statement;
 
         $query = $this->db->query($statement);
 
@@ -188,6 +210,22 @@ class SQLServices
         return true;
     }
 
+    /**
+     * @param $username
+     * @return string
+     */
+    function getUserId($username)
+    {
+        $statement = "SELECT id FROM user ";
+        $statement .= "WHERE username = '$username' ";
+        $result = $this->db->query($statement);
+
+        return $result->fetchColumn();
+    }
+
+    /**
+     *
+     */
     function displayKeywordList()
     {
         $keyword_list = $this->getData('keyword', 'name_keyword');
@@ -199,15 +237,6 @@ class SQLServices
         }
         else {
             echo "<li>No Keyword Found</li>";
-        }
-    }
-
-    function extractValueFromArray($array)
-    {
-        foreach ($array as $key => $value)
-        {
-            foreach ($value as $key_value => $value_value)
-                return $value_value;
         }
     }
 }

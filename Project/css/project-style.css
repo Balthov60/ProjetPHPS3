@@ -17,12 +17,12 @@
     padding: 10px;
 }
 #advanced-menu-button {
+    height: 25px;
+    width: auto;
+
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0%);
-
-    height: 25px;
-    width: auto;
 }
 
 /* Upload Form */
@@ -118,7 +118,8 @@
     list-style-type: none;
 }
 
-#keywordList li a {
+#keywordList li a
+{
     display: block;
 
     margin-top: -1px;
@@ -132,19 +133,24 @@
     text-decoration: none;
     font-size: 18px;
 }
-#keywordList li a:hover:not(.header) {
+#keywordList li a:hover:not(.header)
+{
     background-color: #eee;
+}
+
+.tags {
+    margin: 5px;
 }
 
 /* images */
 
-.image-display {
+.image-display
+{
     width: auto;
-    height: 20%;
+    height: 250px;
 
     margin: 10px;
 }
-
 
 /* Details Image Modal */
 
@@ -266,6 +272,18 @@
     color: #212529;
 }
 
+.images-container
+{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
 
+/* footer */
 
+footer
+{
+    position: fixed;
+    bottom: 0px;
 
+    width: 100%;
+}
