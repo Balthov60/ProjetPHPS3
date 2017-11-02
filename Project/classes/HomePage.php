@@ -12,7 +12,7 @@ class HomePage
 
         echo "<div class=\"container bg-secondary\" style=\"height: 1000px\">";
         $imageHandler = new ImageHandler($sqlService);
-        $imageHandler->displayImageWithKeyword();
+        $imageHandler->displayImages();
         echo "</div>";
 
         new FooterBar();

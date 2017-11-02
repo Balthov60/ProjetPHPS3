@@ -107,7 +107,7 @@ class ImageHandler
         );
     }
 
-    function addCopyright($fileName, $imageFileType)
+    private function addCopyright($fileName, $imageFileType)
     {
         // Create New Image
         if ($imageFileType == "png")
@@ -137,61 +137,66 @@ class ImageHandler
 
     /* Display Image Methods */
 
-    function displayImageWithKeyword($idKeywords = null)
-    {
-        if(!empty($idKeywords))
+    public function displayImages($idKeywords = null) {
+        if (empty($idKeywords)) {
+            $this->displayAllImages();
+        }
+        else
         {
-            $tableJoin = "image i JOIN image_keyword ik ON i.id_image = ik.id_image
-                            JOIN keyword k ON ik.id_keyword = k.id_keyword";
-            $idKeywords = substr($idKeywords, 1 ); //Delete the first ','
-            $keywordsArray = explode(',', $idKeywords); //Delete the ',' between each id_keywords and stock them in array
-            if(sizeof($keywordsArray) > 1) //If there are several keywords given in parameters
-            {
-                $cptKeywords = sizeof($keywordsArray);
-                $whereClause = "";
-                foreach ($keywordsArray as $key => $idKeyword)
-                {
-                    if($cptKeywords<1 || $cptKeywords == sizeof($keywordsArray))
-                        $whereClause .= "ik.id_keyword = $idKeyword ";
-                    else
-                        $whereClause .= "OR ik.id_keyword = $idKeyword ";
-                    $cptKeywords-- ;
-                }
-                $optionsArray = ["where" => $whereClause];
-                $imagesName = $this->sqlService->getData($tableJoin, 'distinct name_image', $optionsArray);
-                if(is_array($imagesName))
-                {
-                    foreach ($imagesName as $key => $line)
-                    {
-                        echo "<img src=\"library/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
-                    }
-                }
+            $this->displayImagesWithKeywords($idKeywords);
+        }
+    }
+
+    private function displayAllImages() {
+        $images = $this->sqlService->getData('image', 'name_image');
+        if (!is_null($images)) {
+            foreach ($images as $key => $line) {
+                echo "<img class=\"image-display\" 
+                           src=\"../../../ProjetPHPS3/Project/library/images_copyright/$line[0]\" 
+                           alt=\"$line[0]\" id=\"$line[0]._image\" >";
             }
-            else //If there is only one keyword given in parameters
-            {
-                $optionsArray = ["where" => "ik.id_keyword = $idKeywords"];
-                $imagesName = $this->sqlService->getData($tableJoin, 'name_image', $optionsArray);
-                if(is_array($imagesName)) //If there are several images returned by the query
-                {
-                    foreach ($imagesName as $key => $line)
-                    {
-                        echo "<img src=\"library/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
-                    }
-                }
+        }
+    }
+    private function displayImagesWithKeywords($idKeywords = null)
+    {
+        $tableJoin = "image i JOIN image_keyword ik ON i.id_image = ik.id_image
+                        JOIN keyword k ON ik.id_keyword = k.id_keyword";
+        $idKeywords = substr($idKeywords, 1 ); //Delete the first ','
+        $keywordsArray = explode(',', $idKeywords); //Delete the ',' between each id_keywords and stock them in array
+
+        if(sizeof($keywordsArray) > 1) //If there are several keywords given in parameters
+        {
+            $cptKeywords = sizeof($keywordsArray);
+            $whereClause = "";
+            foreach ($keywordsArray as $key => $idKeyword) {
+                if ($cptKeywords < 1 || $cptKeywords == sizeof($keywordsArray))
+                    $whereClause .= "ik.id_keyword = $idKeyword ";
                 else
-                {
-                    echo "<img src=\"library/images_copyright/$imagesName\" alt=\"$imagesName\" id=\"$imagesName._image\" >";
+                    $whereClause .= "OR ik.id_keyword = $idKeyword ";
+                $cptKeywords--;
+            }
+            $optionsArray = ["where" => $whereClause];
+            $imagesName = $this->sqlService->getData($tableJoin, 'distinct name_image', $optionsArray);
+            if (is_array($imagesName)) {
+                foreach ($imagesName as $key => $line) {
+                    echo "<img src=\"library/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
                 }
             }
         }
-        else //If no keywords in parameters
+        else //If there is only one keyword given in parameters
         {
-            $imageName = $this->sqlService->getData('image', 'name_image');
-            if (!is_null($imageName)) {
-                foreach ($imageName as $key => $line) {
-                    echo "<img class=\"image-display\" src=\"../../../ProjetPHPS3/Project/library/images_copyright/$line[0]\" 
-                               alt=\"$line[0]\" id=\"$line[0]._image\" >";
+            $optionsArray = ["where" => "ik.id_keyword = $idKeywords"];
+            $imagesName = $this->sqlService->getData($tableJoin, 'name_image', $optionsArray);
+            if(is_array($imagesName)) //If there are several images returned by the query
+            {
+                foreach ($imagesName as $key => $line)
+                {
+                    echo "<img src=\"library/images_copyright/$line[0]\" alt=\"$line[0]\" id=\"$line[0]._image\" >";
                 }
+            }
+            else
+            {
+                echo "<img src=\"library/images_copyright/$imagesName\" alt=\"$imagesName\" id=\"$imagesName._image\" >";
             }
         }
     }
