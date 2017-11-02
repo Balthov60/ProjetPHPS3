@@ -14,6 +14,8 @@ class HomePage
         echo "<div class=\"container bg-secondary images-container\">";
 
         $imageHandler = new ImageHandler($sqlService);
+        $modalHandler = new ModalHandler();
+        $modalHandler->displayImageDetailsModal();
 
         if (isset($_GET["keywords"]))
             $imageHandler->displayImages($_GET["keywords"]);
