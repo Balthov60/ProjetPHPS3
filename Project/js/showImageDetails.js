@@ -1,14 +1,36 @@
 $(document).ready(function () {
+    var imageID;
     $("img").click(function()
     {
-        insertModalContent($(this).attr("id"));
+        imageID = $(this).attr("id");
+        if(isDBPicture(imageID))
+            insertModalContent($(this).attr("id"));
     });
 
-    $(".modal").click(function(){
-        hideModal()
-    })
+    $(document).click(function(event)
+    {
+       if(event.target.className == $(".modal").attr("class"))
+       {
+           hideModal();
+       }
+
+       else if(event.target.id == $("#add-cart-submit").attr("id"))
+       {
+           window.location.href = "scripts/addImageToCart.php?imageID=" + imageID;
+       }
+    });
+
+
 });
 
+
+function isDBPicture(imageID)
+{
+    if(imageID != "advanced-menu-button" && imageID != "logo" && imageID != "default-photo-user")
+        return true;
+
+    return false;
+}
 
 /* Modal Content Insertion */
 
@@ -105,7 +127,7 @@ function displayData(detailsString)
     var description = detailsArray[0];
     var price = detailsArray[1];
 
-    var codeHtmlDetails = "<p>Description</p>" + description + "<p>Price</p>" + price;
+    var codeHtmlDetails = "<div id='desc-container'><p>Description : </p><p id='desc'>" + description + "</p></div><div id='price-container'><p>Price : </p><p id='price'>" + price + "</p></div><input type='submit' name='submit-add-cart' id='add-cart-submit'>";
     $(".modal #details-container").html(codeHtmlDetails);
 
     openModal();

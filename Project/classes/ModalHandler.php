@@ -20,10 +20,10 @@ class ModalHandler
                     <div id='image-container'>
                         <!-- Image displayed by Javascript -->
                     </div>
+                    
                     <div id='details-container'>
-                        <!-- Details displayed by Javascript -->
+                        <!-- Details displayed by Javascript --> 
                     </div>
-                    <input type='submit' name='submit-add-cart' id='add-cart-submit'>
                 </div>
               </div>";
     }

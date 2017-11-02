@@ -15,15 +15,6 @@ $price = getPrice($imageName);
 $requestResult = $description."/".$price;
 echo $requestResult;
 
-function getDescription($imageName)
-{
-    $sqlService = initSQLService();
-    $result = $sqlService->getData("image", "description", array("where" => "name_image = '$imageName'"));
-    $description = $result[0]['description'];
-    return $description;
-}
-
-
 function initSQLService()
 {
     include("../includes/variables.inc.php");
@@ -31,6 +22,16 @@ function initSQLService()
     return $sqlService;
 }
 
+
+function getDescription($imageName)
+{
+    $sqlService = initSQLService();
+    $result = $sqlService->getData("image", "description", array("where" => "name_image = '$imageName'"));
+    $description = $result[0]['description'];
+    if($description == "none")
+        $description = "-";
+    return $description;
+}
 
 function getPrice($imageName)
 {
