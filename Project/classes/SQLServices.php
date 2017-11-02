@@ -201,4 +201,13 @@ class SQLServices
             echo "<li>No Keyword Found</li>";
         }
     }
+
+    function extractValueFromArray($array)
+    {
+        foreach ($array as $key => $value)
+        {
+            foreach ($value as $key_value => $value_value)
+                return $value_value;
+        }
+    }
 }
