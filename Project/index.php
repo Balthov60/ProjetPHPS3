@@ -59,7 +59,6 @@ getKeywords();
 <script src="./js/jquery.min.3.1.2.js"></script>
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/filterListKeyword.js"></script>
-<script src="./js/showImageDetails.js"></script>
 
 
 </body>
