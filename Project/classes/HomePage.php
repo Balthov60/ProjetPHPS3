@@ -4,6 +4,7 @@ include_once("HeaderBar.php");
 include_once("AdminPanel.php");
 include_once("FooterBar.php");
 include_once("ImageHandler.php");
+include_once("ModalHandler.php");
 class HomePage
 {
 
@@ -13,6 +14,7 @@ class HomePage
         echo "<div class=\"container bg-secondary images-container\">";
 
         $imageHandler = new ImageHandler($sqlService);
+
         if (isset($_GET["keywords"]))
             $imageHandler->displayImages($_GET["keywords"]);
         else
