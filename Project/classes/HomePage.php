@@ -10,7 +10,7 @@ class HomePage
     function __construct($isConnected = false, $isAdmin = false, $sqlService) {
         new HeaderBar($isConnected, $isAdmin, 'HomePage');
 
-        echo "<div class=\"container bg-secondary images-container\" style=\"height: 1000px\">";
+        echo "<div class=\"container bg-secondary images-container\">";
 
         $imageHandler = new ImageHandler($sqlService);
         if (isset($_GET["keywords"]))

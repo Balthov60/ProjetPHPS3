@@ -185,12 +185,12 @@ class ImageHandler
         $this->displayCopyrightedImages($imagesName);
     }
 
-    private function displayCopyrightedImages($imagesName) {
+    public static function displayCopyrightedImages($imagesName) {
         if(sizeof($imagesName) > 0)
         {
             foreach ($imagesName as $key => $value)
             {
-                $this->displayCopyrightedImage($value[0]);
+                self::displayCopyrightedImage($value[0]);
             }
         }
         else
@@ -198,8 +198,13 @@ class ImageHandler
             echo "Pas d'image correspondante.";
         }
     }
-    private function displayCopyrightedImage($imageName) {
+    public static function displayCopyrightedImage($imageName) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images_copyright/$imageName\" 
+                           alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display\">";
+    }
+
+    public static function displayClearImage($imageName) {
+        echo "<img src=\"../../../ProjetPHPS3/Project/library/images/$imageName\" 
                            alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display\">";
     }
     

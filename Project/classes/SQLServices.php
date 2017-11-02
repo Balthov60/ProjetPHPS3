@@ -132,8 +132,6 @@ class SQLServices
 
             $query .= self::formatDataForValueInsertion($value);
 
-            echo $query;
-
             $this->db->exec($query) or die(print_r($this->db->errorInfo()));
         }
     }
@@ -183,7 +181,7 @@ class SQLServices
         $statement .= "WHERE username = '$username' ";
         $statement .= "AND password = '" . md5($password) . "' ";
         $statement .= "AND admin = 1";
-        echo $statement;
+
         $query = $this->db->query($statement);
 
         if ($query->fetchColumn() == 0)
@@ -203,7 +201,6 @@ class SQLServices
         $statement .= "WHERE username = '$username' ";
         $statement .= "AND password = '".md5($password)."' ";
         $statement .= "AND admin = 0";
-        echo $statement;
 
         $query = $this->db->query($statement);
 
@@ -211,6 +208,19 @@ class SQLServices
             return false;
 
         return true;
+    }
+
+    /**
+     * @param $username
+     * @return string
+     */
+    function getUserId($username)
+    {
+        $statement = "SELECT id FROM user ";
+        $statement .= "WHERE username = '$username' ";
+        $result = $this->db->query($statement);
+
+        return $result->fetchColumn();
     }
 
     /**
