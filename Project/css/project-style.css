@@ -144,16 +144,26 @@
 
 /* images */
 
-.images-container
-{
-    align-content: space-between;
-}
-
 .image-display
 {
     width: auto;
-    height: 20%;
+    height: 250px;
 
     margin: 10px;
 }
 
+.images-container
+{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+/* footer */
+
+footer
+{
+    position: fixed;
+    bottom: 0px;
+
+    width: 100%;
+}

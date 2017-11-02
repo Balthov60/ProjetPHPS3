@@ -13,7 +13,7 @@ getKeywords();
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/project-style.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-secondary">
 <div id="main-content">
     <?php
     /* Create SQLService */
@@ -33,7 +33,7 @@ getKeywords();
             else
             {
                 include_once("./classes/UserPanel.php");
-                new UserPanel();
+                new UserPanel($sqlService);
             }
         }
         else if ($_GET["page"] == "cart")
