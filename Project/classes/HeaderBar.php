@@ -149,7 +149,7 @@ class HeaderBar
         </div>
 
         <a data-toggle="collapse" href="#advanced-menu" aria-expanded="false" aria-controls="collapseExample">
-            <img src="../../../ProjetPHPS3/Project/images/advanced_menu.png" class="center-horizontaly"
+            <img src="../../../ProjetPHPS3/Project/images/advanced_menu.png" class="center-horizontally"
                  id="advanced-menu-button" alt="Activer Menu Avancé">
         </a>
     <?php

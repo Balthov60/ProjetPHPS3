@@ -2,8 +2,7 @@
     display: flex;
     flex-direction: row;
 }
-
-.center-horizontaly {
+.center-horizontally {
     display: flex;
     margin: auto;
 }
@@ -17,7 +16,6 @@
 #advanced-menu form {
     padding: 10px;
 }
-
 #advanced-menu-button {
     position: absolute;
     left: 50%;
@@ -27,21 +25,22 @@
     width: auto;
 }
 
-
 /* Upload Form */
 
 #upload-form-container {
+    width: 50%;
+    height: 60%;
+
     margin-top: 5%;
     margin-left: 25%;
     margin-bottom: 20px;
-    background-color: #fefefe;
+
     padding:20px;
     border: 1px solid #888;
     border-radius: 2px;
-    width: 50%; /* Could be more or less, depending on screen size */
-    height: 60%;
-}
 
+    background-color: #fefefe;
+}
 #upload-form-container form a
 {
     margin: auto;
@@ -49,34 +48,36 @@
 
 .submit-price-container
 {
-    margin-top: 20px;
-    height: 25px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+
+    height: 25px;
+
+    margin-top: 20px;
 }
 
 #submit-upload
 {
-    background-color: #FFFFFF;
-    color: #212529;
-    padding: auto;
-    font-size: 13px;
-    border: 1px solid #00c7fc;
-    border-radius: 3px;
-    cursor: pointer;
-    text-align: center;
     width: 15%;
     height: 33px;
-}
 
+    padding: auto;
+    border: 1px solid #00c7fc;
+    border-radius: 3px;
+
+    cursor: pointer;
+    text-align: center;
+
+    font-size: 13px;
+    background-color: #FFFFFF;
+    color: #212529;
+}
 #submit-upload:hover
 {
     background-color: #eaeaea;
 }
-
-
 
 
 /* Keyword SearchBar and List */
@@ -88,53 +89,59 @@
     margin-top: 15px;
 }
 
-#keyword-search {
+#keyword-search
+{
+    width: 100%;
 
-    width: 100%; /* Full-width */
-    font-size: 16px; /* Increase font-size */
-    padding: 12px 20px 12px 40px; /* Add some padding */
-    border: 1px solid #ddd; /* Add a grey border */
-    margin-bottom: 5px; /* Add some space below the input */
+    margin-bottom: 5px;
+    padding: 12px 20px 12px 40px;
+
+    border: 1px solid #ddd;
     border-radius: 3px;
-}
 
+    font-size: 16px;
+}
 #keyword-search:focus
 {
     border-color: #00c7fc;
 }
 
-#keywordList {
-
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    max-height: 150px;
-    overflow-y: auto;
+#keywordList
+{
     width: 100%;
-    margin-bottom: 25px;
+    max-height: 150px;
 
+    padding: 0;
+    margin: 0 0 25px;
+
+    overflow-y: auto;
+    list-style-type: none;
 }
 
 #keywordList li a {
-    border: 1px solid #ddd; /* Add a border to all links */
-    margin-top: -1px; /* Prevent double borders */
-    background-color: #f6f6f6; /* Grey background color */
-    padding: 12px; /* Add some padding */
-    text-decoration: none; /* Remove default text underline */
-    font-size: 18px; /* Increase the font-size */
-    color: black; /* Add a black text color */
-    display: block; /* Make it into a block element to fill the whole list */
-}
+    display: block;
 
+    margin-top: -1px;
+    padding: 12px;
+
+    border: 1px solid #ddd;
+
+    background-color: #f6f6f6;
+    color: black;
+
+    text-decoration: none;
+    font-size: 18px;
+}
 #keywordList li a:hover:not(.header) {
-    background-color: #eee; /* Add a hover effect to all links, except for headers */
+    background-color: #eee;
 }
 
 /* images */
 
 .image-display {
-    margin: 10px;
     width: auto;
     height: 20%;
+
+    margin: 10px;
 }
 

@@ -26,7 +26,6 @@ if(isset($_POST['username']) && isset($_POST['password']))
         header('Location:../login.html?error_signUp=existingUsername');
     }
 }
-
 else
 {
     session_destroy();

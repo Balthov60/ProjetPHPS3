@@ -35,7 +35,6 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
         header('Location:../login.html?error_connexion=noIdentified');
     }
 }
-
 else
 {
     header('Location: ../login.html');
