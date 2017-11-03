@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("./scripts/utils.php");
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +18,10 @@
 
         <h2 class="form-heading">Se Connecter</h2>
 
-        <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+        <?php handleSignUp() ?>
+
+        <input type="text" name="username" class="form-control" placeholder="Username" required autofocus
+               <?php checkSessionFormFor("username")?>>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
 
         <?php handleError() ?>
@@ -25,7 +33,7 @@
         </div>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Connexion</button>
-        <a href="signup.html" id="signInLink">Pas encore inscrit ?</a>
+        <a href="signup.php" id="signInLink">Pas encore inscrit ?</a>
     </form>
 
 </div>
@@ -38,5 +46,15 @@ function handleError()
 {
     if (isset($_GET['error']) && $_GET['error'] == "notValidID") {
         echo "<p class='text-danger'>Mot de passe ou nom d'utilisateur erroné.</p>";
+    }
+}
+
+/**
+ * If user previously Sign Up
+ */
+function handleSignUp()
+{
+    if (isset($_GET['signup']) && $_GET['signup'] == "success") {
+        echo "<p class='text-info'>Votre compte a bien été créé.</p>";
     }
 }

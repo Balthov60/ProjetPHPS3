@@ -74,7 +74,7 @@ class HeaderBar
             <a class="nav-link" href="../../../ProjetPHPS3/Project/login.php">Se connecter</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="../../../ProjetPHPS3/Project/signup.html">S'inscrire</a>
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/signup.php">S'inscrire</a>
         </li>
     <?php
     }
