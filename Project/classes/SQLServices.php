@@ -171,33 +171,36 @@ class SQLServices
     }
 
     /**
-     * @param $username
-     * @param $password
-     * @return bool
+     *
      */
-    function isAdmin($username, $password)
+    function displayKeywordList()
     {
-        $statement = "SELECT count(*) FROM user ";
-        $statement .= "WHERE username = '$username' ";
-        $statement .= "AND password = '" . md5($password) . "' ";
-        $statement .= "AND admin = 1";
+        $keyword_list = $this->getData('keyword', 'name_keyword');
 
-        $query = $this->db->query($statement);
-
-        if ($query->fetchColumn() == 0)
-            return false;
-
-        return true;
+        if (isset($keyword_list)) {
+            foreach ($keyword_list as $value) {
+                echo "<li><a>" . htmlspecialchars($value[0]) . "</a></li>";
+            }
+        }
+        else {
+            echo "<li>No Keyword Found</li>";
+        }
     }
 
+    /*******************/
+    /* Account Methods */
+    /*******************/
+
     /**
+     * Check If User exist, if his password is Good and if he is not an admin.
+     *
      * @param $username
      * @param $password
      * @return bool
      */
-    function isRegistered($username, $password)
+    public function isUser($username, $password)
     {
-        $statement = "SELECT count(*) FROM user ";
+        $statement  = "SELECT count(*) FROM user ";
         $statement .= "WHERE username = '$username' ";
         $statement .= "AND password = '".md5($password)."' ";
         $statement .= "AND admin = 0";
@@ -211,32 +214,24 @@ class SQLServices
     }
 
     /**
-     * @param $username
-     * @return string
-     */
-    function getUserId($username)
-    {
-        $statement = "SELECT id FROM user ";
-        $statement .= "WHERE username = '$username' ";
-        $result = $this->db->query($statement);
-
-        return $result->fetchColumn();
-    }
-
-    /**
+     * Check if User exist, if his password is Good and if he is an admin.
      *
+     * @param $username
+     * @param $password
+     * @return bool
      */
-    function displayKeywordList()
+    public function isAdmin($username, $password)
     {
-        $keyword_list = $this->getData('keyword', 'name_keyword');
+        $statement  = "SELECT count(*) FROM user ";
+        $statement .= "WHERE username = '$username' ";
+        $statement .= "AND password = '" . md5($password) . "' ";
+        $statement .= "AND admin = 1";
 
-        if (isset($keyword_list)) {
-            foreach ($keyword_list as $value) {
-                    echo "<li><a>" . htmlspecialchars($value[0]) . "</a></li>";
-            }
-        }
-        else {
-            echo "<li>No Keyword Found</li>";
-        }
+        $query = $this->db->query($statement);
+
+        if ($query->fetchColumn() == 0)
+            return false;
+
+        return true;
     }
 }

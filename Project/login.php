@@ -16,6 +16,8 @@
         <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
 
+        <?php handleError() ?>
+
         <div class="checkbox">
             <label>
                 <input type="checkbox" value="remember-me"> Se souvenir de moi
@@ -30,3 +32,11 @@
 
 </body>
 </html>
+
+<?php
+function handleError()
+{
+    if (isset($_GET['error']) && $_GET['error'] == "notValidID") {
+        echo "<p class='text-danger'>Mot de passe ou nom d'utilisateur erroné.</p>";
+    }
+}
