@@ -30,6 +30,10 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
     else
     {
         $_SESSION['user']['isConnected'] = false;
+        if (isset($_COOKIE['username']) && strcmp($_POST['username'], $_COOKIE["username"]) != 0)
+        {
+            setcookie("username", "", time() - 3600, '/');
+        }
         header('Location:../login.php?error=notValidID');
     }
 }

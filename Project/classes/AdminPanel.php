@@ -18,7 +18,7 @@ class AdminPanel
         $dbName = "projetphps3";
         $this->sqlService = new SQLServices($hostnameDB,$dbName,$userDB, $passwordDB);
 
-        new HeaderBar(true, true, "Panel");
+        new HeaderBar(true, true, "Panel", $this->sqlService);
 
         echo "<div class=\"container bg-secondary\"/>";
         $this->displayUploadForm();

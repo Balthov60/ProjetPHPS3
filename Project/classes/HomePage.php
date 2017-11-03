@@ -8,7 +8,7 @@ class HomePage
 {
 
     function __construct($isConnected = false, $isAdmin = false, $sqlService) {
-        new HeaderBar($isConnected, $isAdmin, 'HomePage');
+        new HeaderBar($isConnected, $isAdmin, 'HomePage', $sqlService);
 
         echo "<div class=\"container bg-secondary images-container\">";
 

@@ -8,7 +8,7 @@ getKeywords();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Catalogue</title>
+    <title>Photos'Shop</title>
 
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/project-style.css" rel="stylesheet">
@@ -39,7 +39,7 @@ getKeywords();
         else if ($_GET["page"] == "cart")
         {
             include_once("./classes/CartPage.php");
-            new CartPage();
+            new CartPage($sqlService);
         }
         else
         {
@@ -65,6 +65,7 @@ getKeywords();
 </html>
 
 <?php
+
 function initSession() {
     if (!isset($_SESSION["user"]["isConnected"]) || !is_bool($_SESSION["user"]["isConnected"])) {
         $_SESSION["user"]["isConnected"] = false;
@@ -75,6 +76,9 @@ function initSession() {
     }
 }
 
+/**
+ * Get Keywords Selected From URL
+ */
 function getKeywords()
 {
     global $keywords;

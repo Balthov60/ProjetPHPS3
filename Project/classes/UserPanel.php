@@ -13,7 +13,7 @@ class UserPanel
     {
         $this->sqlService = $sqlService;
 
-        new HeaderBar(true, false, "Panel");
+        new HeaderBar(true, false, "Panel", $sqlService);
 
         $this->displayUserPhotos();
 

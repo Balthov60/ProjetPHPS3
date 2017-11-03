@@ -6,11 +6,23 @@
     display: flex;
     margin: auto;
 }
+.centered
+{
+    margin: auto;
+}
+
+/* header */
 
 #logo {
     width: 5%;
     height: 5%;
     margin: 10px;
+}
+header .title {
+    width: 75%;
+}
+header h2 {
+    margin-left: 0.5em;
 }
 
 #advanced-menu form {
@@ -23,6 +35,9 @@
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0%);
+}
+.tags {
+
 }
 
 /* Upload Form */
@@ -77,6 +92,13 @@
 #submit-upload:hover
 {
     background-color: #eaeaea;
+}
+
+.tags
+{
+    background-color: #64788C;
+    border-radius: 20px;
+    padding: 5px 15px;
 }
 
 
@@ -136,10 +158,6 @@
 #keywordList li a:hover:not(.header)
 {
     background-color: #eee;
-}
-
-.tags {
-    margin: 5px;
 }
 
 /* images */
