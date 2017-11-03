@@ -11,10 +11,10 @@ include_once("../classes/SQLServices.php");
 
 $imageID = $_GET['imageID'];
 $imageName = giveRealNameOf($imageID);
-$userID = getIDof($_SESSION['user']['username']);
+$username = $_SESSION['user']['username'];
 
 $sqlService = initSQLService();
-$sqlService->insertData('cart', array(array("user_id" => $userID, "image_name" => $imageName)));
+$sqlService->insertData('cart', array(array("username" => $username, "image_name" => $imageName)));
 
 
 /**
@@ -28,14 +28,6 @@ function giveRealNameOf($imageID)
     return $imageName;
 }
 
-function getIDof($username)
-{
-    var_dump($username);
-    $sqlService = initSQLService();
-    $result = $sqlService->getData('user', 'id', array("where" => "username = '$username'"));
-    var_dump($result);
-    return $result[0]['id'];
-}
 
 function initSQLService()
 {
