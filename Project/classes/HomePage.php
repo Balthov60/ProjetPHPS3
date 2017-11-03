@@ -17,7 +17,7 @@ class HomePage
 
         new HeaderBar($isConnected, $isAdmin, 'HomePage', $sqlService);
 
-        echo "<div class=\"container bg-secondary images-container\">";
+        echo "<div class=\"container bg-secondary\">";
 
         if (!isset($_GET["keywords"])) {
             $this->displayAllImages();
@@ -39,9 +39,10 @@ class HomePage
         $images = $this->sqlService->getData('image', 'name_image');
 
         if (!is_null($images)) {
-            foreach ($images as $key => $value) {
+            $this->displayCopyrightedImages($images);
+            /* foreach ($images as $key => $value) {
                 $this->imageHandler->displayCopyrightedImage($value[0]);
-            }
+            } */
         }
     }
     private function displayImagesMatchingKeywords($keywords)
@@ -73,9 +74,38 @@ class HomePage
     private function displayCopyrightedImages($imagesName) {
         if(sizeof($imagesName) > 0)
         {
+            $currentX = 0;
+            $minY = 150;
+            $row = array();
             foreach ($imagesName as $imageName)
             {
-                ImageHandler::displayCopyrightedImage($imageName[0]);
+                list($width, $height) = getimagesize($_SERVER['DOCUMENT_ROOT'] .
+                    "/ProjetPHPS3/Project/library/images_copyright/$imageName[0]");
+                $ratio = $width / $height;
+                $weight = $minY * $ratio;
+
+                $totalWidth = 0;
+                if ($currentX + $weight > 1110) {
+
+                   $finalRatio = 1110 / $currentX;
+                   $finalHeight = $minY * $finalRatio;
+
+                   foreach ($row as $image) {
+                       list($width, $height) = getimagesize($_SERVER['DOCUMENT_ROOT'] .
+                           "/ProjetPHPS3/Project/library/images_copyright/$image");
+                       $finalWidth = $width / $height * $minY * $finalRatio;
+                       $totalWidth += $finalWidth;
+
+                       ImageHandler::displayCopyrightedImageWithSize($image, $finalHeight, $finalWidth);
+                   }
+                   $currentX = 0;
+                   $row = array();
+                }
+                $currentX += $weight;
+                array_push($row, $imageName[0]);
+
+
+                // ImageHandler::displayCopyrightedImage($imageName[0]);
             }
         }
         else

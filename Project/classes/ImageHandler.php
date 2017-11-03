@@ -143,5 +143,11 @@ class ImageHandler
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images/$imageName\" 
                            alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display\">";
     }
+
+    public static function displayCopyrightedImageWithSize($imageName, $height, $width) {
+        echo "<img src=\"../../../ProjetPHPS3/Project/library/images/$imageName\" 
+                           alt=\"$imageName\" id=\"$imageName._image\" 
+                           style=\"width:{$width}px;height:{$height}px\">";
+    }
     
 }
