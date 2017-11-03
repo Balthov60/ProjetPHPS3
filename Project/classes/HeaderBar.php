@@ -71,7 +71,7 @@ class HeaderBar
     private function displayDisconnectedNavItems()
     { ?>
         <li class="nav-item">
-            <a class="nav-link" href="../login.php">Se connecter</a>
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/login.php">Se connecter</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="../../../ProjetPHPS3/Project/signup.html">S'inscrire</a>
