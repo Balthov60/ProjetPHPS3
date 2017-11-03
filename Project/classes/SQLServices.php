@@ -200,17 +200,12 @@ class SQLServices
      */
     public function isUser($username, $password)
     {
-        $statement  = "SELECT count(*) FROM user ";
-        $statement .= "WHERE username = '$username' ";
-        $statement .= "AND password = '".md5($password)."' ";
-        $statement .= "AND admin = 0";
+        $query  = "SELECT count(*) FROM user ";
+        $query .= "WHERE username = '$username' ";
+        $query .= "AND password = '".md5($password)."' ";
+        $query .= "AND admin = 0";
 
-        $query = $this->db->query($statement);
-
-        if ($query->fetchColumn() == 0)
-            return false;
-
-        return true;
+        return $this->queryReturnData($query);
     }
 
     /**
@@ -222,14 +217,54 @@ class SQLServices
      */
     public function isAdmin($username, $password)
     {
-        $statement  = "SELECT count(*) FROM user ";
-        $statement .= "WHERE username = '$username' ";
-        $statement .= "AND password = '" . md5($password) . "' ";
-        $statement .= "AND admin = 1";
+        $query  = "SELECT count(*) FROM user ";
+        $query .= "WHERE username = '$username' ";
+        $query .= "AND password = '" . md5($password) . "' ";
+        $query .= "AND admin = 1";
 
-        $query = $this->db->query($statement);
+        return $this->queryReturnData($query);
+    }
 
-        if ($query->fetchColumn() == 0)
+    /**
+     * Check if username is already used.
+     *
+     * @param $username
+     * @return bool
+     */
+    public function usernameExist($username) {
+        $query  = "SELECT count(*) FROM user ";
+        $query .= "WHERE username = '$username' ";
+
+        return $this->queryReturnData($query);
+    }
+
+    /**
+     * Check if mail is already used.
+     *
+     * @param $mail
+     * @return bool
+     */
+    public function mailExist($mail) {
+        $query  = "SELECT count(*) FROM user ";
+        $query .= "WHERE mail = '$mail' ";
+
+        return $this->queryReturnData($query);
+    }
+
+    /*********************/
+    /* Utilities Methods */
+    /*********************/
+
+    /**
+     * Check If Query Return Anything.
+     *
+     * @param $query
+     * @return bool
+     */
+    public function queryReturnData($query) {
+        $result = $this->db->query($query);
+
+        if ($result->fetchColumn() == 0)
             return false;
 
         return true;

@@ -4,7 +4,8 @@ include('../classes/SQLServices.php');
 include('../includes/variables.inc.php');
 $dbHandler = new SQLServices($host, $dbName, $user, $password);
 
-if(isset($_POST['username']) && isset($_POST['password']))
+if(isset($_POST['mail']) && isset($_POST['username']) &&
+    isset($_POST['password']) && isset($_POST['password-confirmation']))
 {
     $username = $_POST['username'];
     $password = $_POST['password'];
