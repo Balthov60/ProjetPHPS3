@@ -1,8 +1,10 @@
-.horizontal-layout {
+.horizontal-layout
+{
     display: flex;
     flex-direction: row;
 }
-.center-horizontally {
+.center-horizontally
+{
     display: flex;
     margin: auto;
 }
@@ -13,22 +15,27 @@
 
 /* header */
 
-#logo {
+#logo
+{
     width: 5%;
     height: 5%;
     margin: 10px;
 }
-header .title {
+header .title
+{
     width: 75%;
 }
-header h2 {
+header h2
+{
     margin-left: 0.5em;
 }
 
-#advanced-menu form {
+#advanced-menu form
+{
     padding: 10px;
 }
-#advanced-menu-button {
+#advanced-menu-button
+{
     height: 25px;
     width: auto;
 
@@ -36,8 +43,25 @@ header h2 {
     left: 50%;
     transform: translate(-50%, 0%);
 }
-.tags {
+.tags
+{
 
+}
+
+/* images */
+
+.image-display
+{
+    width: auto;
+    height: 150px;
+
+    margin: 10px;
+}
+
+.images-container
+{
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 /* Upload Form */
@@ -158,22 +182,6 @@ header h2 {
 #keywordList li a:hover:not(.header)
 {
     background-color: #eee;
-}
-
-/* images */
-
-.image-display
-{
-    width: auto;
-    height: 250px;
-
-    margin: 10px;
-}
-
-.images-container
-{
-    margin-bottom: 20px;
-    margin-top: 20px;
 }
 
 /* footer */

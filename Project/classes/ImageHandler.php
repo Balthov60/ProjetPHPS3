@@ -3,7 +3,6 @@ class ImageHandler
 {
     private $sqlService;
     // TODO: Make it constant
-    private static $tableJoin = "image i JOIN image_keyword ik ON i.id_image = ik.id_image";
 
     function __construct(SQLServices $sqlService)
     {
@@ -135,72 +134,9 @@ class ImageHandler
 
     /* Display Image Methods */
 
-    public function displayImages($keywords = null) {
-        if (empty($keywords)) {
-            $this->displayAllImages();
-        }
-        else
-        {
-            $this->displayImagesWithKeywords($keywords);
-        }
-    }
-
-    private function displayAllImages() {
-        $images = $this->sqlService->getData('image', 'name_image');
-        if (!is_null($images)) {
-            foreach ($images as $key => $value) {
-                $this->displayCopyrightedImage($value[0]);
-            }
-        }
-    }
-    private function displayImagesWithKeywords($keywords)
-    {
-        if(strpos($keywords, " ") !== false) // Check if there are multiple keywords
-        {
-            $keywordsArray = explode(' ', $keywords);
-            $this->displayImagesWithMultipleKeywords($keywordsArray);
-        }
-        else
-        {
-            $this->displayImagesWithSingleKeyword($keywords);
-        }
-    }
-
-    private function displayImagesWithSingleKeyword($keyword) {
-        $imagesName = $this->sqlService->getData(self::$tableJoin, 'name_image',
-            array("where" => "ik.keyword_name = '$keyword'")
-        );
-        $this->displayCopyrightedImages($imagesName);
-    }
-    private function displayImagesWithMultipleKeywords($keywords) {
-        $whereClause = "";
-        foreach ($keywords as $keyword) {
-            $whereClause .= "OR ik.keyword_name = '$keyword' ";
-        }
-        $whereClause = substr($whereClause, 3);
-
-        $imagesName = $this->sqlService->getData(self::$tableJoin, 'distinct name_image',
-            array("where" => $whereClause)
-        );
-        $this->displayCopyrightedImages($imagesName);
-    }
-
-    public static function displayCopyrightedImages($imagesName) {
-        if(sizeof($imagesName) > 0)
-        {
-            foreach ($imagesName as $key => $value)
-            {
-                self::displayCopyrightedImage($value[0]);
-            }
-        }
-        else
-        {
-            echo "Pas d'image correspondante.";
-        }
-    }
     public static function displayCopyrightedImage($imageName) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images_copyright/$imageName\" 
-                           alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display\">";
+                           alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display container-fluid\">";
     }
 
     public static function displayClearImage($imageName) {

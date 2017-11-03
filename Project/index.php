@@ -1,7 +1,6 @@
 <?php
 session_start();
 initSession();
-getKeywords();
 ?>
 
 <!DOCTYPE html>
@@ -75,16 +74,3 @@ function initSession() {
         $_SESSION["user"]["isAdmin"] = false;
     }
 }
-
-/**
- * Get Keywords Selected From URL
- */
-function getKeywords()
-{
-    global $keywords;
-    if(isset($_GET['keywords']))
-        $keywords = $_GET['keywords'];
-    else
-        $keywords = null;
-}
-?>
