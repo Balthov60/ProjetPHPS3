@@ -1,6 +1,14 @@
 <?php
 session_start();
 include("./scripts/utils.php");
+
+// Handle Cookie
+$usernameCookie="";
+$isChecked="";
+if (isset($_COOKIE["username"])) {
+    $usernameCookie = $_COOKIE["username"];
+    $isChecked = "checked";
+}
 ?>
 
 <!DOCTYPE html>
@@ -21,14 +29,14 @@ include("./scripts/utils.php");
         <?php handleSignUp() ?>
 
         <input type="text" name="username" class="form-control" placeholder="Username" required autofocus
-               <?php checkSessionFormFor("username")?>>
+               <?php displayValueIfExist($usernameCookie, $isChecked); ?>>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
 
         <?php handleError() ?>
 
         <div class="checkbox">
             <label>
-                <input type="checkbox" value="remember-me"> Se souvenir de moi
+                <input type="checkbox" name="remember-me" <?php echo($isChecked) ?>> Se souvenir de moi
             </label>
         </div>
 
@@ -56,5 +64,24 @@ function handleSignUp()
 {
     if (isset($_GET['signup']) && $_GET['signup'] == "success") {
         echo "<p class='text-info'>Votre compte a bien été créé.</p>";
+    }
+}
+
+/**
+ * Check If There is a value for username in Session or in Cookie
+ * Session have priority on Cookie because it come from a previous sign up
+ * If Session is used then we must unchecked remember-me
+ *
+ * @param $usernameCookie
+ * @param $isChecked
+ */
+function displayValueIfExist($usernameCookie, &$isChecked) {
+    if (isset($_SESSION["form"]["username"])) {
+        echo "value='" . $_SESSION["form"]["username"] . "'";
+        $isChecked = "";
+    }
+    else {
+        if (!empty($usernameCookie))
+            echo "value='$usernameCookie'";
     }
 }

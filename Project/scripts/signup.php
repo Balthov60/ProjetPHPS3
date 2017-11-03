@@ -55,6 +55,7 @@ if(isset($_POST['mail']) && isset($_POST['username']) &&
 else
 {
     session_destroy();
+    session_start();
     header('Location:../index.php');
 }
 
