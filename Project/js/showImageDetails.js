@@ -127,7 +127,7 @@ function displayData(detailsString)
     var description = detailsArray[0];
     var price = detailsArray[1];
 
-    var codeHtmlDetails = "<div id='desc-container'><p>Description : </p><p id='desc'>" + description + "</p></div><div id='price-container'><p>Price : </p><p id='price'>" + price + "</p></div><input type='submit' name='submit-add-cart' id='add-cart-submit'>";
+    var codeHtmlDetails = "<div id='desc-container'><p>Description : </p><p id='desc'>" + description + "</p></div><div id='price-container'><p>Price : </p><p id='price'>" + price + "</p></div><input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'>";
     $(".modal #details-container").html(codeHtmlDetails);
 
     openModal();
