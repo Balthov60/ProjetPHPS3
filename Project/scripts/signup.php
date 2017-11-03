@@ -8,20 +8,12 @@ if(isset($_POST['mail']) && isset($_POST['username']) &&
 
     /* Test if data format is valid */
 
-    if (strlen($_POST['password']) < 8) {
-        header('Location:../signup.php?error=passwordTooSmall');
-        return;
-    }
     if (strlen($_POST['username']) < 6) {
         header('Location:../signup.php?error=usernameTooSmall');
         return;
     }
     if (strlen($_POST['username']) > 16) {
         header('Location:../signup.php?error=usernameTooBig');
-        return;
-    }
-    if (strcmp($_POST['password'], $_POST['password-confirmation']) != 0) {
-        header('Location:../signup.php?error=confirmationPassword');
         return;
     }
 
@@ -37,6 +29,17 @@ if(isset($_POST['mail']) && isset($_POST['username']) &&
     }
     if ($dbHandler->usernameExist($_POST['username'])) {
         header('Location:../signup.php?error=usernameAlreadyExist');
+        return;
+    }
+
+    /* Test if Password are valid */
+
+    if (strcmp($_POST['password'], $_POST['password-confirmation']) != 0) {
+        header('Location:../signup.php?error=confirmationPassword');
+        return;
+    }
+    if (strlen($_POST['password']) < 8) {
+        header('Location:../signup.php?error=passwordTooSmall');
         return;
     }
 

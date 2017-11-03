@@ -1,6 +1,5 @@
 <?php
 session_start();
-include("./scripts/utils.php");
 
 // Handle Cookie
 $usernameCookie="";

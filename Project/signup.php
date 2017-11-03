@@ -1,6 +1,5 @@
 <?php
 session_start();
-include("./scripts/utils.php");
 ?>
 
 <!DOCTYPE html>
@@ -63,4 +62,9 @@ function handleError() {
             echo "<p class='text-danger'>Ce nom d'utilisateur est déjà utilisé.</p>";
         }
     }
+}
+
+function checkSessionFormFor($value) {
+    if (isset($_SESSION["form"][$value]))
+        echo "value='" . $_SESSION["form"][$value] . "'";
 }
