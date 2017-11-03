@@ -78,7 +78,7 @@ class CartPage
     function displayTotalOf($cart)
     {
         $price = $this->getTotalPriceOf($cart);
-        $pictureQty = $this->getPictureNumberIn($cart);
+        $pictureQty = $this->getPictureQuantityIn($cart);
 
         echo "<p id='nb-picture-cart'>Number of picture selected : $pictureQty</p>
               </br><p>Total : $price €</p>";
@@ -92,7 +92,7 @@ class CartPage
 
         return $totalPrice;
     }
-    function getPictureNumberIn($cart)
+    function getPictureQuantityIn($cart)
     {
         return sizeof($cart);
     }
