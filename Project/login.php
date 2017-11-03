@@ -3,7 +3,7 @@
 <head>
     <title>Catalogue - Log In</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/form-page.css"/>
+    <link rel="stylesheet" href="./css/form-page.css"/>
 </head>
 <body class="bg-dark">
 
