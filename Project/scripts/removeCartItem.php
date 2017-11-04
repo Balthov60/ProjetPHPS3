@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 if (isset($_GET['buttonID'])) {
     include_once("../includes/variables.inc.php");
