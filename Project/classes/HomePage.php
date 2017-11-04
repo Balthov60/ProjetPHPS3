@@ -4,6 +4,7 @@ include_once("HeaderBar.php");
 include_once("AdminPanel.php");
 include_once("FooterBar.php");
 include_once("ImageHandler.php");
+include_once("ModalHandler.php");
 
 class HomePage
 {
@@ -18,6 +19,7 @@ class HomePage
         $this->rowWidth = 1100;
 
         new HeaderBar($isConnected, $isAdmin, 'HomePage', $sqlService);
+        new ModalHandler();
 
         echo "<div class=\"container bg-secondary\">";
 
