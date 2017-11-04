@@ -193,6 +193,11 @@ header h2
 
 /* CartPanel */
 
+.empty-cart
+{
+    margin-top: 15px;
+}
+
 .details-container
 {
     margin: auto;
@@ -203,12 +208,12 @@ header h2
     margin: auto;
     font-size: 5em;
 }
-
 .remove-cart-span:hover
 {
     font-weight: bold;
     cursor: pointer;
 }
+
 .divider-horizontal
 {
     width: 50%;

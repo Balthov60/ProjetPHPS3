@@ -25,7 +25,7 @@ class CartPage
         echo "<div class='container bg-secondary vertical-layout'>";
         if(empty($cart))
         {
-            echo "<h2 class='text-info'>Your cart is empty!</h2>";
+            echo "<h2 class='text-center text-dark empty-cart'>Your cart is empty!</h2>";
         }
         else
         {
@@ -34,7 +34,7 @@ class CartPage
                 $this->displayCartItem($cartItem);
             }
             $this->displayTotalOf($cart);
-        }
+        }   
         echo "</div>";
     }
 
