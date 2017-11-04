@@ -3,6 +3,11 @@
     display: flex;
     flex-direction: row;
 }
+.vertical-layout
+{
+    display: flex;
+    flex-direction: column;
+}
 .center-horizontally
 {
     display: flex;
@@ -187,57 +192,42 @@ header h2
 
 
 /* CartPanel */
-#cart-container
-{
-
-    display:flex;
-    flex-direction: column;
-
-}
-
-.cart-element
-{
-    margin: auto;
-    display:flex;
-    flex-direction: row;
-}
 
 .details-container
 {
-    margin-left: 20px;
-    display: flex;
-    flex-direction: column;
+    margin: auto;
 }
 
 .remove-cart-span
 {
-    font-size: 25px;
-    margin-left: 50px;
-    color: red;
+    margin: auto;
+    font-size: 5em;
 }
 
 .remove-cart-span:hover
 {
+    font-weight: bold;
     cursor: pointer;
-    text-decoration: underline;
 }
 .divider-horizontal
 {
     width: 50%;
-    margin: auto;
-    height: 1px;
-    background-color: #6c757d;
+    height: 2px;
     border-radius: 5px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin: 30px auto;
 }
 
 /* footer */
 
 footer
 {
+    margin-top: 30px;
+}
+
+footer .main-footer-div
+{
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
 
     width: 100%;
 }

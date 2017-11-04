@@ -22,79 +22,90 @@ class CartPage
     {
         $cart = $this->getCartOf($_SESSION['user']['username']);
 
+        echo "<div class='container bg-secondary vertical-layout'>";
         if(empty($cart))
         {
-            echo "<div id='cart-container'><p>Your cart is empty!</p></div>";
+            echo "<h2 class='text-info'>Your cart is empty!</h2>";
         }
         else
         {
-            echo "<div id='cart-container'>";
             foreach($cart as $cartItem)
             {
                 $this->displayCartItem($cartItem);
             }
-            echo "</div>";
             $this->displayTotalOf($cart);
         }
+        echo "</div>";
     }
 
     /* Cart Item Methods */
 
     private function displayCartItem($cartItem)
     { ?>
-        <div class='cart-element'>
+        <div class='horizontal-layout'>
             <?php ImageHandler::displayCopyrightedImage($cartItem['image_name']); ?>
-            <div class='details-container'>
-                <p><?php $this->getDescriptionOf($cartItem); ?></p>
-                <p><?php $this->getPriceOf($cartItem); ?></p>
+            <div class='details-container vertical-layout container-fluid'>
+                <h2 class="text-white"><?php echo $cartItem['image_name'] ?></h2>
+                <p><?php $this->displayDescriptionOf($cartItem); ?></p>
+                <p><?php $this->displayPriceOf($cartItem); ?></p>
             </div>
             <?php $this->displayRemoveButton($cartItem) ?>
         </div>
-        <div class='divider-horizontal'></div>
+        <div class='divider-horizontal bg-dark'></div>
     <?php
+    }
+
+    function displayDescriptionOf($cartItem)
+    {
+        $imageName = $cartItem['image_name'];
+        $result = $this->sqlService->getData('image', 'description', array("where" => "name_image = '$imageName'"));
+        echo "Description : {$result[0]['description']}";
+    }
+    function displayPriceOf($cartItem)
+    {
+        echo "Prix : {$this->getPriceOf($cartItem)} €";
     }
     function displayRemoveButton($cartItem)
     {
-        echo "<span class='remove-cart-span' id='remove-{$cartItem['image_name']}'>&times;</span>";
+        echo "<span class='remove-cart-span text-danger' id='remove-{$cartItem['image_name']}'>&times;</span>";
     }
 
-    function getPriceOf($cartElement)
-    {
-        $imageName = $cartElement['image_name'];
+    function getPriceOf($cartItem) {
+        $imageName = $cartItem['image_name'];
         $result = $this->sqlService->getData('image', 'price',
             array("where" => "name_image = '$imageName'")
         );
+
         return $result[0]['price'];
-    }
-    function getDescriptionOf($cartElement)
-    {
-        $imageName = $cartElement['image_name'];
-        $result = $this->sqlService->getData('image', 'description', array("where" => "name_image = '$imageName'"));
-        return $result[0]['description'];
     }
 
     /* Global Cart Methods */
 
     function displayTotalOf($cart)
     {
-        $price = $this->getTotalPriceOf($cart);
-        $pictureQty = $this->getPictureQuantityIn($cart);
-
-        echo "<p id='nb-picture-cart'>Number of picture selected : $pictureQty</p>
-              </br><p>Total : $price €</p>";
+        ?>
+        <div class="horizontal-layout justify-content-between">
+            <h3 id='nb-picture-cart'>
+                <?php $this->displayPicturesQuantityIn($cart); ?>
+            </h3>
+            <h3>
+                <?php $this->displayTotalPriceOf($cart); ?>
+            </h3>
+        </div>
+    <?php
     }
 
-    function getTotalPriceOf($cart)
+    private function displayPicturesQuantityIn($cart)
+    {
+        echo "Nombre de photos dans le panier : " . sizeof($cart);
+    }
+    private function displayTotalPriceOf($cart)
     {
         $totalPrice = 0;
         foreach ($cart as $cartElement)
             $totalPrice += $this->getPriceOf($cartElement);
 
-        return $totalPrice;
-    }
-    function getPictureQuantityIn($cart)
-    {
-        return sizeof($cart);
+        echo "Prix Total : " . $totalPrice . " €";
     }
 
     /**
