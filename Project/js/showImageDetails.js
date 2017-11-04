@@ -1,14 +1,12 @@
 $(document).ready(function () {
     var imageID;
-    hideModal();
     $("img").click(function()
     {
         imageID = $(this).attr("id");
-        if(!isWebSiteGraphicPicture(imageID))
+        if(!isWebSiteGraphicPicture(imageID)) {
             insertModalContent($(this).attr("id"));
-
-
-        openModal();
+            openModal();
+        }
     });
 
     $(document).click(function(event)
@@ -23,7 +21,9 @@ $(document).ready(function () {
            var xmlhttp = new XMLHttpRequest();
            xmlhttp.open("GET", "scripts/addImageToCart.php?imageID=" + imageID, true);
            xmlhttp.send(null);
-           alert("added to cart");
+
+           $("#action-container")
+               .html("<p id='photo-already-in-cart'>Cette photo est déjà dans votre panier</p>");
        }
     })
 });
@@ -44,20 +44,9 @@ function isWebSiteGraphicPicture(imageID)
 
 function insertModalContent(imageID)
 {
-    writeHTMLImageCode(extractImageName(imageID));
-    writeHTMLImageDetailsCode(extractImageName(imageID));
-}
-
-function writeHTMLImageCode(imageName)
-{
-    var htmlCodeImage = "<img src=\"library/images_copyright/" + imageName + "\">";
-    $(".modal #image-container").html(htmlCodeImage);
-
-}
-function writeHTMLImageDetailsCode(imageName)
-{
-    getImageDetailsWithAJAX(imageName, displayData);
-    isInCart(imageName, displayButtonOrText);
+    var imageName = extractImageName(imageID);
+    insertImage(imageName);
+    insertDetails(imageName);
 }
 
 function extractImageName(imageID)
@@ -66,117 +55,79 @@ function extractImageName(imageID)
     var imageIDPos = imageID.search("._image");
     return imageID.slice(0, imageIDPos);
 }
+function insertImage(imageName)
+{
+    $(".modal #modal-image-container").html("<img src=\"library/images_copyright/" + imageName + "\">");
+
+}
+function insertDetails(imageName)
+{
+    getImageDetailsWithAJAX(imageName, displayContent);
+}
 
 /* PHP Linked */
 
-function getImageDetailsWithAJAX(imageName, callback) //AJAX Method
+function getImageDetailsWithAJAX(imageName, callback)
 {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
-            var responseText = xmlhttp.responseText;
-            callback(responseText);
+            callback(xmlhttp.responseText);
         }
     };
     xmlhttp.open("GET", "scripts/getImageDetails.php?imageName=" + imageName, true);
     xmlhttp.send(null);
 }
 
-
-function displayData(detailsString)
+/**
+ * display price, description and status of the photo.
+ *
+ * @param detailsString string Format : description/price/status
+ */
+function displayContent(detailsString)
 {
-    var detailsArray = extractDetailsFromString(detailsString);
-    var description = detailsArray[0];
-    var price = detailsArray[1];
+    var detailsArray = detailsString.split("/");
+
+    displayDetails(detailsArray[0], detailsArray[1]);
+    displayImageStatus(detailsArray[2]);
+}
+
+function displayDetails(description, price) {
 
     var codeHtmlDetails = "" +
         "<div id='desc-container'>" +
             "<p>Description : </p>" +
             "<p id='desc'>" + description + "</p>" +
         "</div>" +
-        "<div id='price-container'>" +
-            "<p>Price : </p>" +
-            "<p id='price'>" + price + "</p>" +
-        "</div>" +
-        "<div id='submit-add-cart-container'><input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'></div>";
-
+        "<div id='price-container' class='horizontal-layout'>" +
+            "<p>Prix : </p>" +
+            "<p id='price'>" + price + '€' + "</p>" +
+        "</div>";
     $(".modal #details-container").html(codeHtmlDetails);
+
 }
-
-
-
-function isInCart(imageName, callback)
-{
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && (xmlhttp.status == 200 || xmlhttp.status == 0)) {
-            var responseText = xmlhttp.responseText;
-            callback(responseText);
-        }
-    };
-    xmlhttp.open("GET", "scripts/isImageInCart.php?imageName=" + imageName, true);
-    xmlhttp.send(null);
-}
-
-function displayButtonOrText(ajaxResponse)
-{
-    //alert(AjaxResponse);
-    if(ajaxResponse === "true")
-    {
-        $("#submit-add-cart-container").html("<p id='photo-already-in-cart'>This photo is already in your cart!</p>");
+function displayImageStatus(status) {
+    if (status === 'cart') {
+        $("#action-container")
+            .html("<p>Cette photo est déjà dans votre panier.</p>");
     }
-
-    else if(ajaxResponse === "false")
-    {
-        $("#submit-add-cart-container").html("<input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'>");
+    else if (status === 'owned') {
+        $("#action-container")
+            .html("<p>Vous avez déjà acheter cette photo</p>");
     }
-
+    else {
+        $("#action-container")
+            .html("<input type='submit' name='submit-add-cart' id='add-cart-submit' " +
+                         "class='btn btn-primary' value='Add to cart'>");
+    }
+    //         "<div id='submit-add-cart-container'><input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'></div>";
 }
-
-
-
-
-/**
- *
- * @param responseString
- * @returns {Array}
- */
-
-function extractDetailsFromString(responseString)
-{
-    return responseString.split("/");
-}
-
-
-/* Display Method */
-
-/**
- *
- * @param price
- * @returns {string}
- */
-function displayPrice(price)
-{
-    return "<p>Price : </p><p id='price'>" + price + "</p>";
-}
-
-/**
- *
- * @param description
- * @returns {string}
- */
-function displayDescription(description)
-{
-    return "<p>Description : </p><p id='desc'>" + description + "</p>";
-}
-
-
 
 /* Modal Handling */
 
 function openModal()
 {
-    $(".modal").show(250);
+    $(".modal").show(0);
 }
 function hideModal()
 {

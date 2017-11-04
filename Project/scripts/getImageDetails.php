@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 if (isset($_GET["imageName"])) {
     include_once("../classes/SQLServices.php");
     include_once("../includes/variables.inc.php");
@@ -8,11 +10,14 @@ if (isset($_GET["imageName"])) {
     $imageName = $_GET["imageName"];
     $description = getDescription($imageName, $sqlService);
     $price = getPrice($imageName, $sqlService);
+    $status = getStatus($imageName, $sqlService);
+
     if (empty($price) && empty($description)) {
         header("location: ../../../ProjetPHPS3/Project/index.php");
     }
-    else {
-        echo $description . "/" . $price;
+    else
+    {
+        echo $description . "/" . $price . "/" . $status;
     }
 }
 else {
@@ -32,4 +37,36 @@ function getPrice($imageName, SQLServices $sqlService)
 {
     $result = $sqlService->getData("image", "price", array("where" => "name_image = '$imageName'"));
     return $result[0]['price'];
+}
+
+/**
+ * Return if image is in cart/owned or not
+ *
+ * @param $imageName
+ * @param SQLServices $sqlService
+ * @return string cart / owned / normal
+ */
+function getStatus($imageName, SQLServices $sqlService) {
+
+    if(isOwned($imageName, $sqlService)) {
+        return "owned";
+    }
+    else if(isInCart($imageName, $sqlService)) {
+        return "cart";
+    }
+    else {
+        return "normal";
+    }
+}
+function isInCart($imageName, SQLServices $sqlService) {
+    $result = $sqlService->getData('cart', '*',
+        array( "where" => "image_name = '$imageName' && username = '{$_SESSION['user']['username']}'" )
+    );
+    return (!empty($result));
+}
+function isOwned($imageName, SQLServices $sqlService) {
+    $result = $sqlService->getData('user_image', '*',
+        array( "where" => "image_name = '$imageName' && username = '{$_SESSION['user']['username']}'" )
+    );
+    return (!empty($result));
 }
