@@ -96,6 +96,7 @@ function insertSelectedImageDetails(imageSelectedID)
 function writeHTMLImageDetailsCode(imageName)
 {
     getImageDetailsWithAJAX(imageName, displayData);
+    isInCart(imageName, displayButtonOrText);
 }
 
 
@@ -127,11 +128,42 @@ function displayData(detailsString)
     var description = detailsArray[0];
     var price = detailsArray[1];
 
-    var codeHtmlDetails = "<div id='desc-container'><p>Description : </p><p id='desc'>" + description + "</p></div><div id='price-container'><p>Price : </p><p id='price'>" + price + "</p></div><input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'>";
+    var codeHtmlDetails = "<div id='desc-container'>" + displayDescription(description) + "</div><div id='price-container'>" + displayPrice(price) + "</div>" + displayButton();
     $(".modal #details-container").html(codeHtmlDetails);
 
     openModal();
 }
+
+
+
+function isInCart(imageName, callback)
+{
+    alert('Slt toi');
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && (xmlhttp.status == 200 || xmlhttp.status == 0)) {
+            var responseText = xmlhttp.responseText;
+            callback(responseText);
+        }
+    };
+    xmlhttp.open("GET", "scripts/isImageInCart.php?imageName=" + imageName, true);
+    xmlhttp.send(null);
+}
+
+function displayButtonOrText($AjaxResponse)
+{
+    if($AjaxResponse == 'true')
+    {
+        $("#submit-add-cart-container").html("<p id='photo-already-in-cart'>This photo is already in your cart!</p>");
+    }
+
+    else
+    {
+        $("#submit-add-cart-container").html("<input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'>");
+    }
+}
+
+
 
 /**
  *
@@ -143,6 +175,40 @@ function extractDetailsFromString(responseString)
     var responseArray = responseString.split("/");
     return responseArray;
 }
+
+
+/* Display Method */
+
+/**
+ *
+ * @param price
+ * @returns {string}
+ */
+function displayPrice(price)
+{
+    return "<p>Price : </p><p id='price'>" + price + "</p>";
+}
+
+/**
+ *
+ * @param description
+ * @returns {string}
+ */
+function displayDescription(description)
+{
+    return "<p>Description : </p><p id='desc'>" + description + "</p>";
+}
+
+/**
+ *
+ * @returns {string}
+ */
+function displayButton()
+{
+    return "<div id='submit-add-cart-container'></div>";
+    //<input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'>
+}
+
 
 
 /* Modal Handling */

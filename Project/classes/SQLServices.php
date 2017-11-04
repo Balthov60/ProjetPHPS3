@@ -214,14 +214,14 @@ class SQLServices
      * @param $username
      * @return string
      */
-    function getUserId($username)
+    /*function getUserId($username)
     {
-        $statement = "SELECT id FROM user ";
+        $statement = "SELECT username FROM user ";
         $statement .= "WHERE username = '$username' ";
         $result = $this->db->query($statement);
 
         return $result->fetchColumn();
-    }
+    }*/
 
     /**
      *
