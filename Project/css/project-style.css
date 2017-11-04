@@ -65,7 +65,7 @@ header h2
 
 .image-display
 {
-    width: auto;
+    margin : 10px;
 }
 
 .images-container
@@ -198,7 +198,7 @@ header h2
 
 /* CartPanel */
 
-.empty-cart
+.empty-content
 {
     margin-top: 15px;
 }

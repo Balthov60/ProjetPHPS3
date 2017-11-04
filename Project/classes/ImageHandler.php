@@ -132,7 +132,62 @@ class ImageHandler
         imagedestroy($photo);
     }
 
-    /* Display Image Methods */
+    /* Advanced Display Image Methods */
+
+    public static function displayCopyrightedImagesWithAutomaticResizing($imagesName, $rowWidth) {
+        if(sizeof($imagesName) > 0)
+        {
+            $padding = 10;
+            $imageRow = array();
+            $totalMinWidth = 0;
+            $minY = 200;
+            $totalPadding = 0;
+
+            foreach ($imagesName as $imageName)
+            {
+                $minWidth = self::getMinWidth($imageName[0], $minY);
+
+                if (($totalMinWidth + $minWidth > $rowWidth - $totalPadding - 2*$padding) && $totalMinWidth != 0) {
+                    self::displayImageRowWithAutomaticResizing($imageRow, $totalMinWidth, $minY, $rowWidth - $totalPadding);
+                    $totalMinWidth = 0;
+                    $totalPadding = 0;
+                    $imageRow = array();
+                }
+
+                $totalPadding += 2 * $padding;
+                $totalMinWidth += $minWidth;
+                array_push($imageRow, $imageName[0]);
+            }
+            self::displayImageRowWithAutomaticResizing($imageRow, $totalMinWidth, $minY, $rowWidth - $totalPadding);
+        }
+        else
+        {
+            echo "<h2 class='text-center text-dark empty-content'>Pas d'image correspondante.</h2>";
+        }
+    }
+
+    /**
+     * Get height and width for each photos on a row and display it.
+     * Find the common height of photos and figure out the width associated with each.
+     *
+     * @param $imageRow array of photos for this row
+     * @param $totalMinWidth Integer : Total width of photos with the lowest height resizing
+     * @param $minHeight Integer
+     * @param $rowWidth Integer
+     */
+    private static function displayImageRowWithAutomaticResizing($imageRow, $totalMinWidth, $minHeight, $rowWidth) {
+        $finalResizingRatio = $rowWidth / $totalMinWidth;
+        $finalHeight = $minHeight * $finalResizingRatio;
+
+        foreach ($imageRow as $image) { // Get width for each photo and display it
+            list($width, $height) = self::getimagesize($image);
+            $finalWidth = $width / $height * $minHeight * $finalResizingRatio;
+
+            ImageHandler::displayCopyrightedImageWithSize($image, $finalHeight, $finalWidth);
+        }
+    }
+
+    /* Basic Display Methods */
 
     public static function displayCopyrightedImage($imageName) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images_copyright/$imageName\" 
@@ -145,9 +200,21 @@ class ImageHandler
     }
 
     public static function displayCopyrightedImageWithSize($imageName, $height, $width) {
-        echo "<img src=\"../../../ProjetPHPS3/Project/library/images/$imageName\" 
-                           alt=\"$imageName\" id=\"$imageName._image\" 
+        echo "<img src=\"../../../ProjetPHPS3/Project/library/images_copyright/$imageName\" 
+                           alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display\"
                            style=\"width:{$width}px;height:{$height}px\">";
+    }
+
+    /* Utilities Methods */
+
+    private static function getMinWidth($imageName, $minHeight) {
+        list($width, $height) = self::getimagesize($imageName);
+        $ratio = $width / $height;
+        return $minHeight * $ratio;
+    }
+    private static function getImageSize($imageName) {
+        return getimagesize($_SERVER['DOCUMENT_ROOT'] .
+            "/ProjetPHPS3/Project/library/images_copyright/$imageName");
     }
     
 }

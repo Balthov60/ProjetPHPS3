@@ -8,12 +8,14 @@ include_once("ImageHandler.php");
 class HomePage
 {
     private $sqlService;
+    private $rowWidth; // width of a row of photos
 
     const TABLE_JOIN = "image i JOIN image_keyword ik ON i.id_image = ik.id_image";
 
     function __construct($isConnected = false, $isAdmin = false, SQLServices $sqlService) {
         $this->imageHandler = new ImageHandler($sqlService);
         $this->sqlService = $sqlService;
+        $this->rowWidth = 1100;
 
         new HeaderBar($isConnected, $isAdmin, 'HomePage', $sqlService);
 
@@ -39,10 +41,7 @@ class HomePage
         $images = $this->sqlService->getData('image', 'name_image');
 
         if (!is_null($images)) {
-            $this->displayCopyrightedImages($images);
-            /* foreach ($images as $key => $value) {
-                $this->imageHandler->displayCopyrightedImage($value[0]);
-            } */
+            ImageHandler::displayCopyrightedImagesWithAutomaticResizing($images, $this->rowWidth);
         }
     }
     private function displayImagesMatchingKeywords($keywords)
@@ -57,10 +56,10 @@ class HomePage
             $whereClause = "ik.keyword_name = '$keywords'";
         }
 
-        $imagesName = $this->sqlService->getData(self::TABLE_JOIN, 'name_image',
+        $images = $this->sqlService->getData(self::TABLE_JOIN, 'name_image',
             array("where" => $whereClause)
         );
-        $this->displayCopyrightedImages($imagesName);
+        ImageHandler::displayCopyrightedImagesWithAutomaticResizing($images, $this->rowWidth);
     }
 
     private function createWhereClauseForMultipleKeywords($keywords) {
@@ -69,49 +68,6 @@ class HomePage
             $whereClause .= "OR ik.keyword_name = '$keyword' ";
         }
         return substr($whereClause, 3);
-    }
-
-    private function displayCopyrightedImages($imagesName) {
-        if(sizeof($imagesName) > 0)
-        {
-            $currentX = 0;
-            $minY = 150;
-            $row = array();
-            foreach ($imagesName as $imageName)
-            {
-                list($width, $height) = getimagesize($_SERVER['DOCUMENT_ROOT'] .
-                    "/ProjetPHPS3/Project/library/images_copyright/$imageName[0]");
-                $ratio = $width / $height;
-                $weight = $minY * $ratio;
-
-                $totalWidth = 0;
-                if ($currentX + $weight > 1110) {
-
-                   $finalRatio = 1110 / $currentX;
-                   $finalHeight = $minY * $finalRatio;
-
-                   foreach ($row as $image) {
-                       list($width, $height) = getimagesize($_SERVER['DOCUMENT_ROOT'] .
-                           "/ProjetPHPS3/Project/library/images_copyright/$image");
-                       $finalWidth = $width / $height * $minY * $finalRatio;
-                       $totalWidth += $finalWidth;
-
-                       ImageHandler::displayCopyrightedImageWithSize($image, $finalHeight, $finalWidth);
-                   }
-                   $currentX = 0;
-                   $row = array();
-                }
-                $currentX += $weight;
-                array_push($row, $imageName[0]);
-
-
-                // ImageHandler::displayCopyrightedImage($imageName[0]);
-            }
-        }
-        else
-        {
-            echo "Pas d'image correspondante.";
-        }
     }
 
 }
