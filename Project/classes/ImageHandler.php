@@ -1,8 +1,10 @@
 <?php
+include_once($_SERVER['DOCUMENT_ROOT'] . "/ProjetPHPS3/Project/includes/variables.inc.php");
+define("PADDING", $padding);
+
 class ImageHandler
 {
     private $sqlService;
-    // TODO: Make it constant
 
     function __construct(SQLServices $sqlService)
     {
@@ -137,7 +139,6 @@ class ImageHandler
     public static function displayCopyrightedImagesWithAutomaticResizing($imagesName, $rowWidth) {
         if(sizeof($imagesName) > 0)
         {
-            $padding = 10;
             $imageRow = array();
             $totalMinWidth = 0;
             $minY = 200;
@@ -147,14 +148,14 @@ class ImageHandler
             {
                 $minWidth = self::getMinWidth($imageName[0], $minY);
 
-                if (($totalMinWidth + $minWidth > $rowWidth - $totalPadding - 2*$padding) && $totalMinWidth != 0) {
+                if (($totalMinWidth + $minWidth > $rowWidth - $totalPadding - 2*PADDING) && $totalMinWidth != 0) {
                     self::displayImageRowWithAutomaticResizing($imageRow, $totalMinWidth, $minY, $rowWidth - $totalPadding);
                     $totalMinWidth = 0;
                     $totalPadding = 0;
                     $imageRow = array();
                 }
 
-                $totalPadding += 2 * $padding;
+                $totalPadding += 2 * PADDING;
                 $totalMinWidth += $minWidth;
                 array_push($imageRow, $imageName[0]);
             }

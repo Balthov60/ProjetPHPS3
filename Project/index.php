@@ -11,6 +11,7 @@ initSession();
 
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/project-style.css" rel="stylesheet">
+    <link href="./css/php-linked-style.php" rel="stylesheet" type='text/css'>
 </head>
 <body class="bg-secondary">
 <div id="main-content">
