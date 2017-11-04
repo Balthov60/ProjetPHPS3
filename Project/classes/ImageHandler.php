@@ -136,7 +136,7 @@ class ImageHandler
 
     public static function displayCopyrightedImage($imageName) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images_copyright/$imageName\" 
-                           alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display container-fluid\">";
+                           alt=\"$imageName\" id=\"$imageName._image\" class=\"basic-image-display container-fluid\">";
     }
 
     public static function displayClearImage($imageName) {

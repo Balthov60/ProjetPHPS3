@@ -55,6 +55,14 @@ header h2
 
 /* images */
 
+.basic-image-display
+{
+    width: auto;
+    height: 150px;
+
+    margin: 10px;
+}
+
 .image-display
 {
     width: auto;
