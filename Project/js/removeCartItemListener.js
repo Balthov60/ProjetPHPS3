@@ -6,10 +6,7 @@ $(document).ready(function()
     });
 });
 
-
-
-
 function deleteCartItem(button_id)
 {
-    window.location.href = "scripts/deleteCartItem.php?buttonID=" + button_id;
+    window.location.href = "scripts/removeCartItem.php?buttonID=" + button_id;
 }

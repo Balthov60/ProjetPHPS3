@@ -141,7 +141,7 @@ class SQLServices
      * @param $optionWhere
      * @param $limit
      */
-    function removeData($table, $optionWhere, $limit) {
+    function removeData($table, $optionWhere, $limit = null) {
         $query = "DELETE FROM $table ";
 
         if (isset($optionWhere)) {

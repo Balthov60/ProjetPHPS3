@@ -55,22 +55,22 @@ class CartPage
     <?php
     }
 
-    function displayDescriptionOf($cartItem)
+    private function displayDescriptionOf($cartItem)
     {
         $imageName = $cartItem['image_name'];
         $result = $this->sqlService->getData('image', 'description', array("where" => "name_image = '$imageName'"));
         echo "Description : {$result[0]['description']}";
     }
-    function displayPriceOf($cartItem)
+    private function displayPriceOf($cartItem)
     {
         echo "Prix : {$this->getPriceOf($cartItem)} €";
     }
-    function displayRemoveButton($cartItem)
+    private function displayRemoveButton($cartItem)
     {
         echo "<span class='remove-cart-span text-danger' id='remove-{$cartItem['image_name']}'>&times;</span>";
     }
 
-    function getPriceOf($cartItem) {
+    private function getPriceOf($cartItem) {
         $imageName = $cartItem['image_name'];
         $result = $this->sqlService->getData('image', 'price',
             array("where" => "name_image = '$imageName'")
@@ -81,7 +81,7 @@ class CartPage
 
     /* Global Cart Methods */
 
-    function displayTotalOf($cart)
+    private function displayTotalOf($cart)
     {
         ?>
         <div class="horizontal-layout justify-content-between">
