@@ -1,43 +1,35 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sntri
- * Date: 02/11/2017
- * Time: 14:20
- */
 
-header("Content-Type: text/plain");
-include_once("../classes/SQLServices.php");
-
-$imageName = $_GET["imageName"];
-$description = getDescription($imageName);
-$price = getPrice($imageName);
-$requestResult = $description."/".$price;
-echo $requestResult;
-
-function initSQLService()
-{
-    include("../includes/variables.inc.php");
+if (isset($_GET["imageName"])) {
+    include_once("../classes/SQLServices.php");
+    include_once("../includes/variables.inc.php");
     $sqlService = new SQLServices($host, $dbName, $user, $password);
-    return $sqlService;
+
+    $imageName = $_GET["imageName"];
+    $description = getDescription($imageName, $sqlService);
+    $price = getPrice($imageName, $sqlService);
+    if (empty($price) && empty($description)) {
+        header("location: ../../../ProjetPHPS3/Project/index.php");
+    }
+    else {
+        echo $description . "/" . $price;
+    }
+}
+else {
+    header("location: ../../../ProjetPHPS3/Project/index.php");
 }
 
-
-function getDescription($imageName)
+function getDescription($imageName, SQLServices $sqlService)
 {
-    $sqlService = initSQLService();
     $result = $sqlService->getData("image", "description", array("where" => "name_image = '$imageName'"));
-    $description = $result[0]['description'];
-    if($description == "none")
-        $description = "-";
-    return $description;
+    if ($result[0]['description'] != "none")
+        return $result[0]['description'];
+    else
+        return '-';
 }
 
-function getPrice($imageName)
+function getPrice($imageName, SQLServices $sqlService)
 {
-    $sqlService = initSQLService();
     $result = $sqlService->getData("image", "price", array("where" => "name_image = '$imageName'"));
-    $price = $result[0]['price'];
-    return $price;
+    return $result[0]['price'];
 }
-?>

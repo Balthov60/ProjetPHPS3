@@ -1,38 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sntri
- * Date: 02/11/2017
- * Time: 19:20
- */
 session_start();
-include_once("../classes/SQLServices.php");
 
+if (isset($_GET['imageID'])) {
+    include_once("../classes/SQLServices.php");
+    include("../includes/variables.inc.php");
+    $sqlService = new SQLServices($host, $dbName, $user, $password);
 
-$imageID = $_GET['imageID'];
-$imageName = giveRealNameOf($imageID);
-$username = $_SESSION['user']['username'];
-
-$sqlService = initSQLService();
-$sqlService->insertData('cart', array(array("username" => $username, "image_name" => $imageName)));
+    $imageID = $_GET['imageID'];
+    $imageName = extractImageNameFrom($imageID);
+    $username = $_SESSION['user']['username'];
+    
+    $sqlService->insertData('cart', array(array("username" => $username, "image_name" => $imageName)));
+}
+else {
+    header("../../../ProjetPHPS3/Project/index.php");
+}
 
 
 /**
  * @param $imageID
  * @return bool|string
  */
-function giveRealNameOf($imageID)
+function extractImageNameFrom($imageID)
 {
-    $IDpos = strpos($imageID,'._image');
-    $imageName = substr($imageID, 0, $IDpos);
-    return $imageName;
+    $idPos = strpos($imageID,'._image');
+    return substr($imageID, 0, $idPos);
 }
-
-
-function initSQLService()
-{
-    include("../includes/variables.inc.php");
-    $sqlService = new SQLServices($host, $dbName, $user, $password);
-    return $sqlService;
-}
-?>
