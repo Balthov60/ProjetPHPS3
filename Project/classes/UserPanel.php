@@ -13,7 +13,7 @@ class UserPanel
     {
         $this->sqlService = $sqlService;
 
-        new HeaderBar(true, false, "Panel");
+        new HeaderBar(true, false, "Panel", $sqlService);
 
         $this->displayUserPhotos();
 
@@ -23,7 +23,7 @@ class UserPanel
     private function displayUserPhotos() {
         $result = $this->sqlService->getData(self::$tableJoin, "i.name_image",
             array(
-                "where" => "id_user = '" . $_SESSION["user"]["id"] . "'"
+                "where" => "username = '" . $_SESSION["user"]["username"] . "'"
             )
         );
 

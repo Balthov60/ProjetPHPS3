@@ -10,7 +10,10 @@ if (isset($_GET["imageName"])) {
     $imageName = $_GET["imageName"];
     $description = getDescription($imageName, $sqlService);
     $price = getPrice($imageName, $sqlService);
-    $status = getStatus($imageName, $sqlService);
+    if ($_SESSION['user']['isConnected'])
+        $status = getStatus($imageName, $sqlService);
+    else
+        $status = "disconnected";
 
     if (empty($price) && empty($description)) {
         header("location: ../../../ProjetPHPS3/Project/index.php");

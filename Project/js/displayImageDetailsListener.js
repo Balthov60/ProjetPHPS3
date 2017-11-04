@@ -115,6 +115,10 @@ function displayImageStatus(status) {
         $("#action-container")
             .html("<p>Vous avez déjà acheter cette photo</p>");
     }
+    else if (status === 'disconnected') {
+        $("#action-container")
+            .html("<a href='../../../ProjetPHPS3/Project/login.php'>Se connecter</a>");
+    }
     else {
         $("#action-container")
             .html("<input type='submit' name='submit-add-cart' id='add-cart-submit' " +

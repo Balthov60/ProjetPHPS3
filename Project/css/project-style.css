@@ -1,4 +1,5 @@
-.horizontal-layout {
+.horizontal-layout
+{
     display: flex;
     flex-direction: row;
 }
@@ -7,27 +8,65 @@
     display: flex;
     flex-direction: column;
 }
-.center-horizontally {
+.center-horizontally
+{
     display: flex;
     margin: auto;
 }
+.centered
+{
+    margin: auto;
+}
 
-#logo {
+/* header */
+
+#logo
+{
     width: 5%;
     height: 5%;
     margin: 10px;
 }
+header .title
+{
+    width: 75%;
+}
+header h2
+{
+    margin-left: 0.5em;
+}
 
-#advanced-menu form {
+#advanced-menu form
+{
     padding: 10px;
 }
-#advanced-menu-button {
+#advanced-menu-button
+{
     height: 25px;
     width: auto;
 
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0%);
+}
+.tags
+{
+
+}
+
+/* images */
+
+.basic-image-display
+{
+    width: auto;
+    height: 150px;
+
+    margin: 10px;
+}
+
+.images-container
+{
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 /* Upload Form */
@@ -82,6 +121,13 @@
 #submit-upload:hover
 {
     background-color: #eaeaea;
+}
+
+.tags
+{
+    background-color: #64788C;
+    border-radius: 20px;
+    padding: 5px 15px;
 }
 
 
@@ -142,6 +188,7 @@
 {
     background-color: #eee;
 }
+
 
 .tags {
     margin: 5px;
@@ -223,14 +270,50 @@
     bottom: 20px;
 }
 
-#action-container p
-{
+#action-container p {
     margin: 0;
+}
+
+/* CartPanel */
+
+.empty-content
+{
+    margin-top: 15px;
+}
+
+.details-container
+{
+    margin: auto;
+}
+
+.remove-cart-span
+{
+    margin: auto;
+    font-size: 5em;
+}
+.remove-cart-span:hover
+{
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.divider-horizontal
+{
+    width: 50%;
+    height: 2px;
+    border-radius: 5px;
+    margin: 30px auto;
+>>>>>>> master
 }
 
 /* footer */
 
 footer
+{
+    margin-top: 30px;
+}
+
+footer .main-footer-div
 {
     position: fixed;
     bottom: 0;

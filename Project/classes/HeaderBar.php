@@ -2,14 +2,20 @@
 
 class HeaderBar
 {
+    private $sqlServices;
+
     /**
      * HeaderBar constructor.
+     *
      * @param $isConnected
      * @param $isAdmin
      * @param $currentPage (HomePage, Cart or Panel)
+     * @param SQLServices $sqlServices
      */
-    function __construct($isConnected, $isAdmin, $currentPage)
+    function __construct($isConnected, $isAdmin, $currentPage, SQLServices $sqlServices)
     {
+        $this->sqlServices = $sqlServices;
+
         echo "<header class=\"sticky-top\">";
 
         $this->displayNavBar($isConnected, $isAdmin, $currentPage);
@@ -28,9 +34,10 @@ class HeaderBar
     { ?>
         <nav class="navbar navbar-dark bg-dark">
             <div class="container d-flex justify-content-between">
-                <div class="navbar-brand d-flex">
+                <div class="d-flex title">
                     <img src="../../../ProjetPHPS3/Project/images/logo.png" id="logo" alt="websiteLogo">
-                    <h1 class="text-white align-self-center">Catalogue</h1>
+                    <h1 class="text-white align-self-center">Photos'Shop -</h1>
+                    <?php $this->displaySubTitle($isAdmin, $currentPage); ?>
                 </div>
 
                 <ul class="navbar-nav d-flex">
@@ -39,6 +46,20 @@ class HeaderBar
             </div>
         </nav>
     <?php
+    }
+    private function displaySubTitle($isAdmin, $currentPage) {
+        if ($currentPage == "HomePage") {
+            echo "<h2 class=\"text-white align-self-center\">Catalogue</h2>";
+        }
+        else if ($currentPage == "Cart") {
+            echo "<h2 class=\"text-white align-self-center\">Mon Panier</h2>";
+        }
+        else if ($currentPage == "Panel" && !$isAdmin) {
+            echo "<h2 class=\"text-white align-self-center\">Mes Photos</h2>";
+        }
+        else {
+            echo "<h2 class=\"text-white align-self-center\">Zone Administrateur</h2>";
+        }
     }
 
     private function displayNavItems($isConnected, $isAdmin, $currentPage) {
@@ -71,10 +92,10 @@ class HeaderBar
     private function displayDisconnectedNavItems()
     { ?>
         <li class="nav-item">
-            <a class="nav-link" href="../../../ProjetPHPS3/Project/login.html">Se connecter</a>
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/login.php">Se connecter</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="../../../ProjetPHPS3/Project/signup.html">S'inscrire</a>
+            <a class="nav-link" href="../../../ProjetPHPS3/Project/signup.php">S'inscrire</a>
         </li>
     <?php
     }
@@ -144,8 +165,12 @@ class HeaderBar
         <div class="bg-dark collapse" id="advanced-menu">
             <form action="../../../ProjetPHPS3/Project/scripts/displayImagesWithKeywords.php"
                   method="post" class="container d-flex">
-                <?php $this->displayTags(); ?>
-                <input type="submit" name="submit" class="btn align-self-end">
+                <div class="container-fluid">
+                    <?php $this->displayTags(); ?>
+                </div>
+                <div class="centered">
+                    <input type="submit" name="submit" value="Afficher" class="btn">
+                </div>
             </form>
         </div>
 
@@ -156,16 +181,8 @@ class HeaderBar
     <?php
     }
 
-    // TODO: Fix Include variables.inc.php
-    // TODO: Improve graphics
     private function displayTags() {
-        $hostnameDB = "localhost";
-        $userDB = "root";
-        $passwordDB = '';
-        $dbName = "projetphps3";
-
-        $db = new SQLServices($hostnameDB, $dbName, $userDB, $passwordDB);
-        $result = $db->getData("keyword", "name_keyword");
+        $result = $this->sqlServices->getData("keyword", "name_keyword");
 
         foreach($result as $value) {
             $this->displayTag($value[0]);
@@ -175,7 +192,7 @@ class HeaderBar
     { ?>
         <label class="text-white tags">
             <?php echo $tagName ?>
-            <input type="checkbox" name="<?php echo $tagName ?>"/>
+            <input type="checkbox" name="<?php echo $tagName ?>" class="custom-checkbox"/>
         </label>
     <?php
     }

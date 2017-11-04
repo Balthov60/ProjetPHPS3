@@ -1,17 +1,17 @@
 <?php
 session_start();
 initSession();
-getKeywords();
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Catalogue</title>
+    <title>Photos'Shop</title>
 
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/project-style.css" rel="stylesheet">
+    <link href="./css/php-linked-style.php" rel="stylesheet" type='text/css'>
 </head>
 <body class="bg-secondary">
 <div id="main-content">
@@ -39,7 +39,7 @@ getKeywords();
         else if ($_GET["page"] == "cart")
         {
             include_once("./classes/CartPage.php");
-            new CartPage();
+            new CartPage($sqlService);
         }
         else
         {
@@ -59,13 +59,15 @@ getKeywords();
 <script src="./js/jquery.min.3.1.2.js"></script>
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/filterListKeyword.js"></script>
-<script src="./js/showImageDetails.js"></script>
+<script src="./js/removeCartItemListener.js"></script>
+<script src="js/displayImageDetailsListener.js"></script>
 
 
 </body>
 </html>
 
 <?php
+
 function initSession() {
     if (!isset($_SESSION["user"]["isConnected"]) || !is_bool($_SESSION["user"]["isConnected"])) {
         $_SESSION["user"]["isConnected"] = false;
@@ -76,13 +78,3 @@ function initSession() {
         $_SESSION["user"]["isAdmin"] = false;
     }
 }
-
-function getKeywords()
-{
-    global $keywords;
-    if(isset($_GET['keywords']))
-        $keywords = $_GET['keywords'];
-    else
-        $keywords = null;
-}
-?>

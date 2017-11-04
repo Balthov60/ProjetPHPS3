@@ -141,7 +141,7 @@ class SQLServices
      * @param $optionWhere
      * @param $limit
      */
-    function removeData($table, $optionWhere, $limit) {
+    function removeData($table, $optionWhere, $limit = null) {
         $query = "DELETE FROM $table ";
 
         if (isset($optionWhere)) {
@@ -171,59 +171,6 @@ class SQLServices
     }
 
     /**
-     * @param $username
-     * @param $password
-     * @return bool
-     */
-    function isAdmin($username, $password)
-    {
-        $statement = "SELECT count(*) FROM user ";
-        $statement .= "WHERE username = '$username' ";
-        $statement .= "AND password = '" . md5($password) . "' ";
-        $statement .= "AND admin = 1";
-
-        $query = $this->db->query($statement);
-
-        if ($query->fetchColumn() == 0)
-            return false;
-
-        return true;
-    }
-
-    /**
-     * @param $username
-     * @param $password
-     * @return bool
-     */
-    function isRegistered($username, $password)
-    {
-        $statement = "SELECT count(*) FROM user ";
-        $statement .= "WHERE username = '$username' ";
-        $statement .= "AND password = '".md5($password)."' ";
-        $statement .= "AND admin = 0";
-
-        $query = $this->db->query($statement);
-
-        if ($query->fetchColumn() == 0)
-            return false;
-
-        return true;
-    }
-
-    /**
-     * @param $username
-     * @return string
-     */
-    /*function getUserId($username)
-    {
-        $statement = "SELECT username FROM user ";
-        $statement .= "WHERE username = '$username' ";
-        $result = $this->db->query($statement);
-
-        return $result->fetchColumn();
-    }*/
-
-    /**
      *
      */
     function displayKeywordList()
@@ -232,11 +179,95 @@ class SQLServices
 
         if (isset($keyword_list)) {
             foreach ($keyword_list as $value) {
-                    echo "<li><a>" . htmlspecialchars($value[0]) . "</a></li>";
+                echo "<li><a>" . htmlspecialchars($value[0]) . "</a></li>";
             }
         }
         else {
             echo "<li>No Keyword Found</li>";
         }
+    }
+
+    /*******************/
+    /* Account Methods */
+    /*******************/
+
+    /**
+     * Check If User exist, if his password is Good and if he is not an admin.
+     *
+     * @param $username
+     * @param $password
+     * @return bool
+     */
+    public function isUser($username, $password)
+    {
+        $query  = "SELECT count(*) FROM user ";
+        $query .= "WHERE username = '$username' ";
+        $query .= "AND password = '".md5($password)."' ";
+        $query .= "AND admin = 0";
+
+        return $this->queryReturnData($query);
+    }
+
+    /**
+     * Check if User exist, if his password is Good and if he is an admin.
+     *
+     * @param $username
+     * @param $password
+     * @return bool
+     */
+    public function isAdmin($username, $password)
+    {
+        $query  = "SELECT count(*) FROM user ";
+        $query .= "WHERE username = '$username' ";
+        $query .= "AND password = '" . md5($password) . "' ";
+        $query .= "AND admin = 1";
+
+        return $this->queryReturnData($query);
+    }
+
+    /**
+     * Check if username is already used.
+     *
+     * @param $username
+     * @return bool
+     */
+    public function usernameExist($username) {
+        $query  = "SELECT count(*) FROM user ";
+        $query .= "WHERE username = '$username' ";
+
+        return $this->queryReturnData($query);
+    }
+
+    /**
+     * Check if mail is already used.
+     *
+     * @param $mail
+     * @return bool
+     */
+    public function mailExist($mail)
+    {
+        $query = "SELECT count(*) FROM user ";
+        $query .= "WHERE mail = '$mail' ";
+
+        return $this->queryReturnData($query);
+    }
+
+    /*********************/
+    /* Utilities Methods */
+    /*********************/
+
+    /**
+     * Check If Query Return Anything.
+     *
+     * @param $query
+     * @return bool
+     */
+    public function queryReturnData($query) {
+        $result = $this->db->query($query);
+
+        if ($result->fetchColumn() == 0)
+            return false;
+
+        return true;
     }
 }
