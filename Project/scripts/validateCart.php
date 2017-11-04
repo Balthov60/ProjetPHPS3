@@ -5,7 +5,7 @@ session_start();
     $sqlService = new SQLServices($host, $dbName, $user, $password);
 
     $username = $_SESSION['user']['username'];
-    
+
     if(is_null($username))
         header('Location:../index.php');
 

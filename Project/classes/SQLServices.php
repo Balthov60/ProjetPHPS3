@@ -104,7 +104,6 @@ class SQLServices
                 $query .= "ORDER BY " . SQLServices::getSQLStringFromArray($options["order_by"]);
             }
         }
-        echo $query;
         $cursor = $this->db->query($query);
         if ($cursor == false)
             return null;
