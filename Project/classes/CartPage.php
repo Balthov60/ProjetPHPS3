@@ -25,7 +25,7 @@ class CartPage
         echo "<div class='container bg-secondary vertical-layout'>";
         if(empty($cart))
         {
-            echo "<h2 class='text-center text-dark empty-content'>Your cart is empty!</h2>";
+            echo "<h2 class='text-center text-dark empty-content'>Votre panier est vide!</h2>";
         }
         else
         {
@@ -76,7 +76,7 @@ class CartPage
 
     private function displayValidationButton()
     {
-        echo "<a onclick='validateCart()' id='validate-button'>Valid selection</a>";
+        echo "<a onclick='validateCart()' id='validate-button'>Valider le paiement</a>";
     }
 
 
