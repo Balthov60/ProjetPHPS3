@@ -3,6 +3,11 @@
     display: flex;
     flex-direction: row;
 }
+.vertical-layout
+{
+    display: flex;
+    flex-direction: column;
+}
 .center-horizontally
 {
     display: flex;
@@ -184,12 +189,50 @@ header h2
     background-color: #eee;
 }
 
+
+
+/* CartPanel */
+
+.empty-cart
+{
+    margin-top: 15px;
+}
+
+.details-container
+{
+    margin: auto;
+}
+
+.remove-cart-span
+{
+    margin: auto;
+    font-size: 5em;
+}
+.remove-cart-span:hover
+{
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.divider-horizontal
+{
+    width: 50%;
+    height: 2px;
+    border-radius: 5px;
+    margin: 30px auto;
+}
+
 /* footer */
 
 footer
 {
+    margin-top: 30px;
+}
+
+footer .main-footer-div
+{
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
 
     width: 100%;
 }
