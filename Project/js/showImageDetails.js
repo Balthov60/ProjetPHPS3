@@ -1,10 +1,15 @@
 $(document).ready(function () {
     var imageID;
+    hideModal();
     $("img").click(function()
     {
         imageID = $(this).attr("id");
         if(isDBPicture(imageID))
+        {
             insertModalContent($(this).attr("id"));
+        }
+
+        openModal();
     });
 
     $(document).click(function(event)
@@ -128,17 +133,14 @@ function displayData(detailsString)
     var description = detailsArray[0];
     var price = detailsArray[1];
 
-    var codeHtmlDetails = "<div id='desc-container'>" + displayDescription(description) + "</div><div id='price-container'>" + displayPrice(price) + "</div>" + displayButton();
+    var codeHtmlDetails = "<div id='desc-container'>" + displayDescription(description) + "</div><div id='price-container'>" + displayPrice(price) + "</div><div id='submit-add-cart-container'></div>";
     $(".modal #details-container").html(codeHtmlDetails);
-
-    openModal();
 }
 
 
 
 function isInCart(imageName, callback)
 {
-    alert('Slt toi');
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && (xmlhttp.status == 200 || xmlhttp.status == 0)) {
@@ -150,17 +152,19 @@ function isInCart(imageName, callback)
     xmlhttp.send(null);
 }
 
-function displayButtonOrText($AjaxResponse)
+function displayButtonOrText(ajaxResponse)
 {
-    if($AjaxResponse == 'true')
+    //alert(AjaxResponse);
+    if(ajaxResponse === "true")
     {
         $("#submit-add-cart-container").html("<p id='photo-already-in-cart'>This photo is already in your cart!</p>");
     }
 
-    else
+    else if(ajaxResponse === "false")
     {
         $("#submit-add-cart-container").html("<input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'>");
     }
+
 }
 
 
@@ -199,26 +203,16 @@ function displayDescription(description)
     return "<p>Description : </p><p id='desc'>" + description + "</p>";
 }
 
-/**
- *
- * @returns {string}
- */
-function displayButton()
-{
-    return "<div id='submit-add-cart-container'></div>";
-    //<input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'>
-}
-
 
 
 /* Modal Handling */
 
 function openModal()
 {
-    $(".modal").show(150);
+    $(".modal").show(250);
 }
 
 function hideModal()
 {
-    $(".modal").hide(150);
+    $(".modal").hide(250);
 }
