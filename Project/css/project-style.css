@@ -169,7 +169,7 @@ header h2
     list-style-type: none;
 }
 
-#keywordList li
+#keywordList li, #keywordList div a
 {
     display: flex;
     flex-direction: row;
@@ -191,6 +191,19 @@ header h2
 {
     background-color: #eee;
 }
+
+#keywordList div a
+{
+    justify-content: center;
+    color:#007bff;
+}
+
+#keywordList div a:hover
+{
+    text-decoration: underline;
+    cursor:pointer;
+}
+
 
 
 .tags {

@@ -113,7 +113,7 @@ function displayImageStatus(status) {
     }
     else if (status === 'owned') {
         $("#action-container")
-            .html("<p>Vous avez déjà acheter cette photo</p>");
+            .html("<p>Vous avez déjà acheté cette photo</p>");
     }
     else if (status === 'disconnected') {
         $("#action-container")

@@ -40,11 +40,9 @@ class AdminPanel
                 <div id="keyword-list-container">
                     <input type="text" onkeyup="filterKeyword()" name="keyword_input" id="keyword-search"
                            placeholder="Check tags you want to add to your picture">
-                           <?php //TODO: Implement space handling with trunc() ?>
 
                     <ul id="keywordList">
-                        <?php $this->sqlService->displayKeywordList(); ?>
-                        <li><a>New Keyword</a></li>
+                        <!-- Displayed by ajax -->
                     </ul>
                     <p id="recap-tags">Total des mots-clés ajoutés :</p>
                 </div>

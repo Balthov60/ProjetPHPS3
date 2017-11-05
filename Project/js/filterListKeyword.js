@@ -22,32 +22,50 @@ function filterKeyword()
             keywordArray[i].style.display = "none";
             nbTagAvailable--;
         }
+
+
     }
+
+    document.getElementById('new-tag-link').style.display = "";
+
 }
+
+
 $(document).ready(function(){
+
+    getTagList(displayTagList);
+
 
     $("#keyword-search").focus(function()
     {
         $("#keywordList").show(150);
     });
 
-    $("li input[type='checkbox']").click(function(event)
+    $("#keywordList").click(function(event)
     {
-        if(event.target.checked)
-            addTagToTotalTagList(event);
+        if(event.target.tagName == "INPUT")
+        {
+            if(event.target.checked)
+                addTagToTotalTagList(event);
 
-        else
-            deleteTagFromTotalTagList(event);
+            else
+                deleteTagFromTotalTagList(event);
+        }
 
+        if(event.target.tagName == "A")
+        {
+            $("#new-tag-modal").show(0);
+            $("#new-tag-input").val($("#keyword-search").val());
+        }
     });
 
-    $("#keywordList li a").click(function()
+
+    $("#new-tag-submit").click(function()
     {
-        $("#new-tag-modal").show(0);
+        $("#new-tag-modal").hide(100);
+        addNewTag($("#new-tag-input").val(), displayTagList);
     });
 
-
-    
 
 });
 
@@ -116,4 +134,36 @@ function deleteTag(tagName, tagAlreadyChosenList)
 
     $('#recap-tags').html("Total des mots-clés ajoutés :" + newTagList);
 
+}
+
+
+function addNewTag(tagName, callback)
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
+            callback(xmlhttp.responseText);
+        }
+    };
+    xmlhttp.open("GET", "scripts/displayTagList.php?newTagName=" + tagName, true);
+    xmlhttp.send(null);
+}
+
+
+function getTagList(callback)
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
+            callback(xmlhttp.responseText);
+        }
+    };
+    xmlhttp.open("GET", "scripts/displayTagList.php", true);
+    xmlhttp.send(null);
+}
+
+function displayTagList(responseText)
+{
+    $("#keywordList").html(responseText);
+    $("#keywordList").append("<div><a id='new-tag-link'>New Keyword</a></div>");
 }
