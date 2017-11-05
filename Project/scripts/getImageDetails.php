@@ -79,5 +79,5 @@ function isOwned($imageName, SQLServices $sqlService) {
 
 function isAdmin()
 {
-    return (isset($_SESSION['user']['isAdmin']));
+    return ($_SESSION['user']['isAdmin']);
 }
