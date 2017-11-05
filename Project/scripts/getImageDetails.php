@@ -16,7 +16,7 @@ if (isset($_GET["imageName"])) {
         $status = "disconnected";
 
     if (empty($price) && empty($description)) {
-        header("location: ../../../ProjetPHPS3/Project/index.php");
+        header("Location: ../../../ProjetPHPS3/Project/index.php");
     }
     else
     {
@@ -24,7 +24,7 @@ if (isset($_GET["imageName"])) {
     }
 }
 else {
-    header("location: ../../../ProjetPHPS3/Project/index.php");
+    header("Location: ../../../ProjetPHPS3/Project/index.php");
 }
 
 function getDescription($imageName, SQLServices $sqlService)

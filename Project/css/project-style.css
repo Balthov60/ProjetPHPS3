@@ -55,14 +55,6 @@ header h2
 
 /* images */
 
-.basic-image-display
-{
-    width: auto;
-    height: 150px;
-
-    margin: 10px;
-}
-
 .images-container
 {
     margin-bottom: 20px;
@@ -210,18 +202,6 @@ header h2
     margin: 5px;
 }
 
-/* images */
-
-.image-display
-{
-    width: auto;
-    height: 250px;
-
-    margin: 10px;
-}
-
-
-
 /* modal */
 
 .modal
@@ -362,7 +342,31 @@ header h2
     height: 2px;
     border-radius: 5px;
     margin: 30px auto;
->>>>>>> master
+}
+
+#total-container
+{
+    margin-bottom: 50px;
+}
+
+#validate-button
+{
+    width: 17%;
+    margin: 0 auto;
+    height: 50px;
+    background-color: #d5d7d0;
+    text-align: center;
+    padding: 14px;
+    margin-bottom: 10px;
+    border: 1px solid #444641;
+}
+
+#validate-button:hover, #validate-button:focus
+{
+    background-color: #8c8e86;
+    border: 1px solid #dcded4;
+    color: #dcded4;
+    cursor: pointer;
 }
 
 /* footer */

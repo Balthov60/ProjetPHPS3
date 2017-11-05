@@ -23,6 +23,9 @@ else {
  */
 function extractImageNameFrom($imageID)
 {
-    $idPos = strpos($imageID,'._image');
+    $idPos = strpos($imageID,'._copyrighted-image');
+    if ($idPos == false) {
+        $idPos = strpos($imageID,'._image');
+    }
     return substr($imageID, 0, $idPos);
 }

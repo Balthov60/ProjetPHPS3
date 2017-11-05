@@ -33,7 +33,11 @@ class CartPage
             {
                 $this->displayCartItem($cartItem);
             }
-            $this->displayTotalOf($cart);
+            echo "<div id='total-container' class=\"horizontal-layout justify-content-between\">";
+                $this->displayTotalOf($cart);
+                $this->displayValidationButton();
+            echo "</div>";
+
         }   
         echo "</div>";
     }
@@ -55,6 +59,8 @@ class CartPage
     <?php
     }
 
+
+    /* Display Method */
     private function displayDescriptionOf($cartItem)
     {
         $imageName = $cartItem['image_name'];
@@ -70,28 +76,27 @@ class CartPage
         echo "<span class='remove-cart-span text-danger' id='remove-{$cartItem['image_name']}'>&times;</span>";
     }
 
-    private function getPriceOf($cartItem) {
-        $imageName = $cartItem['image_name'];
-        $result = $this->sqlService->getData('image', 'price',
-            array("where" => "name_image = '$imageName'")
-        );
-
-        return $result[0]['price'];
+    private function displayValidationButton()
+    {
+        echo "<a href='../../../ProjetPHPS3/Project/scripts/validateCart.php' class='btn btn-danger'>
+                Valider le paiement
+              </a>";
     }
+
+
+
 
     /* Global Cart Methods */
 
     private function displayTotalOf($cart)
     {
         ?>
-        <div class="horizontal-layout justify-content-between">
-            <h3 id='nb-picture-cart'>
-                <?php $this->displayPicturesQuantityIn($cart); ?>
-            </h3>
-            <h3>
-                <?php $this->displayTotalPriceOf($cart); ?>
-            </h3>
-        </div>
+        <h3 id='nb-picture-cart'>
+            <?php $this->displayPicturesQuantityIn($cart); ?>
+        </h3>
+        <h3>
+            <?php $this->displayTotalPriceOf($cart); ?>
+        </h3>
     <?php
     }
 
@@ -116,6 +121,16 @@ class CartPage
     {
         return $this->sqlService->getData('cart', 'image_name', array("where" => "username = '$username'"));
     }
+
+    private function getPriceOf($cartItem) {
+        $imageName = $cartItem['image_name'];
+        $result = $this->sqlService->getData('image', 'price',
+            array("where" => "name_image = '$imageName'")
+        );
+
+        return $result[0]['price'];
+    }
+
 }
 
 

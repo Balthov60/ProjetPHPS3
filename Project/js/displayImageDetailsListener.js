@@ -15,7 +15,6 @@ $(document).ready(function () {
        {
            hideModal();
        }
-
        else if(event.target.id === $("#add-cart-submit").attr("id"))
        {
            var xmlhttp = new XMLHttpRequest();
@@ -24,6 +23,10 @@ $(document).ready(function () {
 
            $("#action-container")
                .html("<p id='photo-already-in-cart'>Cette photo est déjà dans votre panier</p>");
+       }
+       else if(event.target.id === $("#submit-download").attr("id"))
+       {
+           window.open("scripts/downloadImage.php?imageID=" + imageID);
        }
     })
 });
@@ -45,19 +48,25 @@ function isWebSiteGraphicPicture(imageID)
 function insertModalContent(imageID)
 {
     var imageName = extractImageName(imageID);
-    insertImage(imageName);
+    insertImage(imageName, imageID);
     insertDetails(imageName);
 }
 
 function extractImageName(imageID)
 {
-
-    var imageIDPos = imageID.search("._image");
+    var imageIDPos = imageID.search("._copyrighted-image");
+    if (imageIDPos === -1)
+        imageIDPos = imageID.search("._image");
     return imageID.slice(0, imageIDPos);
 }
-function insertImage(imageName)
+function insertImage(imageName, imageID)
 {
-    $(".modal #modal-image-container").html("<img src=\"library/images_copyright/" + imageName + "\">");
+    if (imageID.search("._copyrighted-image") !== -1) {
+        $(".modal #modal-image-container").html("<img src=\"library/images_copyright/" + imageName + "\">");
+    }
+    else {
+        $(".modal #modal-image-container").html("<img src=\"library/images/" + imageName + "\">");
+    }
 
 }
 function insertDetails(imageName)
@@ -108,21 +117,18 @@ function displayDetails(description, price) {
 }
 function displayImageStatus(status) {
     if (status === 'cart') {
-        $("#action-container")
-            .html("<p>Cette photo est déjà dans votre panier.</p>");
+        $("#action-container").html("<p>Cette photo est déjà dans votre panier.</p>");
     }
     else if (status === 'owned') {
-        $("#action-container")
-            .html("<p>Vous avez déjà acheté cette photo</p>");
+        $("#action-container").html("<p>Vous avez déjà acheté cette photo</p>"); 
     }
     else if (status === 'disconnected') {
-        $("#action-container")
-            .html("<a href='../../../ProjetPHPS3/Project/login.php'>Se connecter</a>");
+        $("#action-container").html("<a href='../../../ProjetPHPS3/Project/login.php'>Se connecter</a>");
     }
     else {
         $("#action-container")
             .html("<input type='submit' name='submit-add-cart' id='add-cart-submit' " +
-                         "class='btn btn-primary' value='Add to cart'>");
+                         "class='btn btn-primary' value='Ajouter au panier'>");
     }
     //         "<div id='submit-add-cart-container'><input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'></div>";
 }
