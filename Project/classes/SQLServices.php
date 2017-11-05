@@ -178,7 +178,7 @@ class SQLServices
         $codeHtml = "";
         if (isset($keyword_list)) {
             foreach ($keyword_list as $value) {
-                $codeHtml.= "<li><input class='tags' type='checkbox' name='tag[]' id='".htmlspecialchars($value[0])."_tag'><p id='tag-text'>".htmlspecialchars($value[0])."</p></li>";
+                $codeHtml.= "<li><input class='tags' type='checkbox' name='tags[]' value='".htmlspecialchars($value[0])."' id='".htmlspecialchars($value[0])."_tag'><p id='tag-text'>".htmlspecialchars($value[0])."</p></li>";
             }
         }
         else {

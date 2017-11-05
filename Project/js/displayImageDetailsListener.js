@@ -96,7 +96,6 @@ function getImageDetailsWithAJAX(imageName, callback)
 function displayContent(detailsString)
 {
     var detailsArray = detailsString.split("/");
-
     displayDetails(detailsArray[0], detailsArray[1]);
     displayImageStatus(detailsArray[2]);
 }

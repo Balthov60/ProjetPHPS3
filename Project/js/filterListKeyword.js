@@ -26,7 +26,7 @@ function filterKeyword()
 
     }
 
-    document.getElementById('new-tag-link').style.display = "";
+    document.getElementById('new-tag-link').style.display = ""; //Always display "New keyword"
 
 }
 
@@ -35,7 +35,7 @@ $(document).ready(function(){
 
     getTagList(displayTagList);
 
-    
+
     $("#keyword-search").focus(function()
     {
         $("#keywordList").show(150);
@@ -165,5 +165,5 @@ function getTagList(callback)
 function displayTagList(responseText)
 {
     $("#keywordList").html(responseText);
-    $("#keywordList").append("<div><a id='new-tag-link'>New Keyword</a></div>");
+    $("#keywordList").append("<div><a id='new-tag-link'>Nouveau Mot-Clé</a></div>");
 }

@@ -36,10 +36,10 @@ class AdminPanel
             <form action="../../../ProjetPHPS3/Project/scripts/uploadImage.php"
                   method="post" enctype="multipart/form-data">
 
-                <input type="file" class="form-control col-xs-2" name="pictureToUpload" value="Choose Image...">
+                <input type="file" class="form-control col-xs-2" name="pictureToUpload" value="Choisissez une image">
                 <div id="keyword-list-container">
                     <input type="text" onkeyup="filterKeyword()" name="keyword_input" id="keyword-search"
-                           placeholder="Check tags you want to add to your picture">
+                           placeholder="Cochez les mots-clé qui seront attribué à l'image">
 
                     <ul id="keywordList">
                         <!-- Displayed by ajax -->
