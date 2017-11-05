@@ -74,23 +74,7 @@ class ImageHandler
             $this->linkKeywordToPicture($keyword[0]['name_keyword'], $imageID);
         }
     }
-    private function getArrayOfKeywordFromString($string) {
-        $keywordArray = $string;
-        $keywordArray = preg_replace('/\s+/', '', $keywordArray);
-        $keywordArray = explode(",", $keywordArray);
-        $keywordArray = array_unique($keywordArray);
-
-        return $keywordArray;
-    }
-    private function addNewKeyword($keyword) {
-        $this->sqlService->insertData('keyword',
-            array(
-                array(
-                'name_keyword' => $keyword,
-                )
-            )
-        );
-    }
+    
     private function linkKeywordToPicture($keyword, $imageID) {
         $this->sqlService->insertData('image_keyword',
             array(
