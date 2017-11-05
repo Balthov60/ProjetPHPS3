@@ -243,8 +243,9 @@ class SQLServices
      * @param $mail
      * @return bool
      */
-    public function mailExist($mail) {
-        $query  = "SELECT count(*) FROM user ";
+    public function mailExist($mail)
+    {
+        $query = "SELECT count(*) FROM user ";
         $query .= "WHERE mail = '$mail' ";
 
         return $this->queryReturnData($query);

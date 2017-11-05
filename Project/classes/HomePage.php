@@ -4,20 +4,20 @@ include_once("HeaderBar.php");
 include_once("AdminPanel.php");
 include_once("FooterBar.php");
 include_once("ImageHandler.php");
+include_once("ModalHandler.php");
 
 class HomePage
 {
     private $sqlService;
-    private $rowWidth; // width of a row of photos
 
     const TABLE_JOIN = "image i JOIN image_keyword ik ON i.id_image = ik.id_image";
 
     function __construct($isConnected = false, $isAdmin = false, SQLServices $sqlService) {
         $this->imageHandler = new ImageHandler($sqlService);
         $this->sqlService = $sqlService;
-        $this->rowWidth = 1100;
 
         new HeaderBar($isConnected, $isAdmin, 'HomePage', $sqlService);
+        new ModalHandler();
 
         echo "<div class=\"container bg-secondary\">";
 
@@ -41,7 +41,7 @@ class HomePage
         $images = $this->sqlService->getData('image', 'name_image');
 
         if (!is_null($images)) {
-            ImageHandler::displayCopyrightedImagesWithAutomaticResizing($images, $this->rowWidth);
+            ImageHandler::displayImagesWithAutomaticResizing($images);
         }
     }
     private function displayImagesMatchingKeywords($keywords)
@@ -59,7 +59,7 @@ class HomePage
         $images = $this->sqlService->getData(self::TABLE_JOIN, 'name_image',
             array("where" => $whereClause)
         );
-        ImageHandler::displayCopyrightedImagesWithAutomaticResizing($images, $this->rowWidth);
+        ImageHandler::displayImagesWithAutomaticResizing($images);
     }
 
     private function createWhereClauseForMultipleKeywords($keywords) {
