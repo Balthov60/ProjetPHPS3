@@ -55,14 +55,6 @@ header h2
 
 /* images */
 
-.basic-image-display
-{
-    width: auto;
-    height: 150px;
-
-    margin: 10px;
-}
-
 .images-container
 {
     margin-bottom: 20px;
@@ -194,18 +186,6 @@ header h2
     margin: 5px;
 }
 
-/* images */
-
-.image-display
-{
-    width: auto;
-    height: 250px;
-
-    margin: 10px;
-}
-
-
-
 /* modal */
 
 .modal
@@ -303,7 +283,6 @@ header h2
     height: 2px;
     border-radius: 5px;
     margin: 30px auto;
->>>>>>> master
 }
 
 /* footer */

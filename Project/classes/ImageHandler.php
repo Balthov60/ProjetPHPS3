@@ -5,6 +5,7 @@ define("PADDING", $padding);
 class ImageHandler
 {
     private $sqlService;
+    private static $rowWidth = 1100;
 
     function __construct(SQLServices $sqlService)
     {
@@ -136,7 +137,7 @@ class ImageHandler
 
     /* Advanced Display Image Methods */
 
-    public static function displayCopyrightedImagesWithAutomaticResizing($imagesName, $rowWidth) {
+    public static function displayImagesWithAutomaticResizing($imagesName, $isCopyrighted = true) {
         if(sizeof($imagesName) > 0)
         {
             $imageRow = array();
@@ -148,8 +149,9 @@ class ImageHandler
             {
                 $minWidth = self::getMinWidth($imageName[0], $minY);
 
-                if (($totalMinWidth + $minWidth > $rowWidth - $totalPadding - 2*PADDING) && $totalMinWidth != 0) {
-                    self::displayImageRowWithAutomaticResizing($imageRow, $totalMinWidth, $minY, $rowWidth - $totalPadding);
+                if (($totalMinWidth + $minWidth > self::$rowWidth - $totalPadding - 2*PADDING) && $totalMinWidth != 0) {
+                    self::displayImageRowWithAutomaticResizing($imageRow, $totalMinWidth, $minY,
+                                                        self::$rowWidth - $totalPadding, $isCopyrighted);
                     $totalMinWidth = 0;
                     $totalPadding = 0;
                     $imageRow = array();
@@ -159,7 +161,14 @@ class ImageHandler
                 $totalMinWidth += $minWidth;
                 array_push($imageRow, $imageName[0]);
             }
-            self::displayImageRowWithAutomaticResizing($imageRow, $totalMinWidth, $minY, $rowWidth - $totalPadding);
+            foreach($imageRow as $imageName) {
+                if ($isCopyrighted) {
+                    self::displayCopyrightedImage($imageName);
+                }
+                else {
+                    self::displayClearImage($imageName);
+                }
+            }
         }
         else
         {
@@ -175,8 +184,10 @@ class ImageHandler
      * @param $totalMinWidth Integer : Total width of photos with the lowest height resizing
      * @param $minHeight Integer
      * @param $rowWidth Integer
+     * @param bool $isCopyrighted
      */
-    private static function displayImageRowWithAutomaticResizing($imageRow, $totalMinWidth, $minHeight, $rowWidth) {
+    private static function displayImageRowWithAutomaticResizing($imageRow, $totalMinWidth, $minHeight,
+                                                                 $rowWidth, $isCopyrighted) {
         $finalResizingRatio = $rowWidth / $totalMinWidth;
         $finalHeight = $minHeight * $finalResizingRatio;
 
@@ -184,7 +195,13 @@ class ImageHandler
             list($width, $height) = self::getimagesize($image);
             $finalWidth = $width / $height * $minHeight * $finalResizingRatio;
 
-            ImageHandler::displayCopyrightedImageWithSize($image, $finalHeight, $finalWidth);
+            if ($isCopyrighted)
+            {
+                ImageHandler::displayCopyrightedImageWithSize($image, $finalHeight, $finalWidth);
+            }
+            else {
+                ImageHandler::displayClearImageWithSize($image, $finalHeight, $finalWidth);
+            }
         }
     }
 
@@ -192,16 +209,19 @@ class ImageHandler
 
     public static function displayCopyrightedImage($imageName) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images_copyright/$imageName\" 
-                           alt=\"$imageName\" id=\"$imageName._image\" class=\"basic-image-display container-fluid\">";
+                           alt=\"$imageName\" id=\"$imageName._copyrighted-image\" class=\"basic-image-display\">";
     }
-
     public static function displayClearImage($imageName) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images/$imageName\" 
-                           alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display\">";
+                           alt=\"$imageName\" id=\"$imageName._image\" class=\"basic-image-display\">";
     }
-
     public static function displayCopyrightedImageWithSize($imageName, $height, $width) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images_copyright/$imageName\" 
+                           alt=\"$imageName\" id=\"$imageName._copyrighted-image\" class=\"image-display\"
+                           style=\"width:{$width}px;height:{$height}px\">";
+    }
+    public static function displayClearImageWithSize($imageName, $height, $width) {
+        echo "<img src=\"../../../ProjetPHPS3/Project/library/images/$imageName\" 
                            alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display\"
                            style=\"width:{$width}px;height:{$height}px\">";
     }
