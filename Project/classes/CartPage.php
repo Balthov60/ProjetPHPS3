@@ -34,6 +34,8 @@ class CartPage
                 $this->displayCartItem($cartItem);
             }
             $this->displayTotalOf($cart);
+            $this->displayValidationButton();
+
         }   
         echo "</div>";
     }
@@ -55,6 +57,8 @@ class CartPage
     <?php
     }
 
+
+    /* Display Method */
     private function displayDescriptionOf($cartItem)
     {
         $imageName = $cartItem['image_name'];
@@ -70,21 +74,20 @@ class CartPage
         echo "<span class='remove-cart-span text-danger' id='remove-{$cartItem['image_name']}'>&times;</span>";
     }
 
-    private function getPriceOf($cartItem) {
-        $imageName = $cartItem['image_name'];
-        $result = $this->sqlService->getData('image', 'price',
-            array("where" => "name_image = '$imageName'")
-        );
-
-        return $result[0]['price'];
+    private function displayValidationButton()
+    {
+        echo "<a onclick='validateCart()' id='validate-button'>Valider le paiement</a>";
     }
+
+
+
 
     /* Global Cart Methods */
 
     private function displayTotalOf($cart)
     {
         ?>
-        <div class="horizontal-layout justify-content-between">
+        <div id='total-container' class="horizontal-layout justify-content-between">
             <h3 id='nb-picture-cart'>
                 <?php $this->displayPicturesQuantityIn($cart); ?>
             </h3>
@@ -116,6 +119,16 @@ class CartPage
     {
         return $this->sqlService->getData('cart', 'image_name', array("where" => "username = '$username'"));
     }
+
+    private function getPriceOf($cartItem) {
+        $imageName = $cartItem['image_name'];
+        $result = $this->sqlService->getData('image', 'price',
+            array("where" => "name_image = '$imageName'")
+        );
+
+        return $result[0]['price'];
+    }
+
 }
 
 

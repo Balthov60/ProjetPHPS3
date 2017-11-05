@@ -60,8 +60,8 @@ initSession();
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/filterListKeyword.js"></script>
 <script src="./js/removeCartItemListener.js"></script>
-<script src="js/displayImageDetailsListener.js"></script>
-
+<script src="./js/validateCart.js"></script>
+<script src="./js/displayImageDetailsListener.js"></script>
 
 </body>
 </html>
