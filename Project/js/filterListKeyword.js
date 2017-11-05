@@ -35,7 +35,7 @@ $(document).ready(function(){
 
     getTagList(displayTagList);
 
-
+    
     $("#keyword-search").focus(function()
     {
         $("#keywordList").show(150);
@@ -80,7 +80,7 @@ function addTagToTotalTagList(event)
 
 function getRealTagNameFrom(event)
 {
-    var name_checkbox = event.target.name;
+    var name_checkbox = event.target.id;
     var checkboxID_length = "_tag".length;
     var name_tag = name_checkbox.substr(0, name_checkbox.length - checkboxID_length);
     return name_tag;
