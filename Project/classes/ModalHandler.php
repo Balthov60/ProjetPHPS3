@@ -22,4 +22,17 @@ class ModalHandler
         </div>
     <?php
     }
+
+
+    public static function displayNewTagForm()
+    {
+        echo "<div id=\"new-tag-modal\" class='modal'>
+                <div id='new-tag-modal-content' class=\"modal-content horizontal-layout\">
+                    <input type='text' id='new-tag-input' class='form-control' placeholder='New Tag'>
+                    <input type='button' id='new-tag-submit' class='btn btn-primary' value='Submit'>
+                </div>
+            </div>";
+    }
 }
+
+?>

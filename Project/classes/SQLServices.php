@@ -179,7 +179,7 @@ class SQLServices
 
         if (isset($keyword_list)) {
             foreach ($keyword_list as $value) {
-                echo "<li><a>" . htmlspecialchars($value[0]) . "</a></li>";
+                echo "<li><input class='tags' type='checkbox' name='".htmlspecialchars($value[0])."_tag'><p id='tag-text'>".htmlspecialchars($value[0])."</p></li>";
             }
         }
         else {

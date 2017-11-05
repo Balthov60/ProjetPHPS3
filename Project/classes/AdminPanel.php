@@ -1,6 +1,7 @@
 <?php
 include_once("HeaderBar.php");
 include_once("AdminPanel.php");
+include_once("ModalHandler.php");
 include_once("FooterBar.php");
 class AdminPanel
 {
@@ -21,6 +22,7 @@ class AdminPanel
         new HeaderBar(true, true, "Panel", $this->sqlService);
 
         echo "<div class=\"container bg-secondary\"/>";
+        ModalHandler::displayNewTagForm();
         $this->displayUploadForm();
         $this->displayModifForm();
         echo "</div>";
@@ -37,12 +39,14 @@ class AdminPanel
                 <input type="file" class="form-control col-xs-2" name="pictureToUpload" value="Choose Image...">
                 <div id="keyword-list-container">
                     <input type="text" onkeyup="filterKeyword()" name="keyword_input" id="keyword-search"
-                           placeholder="Keyword1,Keyword2,Keyword3...">
+                           placeholder="Check tags you want to add to your picture">
                            <?php //TODO: Implement space handling with trunc() ?>
 
                     <ul id="keywordList">
                         <?php $this->sqlService->displayKeywordList(); ?>
+                        <li><a>New Keyword</a></li>
                     </ul>
+                    <p id="recap-tags">Total des mots-clés ajoutés :</p>
                 </div>
 
                 <label for="description">
