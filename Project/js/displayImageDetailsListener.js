@@ -21,8 +21,7 @@ $(document).ready(function () {
            xmlhttp.open("GET", "scripts/addImageToCart.php?imageID=" + imageID, true);
            xmlhttp.send(null);
 
-           $("#action-container")
-               .html("<p id='photo-already-in-cart'>Cette photo est déjà dans votre panier</p>");
+           $("#action-container").html("<p id='photo-already-in-cart'>Cette photo est déjà dans votre panier</p>");
        }
        else if(event.target.id === $("#submit-download").attr("id"))
        {
@@ -115,7 +114,11 @@ function displayDetails(description, price) {
 
 }
 function displayImageStatus(status) {
-    if (status === 'cart') {
+
+    if (status === 'admin') {
+        $("#action-container").hide();
+    }
+    else if (status === 'cart') {
         $("#action-container").html("<p>Cette photo est déjà dans votre panier.</p>");
     }
     else if (status === 'owned') {

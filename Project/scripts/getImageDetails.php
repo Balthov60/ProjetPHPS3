@@ -51,7 +51,10 @@ function getPrice($imageName, SQLServices $sqlService)
  */
 function getStatus($imageName, SQLServices $sqlService) {
 
-    if(isOwned($imageName, $sqlService)) {
+    if(isAdmin()) {
+        return "admin";
+    }
+    else if(isOwned($imageName, $sqlService)) {
         return "owned";
     }
     else if(isInCart($imageName, $sqlService)) {
@@ -72,4 +75,9 @@ function isOwned($imageName, SQLServices $sqlService) {
         array( "where" => "image_name = '$imageName' && username = '{$_SESSION['user']['username']}'" )
     );
     return (!empty($result));
+}
+
+function isAdmin()
+{
+    return (isset($_SESSION['user']['isAdmin']));
 }

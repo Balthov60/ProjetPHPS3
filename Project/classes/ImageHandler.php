@@ -74,7 +74,7 @@ class ImageHandler
             $this->linkKeywordToPicture($keyword[0]['name_keyword'], $imageID);
         }
     }
-    
+
     private function linkKeywordToPicture($keyword, $imageID) {
         $this->sqlService->insertData('image_keyword',
             array(
