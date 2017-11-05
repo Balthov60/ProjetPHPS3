@@ -33,8 +33,10 @@ class CartPage
             {
                 $this->displayCartItem($cartItem);
             }
-            $this->displayTotalOf($cart);
-            $this->displayValidationButton();
+            echo "<div id='total-container' class=\"horizontal-layout justify-content-between\">";
+                $this->displayTotalOf($cart);
+                $this->displayValidationButton();
+            echo "</div>";
 
         }   
         echo "</div>";
@@ -76,7 +78,9 @@ class CartPage
 
     private function displayValidationButton()
     {
-        echo "<a onclick='validateCart()' id='validate-button'>Valider le paiement</a>";
+        echo "<a href='../../../ProjetPHPS3/Project/scripts/validateCart.php' class='btn btn-danger'>
+                Valider le paiement
+              </a>";
     }
 
 
@@ -87,14 +91,12 @@ class CartPage
     private function displayTotalOf($cart)
     {
         ?>
-        <div id='total-container' class="horizontal-layout justify-content-between">
-            <h3 id='nb-picture-cart'>
-                <?php $this->displayPicturesQuantityIn($cart); ?>
-            </h3>
-            <h3>
-                <?php $this->displayTotalPriceOf($cart); ?>
-            </h3>
-        </div>
+        <h3 id='nb-picture-cart'>
+            <?php $this->displayPicturesQuantityIn($cart); ?>
+        </h3>
+        <h3>
+            <?php $this->displayTotalPriceOf($cart); ?>
+        </h3>
     <?php
     }
 
