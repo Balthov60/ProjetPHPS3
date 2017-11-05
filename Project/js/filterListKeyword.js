@@ -1,56 +1,169 @@
 function filterKeyword()
 {
-    var input, filterList, filter, ul, keywordArray, a, i, nb_keyword_available;
+    var input, filterList, filter, ul, keywordArray, a, i;
     input = document.getElementById('keyword-search');
 
-    filterList = input.value.toUpperCase().split(",");
-    filter = filterList[filterList.length-1];
+    filter = input.value.toUpperCase();
 
     ul = document.getElementById("keywordList");
     keywordArray = ul.getElementsByTagName('li');
-    nb_keyword_available = keywordArray.length;
+    var nbTagAvailable = keywordArray.length;
+
 
     // Loop through all list items, and hide those who don't match the search query
     for (i = 0; i < keywordArray.length; i++) {
-        a = keywordArray[i].getElementsByTagName("a")[0];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1)
+
+        if (keywordArray[i].innerHTML.toUpperCase().indexOf(filter) > -1)
         {
             keywordArray[i].style.display = "";
         }
         else
         {
             keywordArray[i].style.display = "none";
-            nb_keyword_available--;
+            nbTagAvailable--;
         }
+
+
     }
+
+    document.getElementById('new-tag-link').style.display = "";
+
 }
+
+
 $(document).ready(function(){
 
-    $("#keywordList li a").click(function() {
-        var filterList = $("#keyword-search").val().split(",");
-        if (filterList.length > 1)
-        {
-            filterList = filterList.splice(0, filterList.length - 1);
-            $("#keyword-search").val(filterList.concat() + "," + $(this).text());
-        }
-        else
-        {
-            $("#keyword-search").val($(this).text());
-        }
-    });
+    getTagList(displayTagList);
 
-    /* Keyword List */
-    $("#keywordList").hide();
+    
     $("#keyword-search").focus(function()
     {
         $("#keywordList").show(150);
     });
 
-    $("#keyword-search").focusout(function()
+    $("#keywordList").click(function(event)
     {
-        $("#keywordList").hide(150);
+        if(event.target.tagName == "INPUT")
+        {
+            if(event.target.checked)
+                addTagToTotalTagList(event);
+
+            else
+                deleteTagFromTotalTagList(event);
+        }
+
+        if(event.target.tagName == "A")
+        {
+            $("#new-tag-modal").show(0);
+            $("#new-tag-input").val($("#keyword-search").val());
+        }
     });
 
 
+    $("#new-tag-submit").click(function()
+    {
+        $("#new-tag-modal").hide(100);
+        addNewTag($("#new-tag-input").val(), displayTagList);
+    });
 
-})
+
+});
+
+function addTagToTotalTagList(event)
+{
+   var tagName = getRealTagNameFrom(event);
+
+   var tagAlreadyChosenList = getChosenTagsArrayFrom($("#recap-tags").html());
+
+    appendTagNameToTotal(tagName, tagAlreadyChosenList);
+}
+
+function getRealTagNameFrom(event)
+{
+    var name_checkbox = event.target.id;
+    var checkboxID_length = "_tag".length;
+    var name_tag = name_checkbox.substr(0, name_checkbox.length - checkboxID_length);
+    return name_tag;
+}
+
+
+function getChosenTagsArrayFrom(totalTagString)
+{
+    var totalTag = totalTagString;
+    var indexUselessThing = totalTag.search(":");
+    var tagListString = totalTag.substr(indexUselessThing+1, totalTag.length);
+
+
+    return tagListString;
+}
+
+function appendTagNameToTotal(tagName, tagListString)
+{
+
+    if(tagListString.length  <= 2)
+        $("#recap-tags").append(" " + tagName);
+
+    else
+        $("#recap-tags").append(', ' + tagName);
+
+}
+
+
+
+function deleteTagFromTotalTagList(event)
+{
+    var tagName = getRealTagNameFrom(event);
+
+    var tagAlreadyChosenList = getChosenTagsArrayFrom($("#recap-tags").html());
+
+    deleteTag(tagName, tagAlreadyChosenList);
+}
+
+function deleteTag(tagName, tagAlreadyChosenList)
+{
+
+    if(tagAlreadyChosenList.search(tagName + ", ") > 0 )
+        var newTagList = tagAlreadyChosenList.replace(tagName + ", ", "");
+
+    else if(tagAlreadyChosenList.search(", "  + tagName) > 0)
+        var newTagList = tagAlreadyChosenList.replace(", " + tagName, "");
+
+    else
+        var newTagList = tagAlreadyChosenList.replace(" " + tagName, "");
+
+
+    $('#recap-tags').html("Total des mots-clés ajoutés :" + newTagList);
+
+}
+
+
+function addNewTag(tagName, callback)
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
+            callback(xmlhttp.responseText);
+        }
+    };
+    xmlhttp.open("GET", "scripts/displayTagList.php?newTagName=" + tagName, true);
+    xmlhttp.send(null);
+}
+
+
+function getTagList(callback)
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
+            callback(xmlhttp.responseText);
+        }
+    };
+    xmlhttp.open("GET", "scripts/displayTagList.php", true);
+    xmlhttp.send(null);
+}
+
+function displayTagList(responseText)
+{
+    $("#keywordList").html(responseText);
+    $("#keywordList").append("<div><a id='new-tag-link'>New Keyword</a></div>");
+}
