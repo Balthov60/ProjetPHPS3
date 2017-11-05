@@ -7,3 +7,11 @@ include_once ("../../../ProjetPHPS3/Project/includes/variables.inc.php");
 {
     margin: <?php echo $padding; ?>px;
 }
+
+.basic-image-display
+{
+width: auto;
+height: 200px;
+
+margin: <?php echo $padding; ?>px;
+}
