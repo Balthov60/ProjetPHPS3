@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Handle Cookie
+// Handle Cookie values in order to restore it.
 $usernameCookie="";
 $isChecked="";
 if (isset($_COOKIE["username"])) {
@@ -28,7 +28,7 @@ if (isset($_COOKIE["username"])) {
         <?php handleSignUp() ?>
 
         <input type="text" name="username" class="form-control" placeholder="Username" required autofocus
-               <?php displayValueIfExist($usernameCookie, $isChecked); ?>>
+               <?php displayCookieOrSessionValueIfExist($usernameCookie, $isChecked); ?>>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
 
         <?php handleError() ?>
@@ -49,6 +49,10 @@ if (isset($_COOKIE["username"])) {
 </html>
 
 <?php
+
+/**
+ * Check if the previous submission of this form get error and display it.
+ */
 function handleError()
 {
     if (isset($_GET['error']) && $_GET['error'] == "notValidID") {
@@ -57,7 +61,9 @@ function handleError()
 }
 
 /**
- * If user previously Sign Up
+ * User who Sign Up are derirected here while signup success, display a sucess message in this case.
+ *
+ * @return void (Display method)
  */
 function handleSignUp()
 {
@@ -69,12 +75,11 @@ function handleSignUp()
 /**
  * Check If There is a value for username in Session or in Cookie
  * Session have priority on Cookie because it come from a previous sign up
- * If Session is used then we must unchecked remember-me
  *
  * @param $usernameCookie
- * @param $isChecked
+ * @param $isChecked (Security uncheck while session value is used)
  */
-function displayValueIfExist($usernameCookie, &$isChecked) {
+function displayCookieOrSessionValueIfExist($usernameCookie, &$isChecked) {
     if (isset($_SESSION["form"]["username"])) {
         echo "value='" . $_SESSION["form"]["username"] . "'";
         $isChecked = "";

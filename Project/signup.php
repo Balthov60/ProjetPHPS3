@@ -39,8 +39,6 @@
 
 /**
  * Check if the previous submission of this form get error and display it.
- *
- * @return null (Display method)
  */
 function handleError() {
     if (isset($_GET['error'])) {
