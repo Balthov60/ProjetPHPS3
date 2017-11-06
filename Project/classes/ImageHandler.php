@@ -1,4 +1,6 @@
 <?php
+
+// Define padding with css value for dynamic implementation.
 include_once($_SERVER['DOCUMENT_ROOT'] . "/ProjetPHPS3/Project/includes/variables.inc.php");
 define("PADDING", $padding);
 
@@ -7,13 +9,27 @@ class ImageHandler
     private $sqlService;
     private static $rowWidth = 1100;
 
+    /**
+     * ImageHandler constructor.
+     *
+     * @param SQLServices $sqlService
+     */
     function __construct(SQLServices $sqlService)
     {
         $this->sqlService = $sqlService;
     }
 
+    /******************/
     /* Upload Methods */
+    /******************/
 
+    /**
+     * Upload an image.
+     *
+     * @param $fileName
+     * @param $targetFile
+     * @param $imageFileType
+     */
     public function uploadImage($fileName, $targetFile, $imageFileType)
     {
         if (!(move_uploaded_file($fileName, $targetFile)))
@@ -27,34 +43,42 @@ class ImageHandler
                 array(
                     array(
                         'name_image' => $_FILES['pictureToUpload']["name"],
-                        'extension' => $imageFileType,
                         'price' => $_POST["price"],
                         'description' => htmlspecialchars($_POST["description"])
                     )
                 )
             );
 
-            $this->linkKeywordToImage();
+            $this->linkKeywordsToImage();
             $this->addCopyright($_FILES['pictureToUpload']['name'], $imageFileType);
             header("Location:../index?page=panel.php");
         }
     }
-    //TODO: integer too big or description to long handling
+
+    /**
+     * Check Data validity and correct it if there is issues.
+     */
     private function checkDataValidity() {
         if(empty($_POST['description']))
         {
             $_POST['description'] = 'none';
         }
-        if(empty($_POST['price']) || !is_integer($_POST['price']))
+        if(empty($_POST['price']))
         {
             $_POST['price'] = 0;
+        }
+        if ($_POST["price"] > 999999999) {
+            $_POST["price"] = 999999999;
+        }
+        else if ($_POST["price"] < 0) {
+            $_POST["price"] = 0;
         }
     }
 
     /**
      * Link Keywords with image and create keyword if not exist
      */
-    private function linkKeywordToImage()
+    private function linkKeywordsToImage()
     {
         // Get ImageID & Keywords
         $imageID = $this->sqlService->extractValueFromArray(
@@ -62,7 +86,7 @@ class ImageHandler
                 array(
                     "where" => "name_image = '" . $_FILES["pictureToUpload"]["name"] . "'"
                 )
-        ));
+            ));
         $tagArray = $_POST['tags'];
 
         // Link All KeyWord with Image
@@ -75,6 +99,12 @@ class ImageHandler
         }
     }
 
+    /**
+     * Link keyword to Image in DB.
+     *
+     * @param $keyword
+     * @param $imageID
+     */
     private function linkKeywordToPicture($keyword, $imageID) {
         $this->sqlService->insertData('image_keyword',
             array(
@@ -86,6 +116,12 @@ class ImageHandler
         );
     }
 
+    /**
+     * Add copyright to picture.
+     *
+     * @param $fileName
+     * @param $imageFileType
+     */
     private function addCopyright($fileName, $imageFileType)
     {
         // Create New Image
@@ -114,8 +150,16 @@ class ImageHandler
         imagedestroy($photo);
     }
 
+    /**********************************/
     /* Advanced Display Image Methods */
+    /**********************************/
 
+    /**
+     * Display Image with autoresizing with same height for each row.
+     *
+     * @param $imagesName
+     * @param bool $isCopyrighted
+     */
     public static function displayImagesWithAutomaticResizing($imagesName, $isCopyrighted = true) {
         if(sizeof($imagesName) > 0)
         {
@@ -184,34 +228,79 @@ class ImageHandler
         }
     }
 
+    /*************************/
     /* Basic Display Methods */
+    /*************************/
 
+    /**
+     * display copyrighted image.
+     *
+     * @param $imageName
+     */
     public static function displayCopyrightedImage($imageName) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images_copyright/$imageName\" 
                            alt=\"$imageName\" id=\"$imageName._copyrighted-image\" class=\"basic-image-display\">";
     }
+
+    /**
+     * display clear image.
+     *
+     * @param $imageName
+     */
     public static function displayClearImage($imageName) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images/$imageName\" 
                            alt=\"$imageName\" id=\"$imageName._image\" class=\"basic-image-display\">";
     }
+
+    /**
+     * display copyrighted image for automatic resizing with height and width defined.
+     *
+     * @param $imageName
+     * @param $height
+     * @param $width
+     */
     public static function displayCopyrightedImageWithSize($imageName, $height, $width) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images_copyright/$imageName\" 
                            alt=\"$imageName\" id=\"$imageName._copyrighted-image\" class=\"image-display\"
                            style=\"width:{$width}px;height:{$height}px\">";
     }
+
+    /**
+     * display clear image for automatic resizing with height and width defined.
+     *
+     * @param $imageName
+     * @param $height
+     * @param $width
+     */
     public static function displayClearImageWithSize($imageName, $height, $width) {
         echo "<img src=\"../../../ProjetPHPS3/Project/library/images/$imageName\" 
                            alt=\"$imageName\" id=\"$imageName._image\" class=\"image-display\"
                            style=\"width:{$width}px;height:{$height}px\">";
     }
 
+    /*********************/
     /* Utilities Methods */
+    /*********************/
 
+    /**
+     * Get minimum width for an image to respect ratio with minimum height.
+     *
+     * @param $imageName
+     * @param $minHeight
+     * @return int
+     */
     private static function getMinWidth($imageName, $minHeight) {
         list($width, $height) = self::getimagesize($imageName);
         $ratio = $width / $height;
         return $minHeight * $ratio;
     }
+
+    /**
+     * Get image dimension.
+     *
+     * @param $imageName
+     * @return array|bool
+     */
     private static function getImageSize($imageName) {
         return getimagesize($_SERVER['DOCUMENT_ROOT'] .
             "/ProjetPHPS3/Project/library/images_copyright/$imageName");

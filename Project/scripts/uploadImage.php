@@ -12,6 +12,17 @@ $imageFileType = pathinfo($targetFile,PATHINFO_EXTENSION);
 if (!isset($_POST["submit"]))
     header("Location:../index.php?error=emptyForm");
 
+/* Test Values */
+
+if (!is_float($_POST["price"]))
+{
+    header("Location:../index.php?error=invalidPrice");
+}
+if (strlen(htmlspecialchars($_POST['description'])) > 256)
+{
+    header("Location:../index.php?error=descriptionTooLong");
+}
+
 /* Test if image is valid */
 
 if(!isValidImage())
