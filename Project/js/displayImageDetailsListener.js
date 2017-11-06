@@ -122,7 +122,8 @@ function displayImageStatus(status) {
         $("#action-container").html("<p>Cette photo est déjà dans votre panier.</p>");
     }
     else if (status === 'owned') {
-        $("#action-container").html("<p>Vous avez déjà acheté cette photo</p>"); 
+        $("#action-container").html("<input type='submit' name='submit-download' id='submit-download'" +
+                                    "class='btn btn-primary' value='Télécharger'>");
     }
     else if (status === 'disconnected') {
         $("#action-container").html("<a href='../../../ProjetPHPS3/Project/login.php'>Se connecter</a>");
@@ -132,7 +133,6 @@ function displayImageStatus(status) {
             .html("<input type='submit' name='submit-add-cart' id='add-cart-submit' " +
                          "class='btn btn-primary' value='Ajouter au panier'>");
     }
-    //         "<div id='submit-add-cart-container'><input type='submit' name='submit-add-cart' id='add-cart-submit' value='Add to cart'></div>";
 }
 
 /* Modal Handling */

@@ -1,5 +1,7 @@
 <?php
 
+// Get keywords and format it for url.
+
 $keywordsSelected = "";
 
 if (isset($_POST)) {

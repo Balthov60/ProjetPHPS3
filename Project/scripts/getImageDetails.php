@@ -2,7 +2,8 @@
 
 session_start();
 
-if (isset($_GET["imageName"])) {
+if (isset($_GET["imageName"]) && isset($_SESSION['user'])) // if $_SESSION['user'] is not empty then ['username']['isConnected']['isAdmin] are not too.
+{
     include_once("../classes/SQLServices.php");
     include_once("../includes/variables.inc.php");
     $sqlService = new SQLServices($host, $dbName, $user, $password);
@@ -10,12 +11,18 @@ if (isset($_GET["imageName"])) {
     $imageName = $_GET["imageName"];
     $description = getDescription($imageName, $sqlService);
     $price = getPrice($imageName, $sqlService);
-    if ($_SESSION['user']['isConnected'])
-        $status = getStatus($imageName, $sqlService);
-    else
-        $status = "disconnected";
 
-    if (empty($price) && empty($description)) {
+    if ($_SESSION['user']['isConnected'])
+    {
+        $status = getStatus($imageName, $sqlService);
+    }
+    else
+    {
+        $status = "disconnected";
+    }
+
+    if (empty($price) && empty($description))
+    {
         header("Location: ../../../ProjetPHPS3/Project/index.php");
     }
     else
@@ -23,10 +30,18 @@ if (isset($_GET["imageName"])) {
         echo $description . "/" . $price . "/" . $status;
     }
 }
-else {
+else
+{
     header("Location: ../../../ProjetPHPS3/Project/index.php");
 }
 
+/**
+ * Get description for an image.
+ *
+ * @param $imageName
+ * @param SQLServices $sqlService
+ * @return string
+ */
 function getDescription($imageName, SQLServices $sqlService)
 {
     $result = $sqlService->getData("image", "description", array("where" => "name_image = '$imageName'"));
@@ -36,6 +51,13 @@ function getDescription($imageName, SQLServices $sqlService)
         return '-';
 }
 
+/**
+ * Get Price for an image.
+ *
+ * @param $imageName
+ * @param SQLServices $sqlService
+ * @return mixed
+ */
 function getPrice($imageName, SQLServices $sqlService)
 {
     $result = $sqlService->getData("image", "price", array("where" => "name_image = '$imageName'"));
@@ -64,12 +86,28 @@ function getStatus($imageName, SQLServices $sqlService) {
         return "normal";
     }
 }
+
+/**
+ * Check if image is in cart.
+ *
+ * @param $imageName
+ * @param SQLServices $sqlService
+ * @return bool
+ */
 function isInCart($imageName, SQLServices $sqlService) {
     $result = $sqlService->getData('cart', '*',
         array( "where" => "image_name = '$imageName' && username = '{$_SESSION['user']['username']}'" )
     );
     return (!empty($result));
 }
+
+/**
+ * Check if picture is owned.
+ *
+ * @param $imageName
+ * @param SQLServices $sqlService
+ * @return bool
+ */
 function isOwned($imageName, SQLServices $sqlService) {
     $result = $sqlService->getData('user_image', '*',
         array( "where" => "image_name = '$imageName' && username = '{$_SESSION['user']['username']}'" )
@@ -77,6 +115,11 @@ function isOwned($imageName, SQLServices $sqlService) {
     return (!empty($result));
 }
 
+/**
+ * Check if user is an Admin
+ *
+ * @return boolean
+ */
 function isAdmin()
 {
     return ($_SESSION['user']['isAdmin']);

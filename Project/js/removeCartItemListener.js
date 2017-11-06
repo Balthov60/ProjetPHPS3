@@ -6,6 +6,11 @@ $(document).ready(function()
     });
 });
 
+/**
+ * Call php script to remove cart item.
+ *
+ * @param button_id
+ */
 function deleteCartItem(button_id)
 {
     window.location.href = "scripts/removeCartItem.php?buttonID=" + button_id;

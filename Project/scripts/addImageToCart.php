@@ -1,7 +1,8 @@
 <?php
 session_start();
+include_once("extractImageNameFromImageID.php");
 
-if (isset($_GET['imageID']))
+if (isset($_GET['imageID']) && isset($_SESSION['user'])) // if $_SESSION['user'] is not empty then ['username']['isConnected']['isAdmin] are not too.
 {
     include_once("../classes/SQLServices.php");
     include("../includes/variables.inc.php");
@@ -18,19 +19,4 @@ if (isset($_GET['imageID']))
 else
 {
     header("../../../ProjetPHPS3/Project/index.php");
-}
-
-/**
- * Get image name associated to his ID.
- *
- * @param $imageID
- * @return bool|string
- */
-function extractImageNameFrom($imageID)
-{
-    $idPos = strpos($imageID,'._copyrighted-image');
-    if ($idPos == false) {
-        $idPos = strpos($imageID,'._image');
-    }
-    return substr($imageID, 0, $idPos);
 }
