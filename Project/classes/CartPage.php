@@ -7,6 +7,11 @@ class CartPage
 {
     private $sqlService;
 
+    /**
+     * CartPage constructor. Display cart page.
+     *
+     * @param SQLServices $sqlService
+     */
     function __construct(SQLServices $sqlService)
     {
         $this->sqlService = $sqlService;
@@ -18,9 +23,16 @@ class CartPage
         new FooterBar();
     }
 
+    /*******************/
+    /* Display Methods */
+    /*******************/
+
+    /**
+     * Display user cart content. list of item, quantity of item and total price.
+     */
     private function displayCartContent()
     {
-        $cart = $this->getCartOf($_SESSION['user']['username']);
+        $cart = $this->getCartForCurrentUser();
 
         echo "<div class='container bg-secondary vertical-layout'>";
         if(empty($cart))
@@ -33,8 +45,8 @@ class CartPage
             {
                 $this->displayCartItem($cartItem);
             }
-            echo "<div id='total-container' class=\"horizontal-layout justify-content-between\">";
-                $this->displayTotalOf($cart);
+            echo "<div id='total-container' class='horizontal-layout justify-content-between'>";
+                $this->displayTotalPriceAndQuantityOf($cart);
                 $this->displayValidationButton();
             echo "</div>";
 
@@ -42,16 +54,26 @@ class CartPage
         echo "</div>";
     }
 
-    /* Cart Item Methods */
 
+    /**
+     * Display image, title, description and price of a cart item and display a remove button.
+     *
+     * @param $cartItem
+     */
     private function displayCartItem($cartItem)
     { ?>
         <div class='horizontal-layout'>
             <?php ImageHandler::displayCopyrightedImage($cartItem['image_name']); ?>
             <div class='details-container vertical-layout container-fluid'>
-                <h2 class="text-white"><?php echo $cartItem['image_name'] ?></h2>
-                <p><?php $this->displayDescriptionOf($cartItem); ?></p>
-                <p><?php $this->displayPriceOf($cartItem); ?></p>
+                <h2 class="text-white">
+                    <?php echo $this->sqlService->removeExtensionFromImageName($cartItem['image_name']) ?>
+                </h2>
+                <p>
+                    <?php $this->displayDescriptionOf($cartItem); ?>
+                </p>
+                <p>
+                    <?php $this->displayPriceOf($cartItem); ?>
+                </p>
             </div>
             <?php $this->displayRemoveButton($cartItem) ?>
         </div>
@@ -59,36 +81,45 @@ class CartPage
     <?php
     }
 
-
-    /* Display Method */
+    /**
+     * Display description of a cart item.
+     *
+     * @param $cartItem
+     */
     private function displayDescriptionOf($cartItem)
     {
         $imageName = $cartItem['image_name'];
         $result = $this->sqlService->getData('image', 'description', array("where" => "name_image = '$imageName'"));
         echo "Description : {$result[0]['description']}";
     }
+
+    /**
+     * Display price of a cart item.
+     *
+     * @param $cartItem
+     */
     private function displayPriceOf($cartItem)
     {
         echo "Prix : {$this->getPriceOf($cartItem)} €";
     }
+
+    /**
+     * Display remove button for a cart item.
+     *
+     * @param $cartItem
+     */
     private function displayRemoveButton($cartItem)
     {
         echo "<span class='remove-cart-span text-danger' id='remove-{$cartItem['image_name']}'>&times;</span>";
     }
 
-    private function displayValidationButton()
-    {
-        echo "<a href='../../../ProjetPHPS3/Project/scripts/validateCart.php' class='btn btn-danger'>
-                Valider le paiement
-              </a>";
-    }
 
-
-
-
-    /* Global Cart Methods */
-
-    private function displayTotalOf($cart)
+    /**
+     * Display total price and quantity for cart.
+     *
+     * @param $cart
+     */
+    private function displayTotalPriceAndQuantityOf($cart)
     {
         ?>
         <h3 id='nb-picture-cart'>
@@ -100,10 +131,21 @@ class CartPage
     <?php
     }
 
+    /**
+     * Display pictures quantity for cart.
+     *
+     * @param $cart
+     */
     private function displayPicturesQuantityIn($cart)
     {
         echo "Nombre de photos dans le panier : " . sizeof($cart);
     }
+
+    /**
+     * Display total price for cart.
+     *
+     * @param $cart
+     */
     private function displayTotalPriceOf($cart)
     {
         $totalPrice = 0;
@@ -114,16 +156,40 @@ class CartPage
     }
 
     /**
-     * @param $username
+     * Display Cart validation Button.
+     */
+    private function displayValidationButton()
+    { ?>
+        <a href='../../../ProjetPHPS3/Project/scripts/validateCart.php' class='btn btn-danger'>
+            Valider le paiement
+        </a>
+    <?php
+    }
+
+    /****************/
+    /* Data Methods */
+    /****************/
+
+    /**
+     * Get cart for current user.
+     *
      * @return array of images
      */
-    private function getCartOf($username)
+    private function getCartForCurrentUser()
     {
+        $username = $_SESSION['user']['username'];
         return $this->sqlService->getData('cart', 'image_name', array("where" => "username = '$username'"));
     }
 
+    /**
+     * Get price for current $cartItem.
+     *
+     * @param $cartItem
+     * @return float price of cart item
+     */
     private function getPriceOf($cartItem) {
         $imageName = $cartItem['image_name'];
+
         $result = $this->sqlService->getData('image', 'price',
             array("where" => "name_image = '$imageName'")
         );

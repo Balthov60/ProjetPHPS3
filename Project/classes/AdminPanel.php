@@ -8,9 +8,6 @@ class AdminPanel
 {
     private $sqlService;
 
-    // TODO : Enhance Graphics
-    // TODO : Fix TOP & BOTTOM Space Issues
-
     /**
      * AdminPanel constructor. Display Admin Panel Page.
      *

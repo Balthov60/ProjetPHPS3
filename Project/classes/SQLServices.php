@@ -271,4 +271,17 @@ class SQLServices
 
         return true;
     }
+
+    public function removeExtensionFromImageName($imageName) {
+        $idPos = strpos($imageName,'.jpg');
+        if ($idPos == false) {
+            $idPos = strpos($imageName,'.jpeg');
+
+            if ($idPos == false) {
+                $idPos = strPos($imageName, '.png');
+            }
+        }
+
+        return substr($imageName, 0, $idPos);
+    }
 }
