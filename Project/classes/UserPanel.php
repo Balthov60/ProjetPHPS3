@@ -8,22 +8,30 @@ include_once("ModalHandler.php");
 class UserPanel
 {
     private $sqlService;
-    private static $tableJoin = "user_image ui JOIN image i ON ui.image_name = i.name_image";
 
+    /**
+     * UserPanel constructor.
+     * 
+     * @param SQLServices $sqlService
+     */
     function __construct(SQLServices $sqlService)
     {
         $this->sqlService = $sqlService;
 
         new HeaderBar(true, false, "Panel", $sqlService);
-        new ModalHandler();
+        ModalHandler::displayDetailsModal();
 
-        $this->displayUserPhotos();
+        $this->displayUserImages();
 
         new FooterBar();
     }
 
-    private function displayUserPhotos() {
-        $images = $this->sqlService->getData(self::$tableJoin, "ui.image_name",
+    /**
+     * Display Images that the user bought.
+     */
+    private function displayUserImages() {
+        $images = $this->sqlService->getData("user_image ui JOIN image i ON ui.image_name = i.name_image",
+                                             "ui.image_name",
             array(
                 "where" => "username = '" . $_SESSION["user"]["username"] . "'"
             )
@@ -31,7 +39,7 @@ class UserPanel
 
         if (!empty($images))
         {
-            echo "<div class=\"container bg-secondary images-container\">";
+            echo "<div class='container bg-secondary images-container'>";
             ImageHandler::displayImagesWithAutomaticResizing($images, false);
             echo "</div>";
         }
