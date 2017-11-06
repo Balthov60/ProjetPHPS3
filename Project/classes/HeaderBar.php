@@ -5,7 +5,7 @@ class HeaderBar
     private $sqlServices;
 
     /**
-     * HeaderBar constructor.
+     * HeaderBar constructor. Display header bar.
      *
      * @param $isConnected
      * @param $isAdmin
@@ -16,7 +16,7 @@ class HeaderBar
     {
         $this->sqlServices = $sqlServices;
 
-        echo "<header class=\"sticky-top\">";
+        echo "<header class='sticky-top'>";
 
         $this->displayNavBar($isConnected, $isAdmin, $currentPage);
         if ($currentPage == "HomePage") {
@@ -26,10 +26,17 @@ class HeaderBar
         echo "</header>";
     }
 
-    /*****************************/
-    /* Display Nav Items Methods */
-    /*****************************/
-    
+    /***************************************/
+    /* Display Navigation Header Bar Methods */
+    /***************************************/
+
+    /**
+     * Display main website navigation bar.
+     *
+     * @param $isConnected
+     * @param $isAdmin
+     * @param $currentPage
+     */
     private function displayNavBar($isConnected, $isAdmin, $currentPage)
     { ?>
         <nav class="navbar navbar-dark bg-dark">
@@ -47,21 +54,39 @@ class HeaderBar
         </nav>
     <?php
     }
+
+    /**
+     * Display subtitle for the current page.
+     *
+     * @param $isAdmin
+     * @param $currentPage
+     */
     private function displaySubTitle($isAdmin, $currentPage) {
-        if ($currentPage == "HomePage") {
-            echo "<h2 class=\"text-white align-self-center\">Catalogue</h2>";
+        if ($currentPage == "HomePage")
+        {
+            echo "<h2 class='text-white align-self-center'>Catalogue</h2>";
         }
-        else if ($currentPage == "Cart") {
-            echo "<h2 class=\"text-white align-self-center\">Mon Panier</h2>";
+        else if ($currentPage == "Cart")
+        {
+            echo "<h2 class='text-white align-self-center'>Mon Panier</h2>";
         }
-        else if ($currentPage == "Panel" && !$isAdmin) {
-            echo "<h2 class=\"text-white align-self-center\">Mes Photos</h2>";
+        else if ($currentPage == "Panel" && !$isAdmin)
+        {
+            echo "<h2 class='text-white align-self-center'>Mes Photos</h2>";
         }
-        else {
-            echo "<h2 class=\"text-white align-self-center\">Zone Administrateur</h2>";
+        else
+        {
+            echo "<h2 class='text-white align-self-center'>Zone Administrateur</h2>";
         }
     }
 
+    /**
+     * Display Nav Buttons for current user and page.
+     *
+     * @param $isConnected
+     * @param $isAdmin
+     * @param $currentPage
+     */
     private function displayNavItems($isConnected, $isAdmin, $currentPage) {
         if (!$isConnected)
         {
@@ -89,6 +114,10 @@ class HeaderBar
         }
     }
 
+
+    /**
+     * Display button for disconnected nav bar.
+     */
     private function displayDisconnectedNavItems()
     { ?>
         <li class="nav-item">
@@ -99,6 +128,10 @@ class HeaderBar
         </li>
     <?php
     }
+
+    /**
+     * Display button for admin homepage nav bar.
+     */
     private function displayAdminHomepageNavItems()
     { ?>
         <li class="nav-item">
@@ -106,23 +139,39 @@ class HeaderBar
         </li>
         <?php $this->displayLogoutNavItem();
     }
+
+    /**
+     * Display button for classic homepage nav bar.
+     */
     private function displayBasicHomepageNavItems()
     {
         $this->displayUserPanelNavItem();
         $this->displayCartNavItem();
         $this->displayLogoutNavItem();
     }
+
+    /**
+     * Display button for admin panel nav bar.
+     */
     private function displayAdminPanelNavItems() 
     {
         $this->displayHomePageNavItem();
         $this->displayLogoutNavItem();
     }
+
+    /**
+     * Display button for classic panel nav bar.
+     */
     private function displayBasicPanelNavItems()
     {
         $this->displayHomePageNavItem();
         $this->displayCartNavItem();
         $this->displayLogoutNavItem();
     }
+
+    /**
+     * Display button for cart nav bar.
+     */
     private function displayCartNavItems()
     {
         $this->displayHomePageNavItem();
@@ -130,6 +179,10 @@ class HeaderBar
         $this->displayLogoutNavItem();
     }
 
+
+    /**
+     * Display button to reach user panel in nav bar.
+     */
     private function displayUserPanelNavItem()
     { ?>
         <li class="nav-item">
@@ -137,6 +190,10 @@ class HeaderBar
         </li>
     <?php
     }
+
+    /**
+     * Display button to reach homepage in nav bar.
+     */
     private function displayHomePageNavItem()
     { ?>
         <li class="nav-item">
@@ -144,6 +201,10 @@ class HeaderBar
         </li>
     <?php
     }
+
+    /**
+     * Display button to reach cart page in nav bar.
+     */
     private function displayCartNavItem()
     { ?>
         <li class="nav-item">
@@ -151,6 +212,10 @@ class HeaderBar
         </li>
     <?php
     }
+
+    /**
+     * Display button to logout.
+     */
     private function displayLogoutNavItem() {
         echo "
             <li class=\"nav-item\">
@@ -158,15 +223,20 @@ class HeaderBar
             </li>";
     }
 
+    /***************************************/
     /* Display Extended Header Bar Methods */
+    /***************************************/
 
+    /**
+     * Display extended header bar for keywords selection.
+     */
     private function displayExtendedHeaderBar()
     { ?>
         <div class="bg-dark collapse" id="advanced-menu">
             <form action="../../../ProjetPHPS3/Project/scripts/displayImagesWithKeywords.php"
                   method="post" class="container d-flex">
                 <div class="container-fluid">
-                    <?php $this->displayTags(); ?>
+                    <?php $this->displayKeywords(); ?>
                 </div>
                 <div class="centered">
                     <input type="submit" name="submit" value="Afficher" class="btn">
@@ -181,13 +251,22 @@ class HeaderBar
     <?php
     }
 
-    private function displayTags() {
+    /**
+     * Display keywords.
+     */
+    private function displayKeywords() {
         $result = $this->sqlServices->getData("keyword", "name_keyword");
 
         foreach($result as $value) {
             $this->displayTag($value[0]);
         }
     }
+
+    /**
+     * Display tag name checkbox item.
+     *
+     * @param $tagName
+     */
     private function displayTag($tagName)
     { ?>
         <label class="text-white tags">

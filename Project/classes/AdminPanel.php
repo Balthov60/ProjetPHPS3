@@ -31,7 +31,7 @@ class AdminPanel
      */
     function displayUploadForm()
     { ?>
-        <div id='upload-form-container'>
+        <div id='upload-form-container' class="main-page-content">
             <form action="../../../ProjetPHPS3/Project/scripts/uploadImage.php"
                   method="post" enctype="multipart/form-data">
 

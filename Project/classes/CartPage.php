@@ -34,7 +34,7 @@ class CartPage
     {
         $cart = $this->getCartForCurrentUser();
 
-        echo "<div class='container bg-secondary vertical-layout'>";
+        echo "<div class='container bg-secondary vertical-layout main-page-content'>";
         if(empty($cart))
         {
             echo "<h2 class='text-center text-dark empty-content'>Votre panier est vide!</h2>";

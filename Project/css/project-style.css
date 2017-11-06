@@ -18,6 +18,12 @@
     margin: auto;
 }
 
+.main-page-content
+{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 /* header */
 
 #logo
@@ -366,15 +372,23 @@ header h2
 
 /* footer */
 
-footer
-{
-    margin-top: 30px;
-}
-
 footer .main-footer-div
 {
+    width: 100%;
+
     position: fixed;
     bottom: 0;
 
-    width: 100%;
+    margin: auto;
+    padding: 5px;
+}
+
+footer p
+{
+    margin: auto 0;
+}
+
+.footer-list a
+{
+    margin-right: 15px;
 }
