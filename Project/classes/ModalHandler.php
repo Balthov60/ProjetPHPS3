@@ -2,7 +2,10 @@
 
 class ModalHandler
 {
-    public function __construct()
+    /**
+     * Display image details modal.
+     */
+    public static function displayDetailsModal()
     { ?>
         <div id="modal-image-details" class='modal'>
             <div class="modal-content horizontal-layout">
@@ -23,16 +26,17 @@ class ModalHandler
     <?php
     }
 
-
-    public static function displayNewTagForm()
-    {
-        echo "<div id=\"new-tag-modal\" class='modal'>
-                <div id='new-tag-modal-content' class=\"modal-content horizontal-layout\">
-                    <input type='text' id='new-tag-input' class='form-control' placeholder='Nouveau mot-clé'>
-                    <input type='button' id='new-tag-submit' class='btn btn-primary' value='Ajouter'>
-                </div>
-            </div>";
+    /**
+     * Display New tag form modal.
+     */
+    public static function displayNewTagModalForm()
+    { ?>
+        <div id='new-tag-modal' class='modal'>
+            <div id='new-tag-modal-content' class='modal-content horizontal-layout'>
+                <input type='text' id='new-tag-input' class='form-control' placeholder='Nouveau mot-clé'>
+                <input type='button' id='new-tag-submit' class='btn btn-primary' value='Ajouter'>
+            </div>
+        </div>
+    <?php
     }
 }
-
-?>

@@ -20,7 +20,7 @@ class AdminPanel
         new HeaderBar(true, true, "Panel", $this->sqlService);
 
         echo "<div class=\"container bg-secondary\"/>";
-        ModalHandler::displayNewTagForm();
+        ModalHandler::displayNewTagModalForm();
         $this->displayUploadForm();
         $this->displayModifForm();
         echo "</div>";

@@ -21,7 +21,7 @@ class HomePage
         $this->sqlService = $sqlService;
 
         new HeaderBar($isConnected, $isAdmin, 'HomePage', $sqlService);
-        new ModalHandler();
+        ModalHandler::displayDetailsModal();
 
         echo "<div class='container bg-secondary main-page-content'>";
 
