@@ -37,10 +37,10 @@ class AdminPanel
 
                 <input type="file" class="form-control col-xs-2" name="pictureToUpload" value="Choisissez une image">
                 <div id="keyword-list-container">
-                    <input type="text" onkeyup="filterKeyword()" name="keyword_input" id="keyword-search"
+                    <input type="text" name="keyword_input" id="keyword-search"
                            placeholder="Cochez les mots-clé qui seront attribué à l'image">
 
-                    <ul id="keywordList">
+                    <ul id="keywords-list">
                         <!-- Displayed by ajax -->
                     </ul>
                     <p id="recap-tags">Total des mots-clés ajoutés :</p>

@@ -11,7 +11,7 @@ class UserPanel
 
     /**
      * UserPanel constructor.
-     * 
+     *
      * @param SQLServices $sqlService
      */
     function __construct(SQLServices $sqlService)

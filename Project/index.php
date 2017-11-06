@@ -58,7 +58,7 @@ initSession();
 <!-- JavaScript -->
 <script src="./js/jquery.min.3.1.2.js"></script>
 <script src="./js/bootstrap.min.js"></script>
-<script src="./js/filterListKeyword.js"></script>
+<script src="js/adminKeywordsListListeners.js"></script>
 <script src="./js/removeCartItemListener.js"></script>
 <script src="./js/displayImageDetailsListener.js"></script>
 
