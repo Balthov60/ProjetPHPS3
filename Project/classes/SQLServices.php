@@ -272,4 +272,11 @@ class SQLServices
 
         return $this->queryReturnData($query);
     }
+
+    public function cartEntryExist($image, $username) {
+        $query = "SELECT count(*) FROM cart ";
+        $query .= "WHERE username = '$username' AND image_name = '$image' ";
+
+        return $this->queryReturnData($query);
+    }
 }

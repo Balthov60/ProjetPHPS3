@@ -1,23 +1,28 @@
 <?php
 session_start();
 
-if (isset($_GET['imageID'])) {
+if (isset($_GET['imageID']))
+{
     include_once("../classes/SQLServices.php");
     include("../includes/variables.inc.php");
     $sqlService = new SQLServices($host, $dbName, $user, $password);
 
-    $imageID = $_GET['imageID'];
-    $imageName = extractImageNameFrom($imageID);
+    $imageName = extractImageNameFrom($_GET['imageID']);
     $username = $_SESSION['user']['username'];
-    
-    $sqlService->insertData('cart', array(array("username" => $username, "image_name" => $imageName)));
+
+    // Insert a new entry in cart for user if not exist already.
+    if (!$sqlService->cartEntryExist($imageName, $username)) {
+        $sqlService->insertData('cart', array(array("username" => $username, "image_name" => $imageName)));
+    }
 }
-else {
+else
+{
     header("../../../ProjetPHPS3/Project/index.php");
 }
 
-
 /**
+ * Get image name associated to his ID.
+ *
  * @param $imageID
  * @return bool|string
  */
