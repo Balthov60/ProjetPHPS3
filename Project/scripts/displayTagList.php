@@ -10,4 +10,3 @@ if(isset($_GET['newTagName'])) {
 }
 
 echo $sqlService->displayKeywordList();
-?>

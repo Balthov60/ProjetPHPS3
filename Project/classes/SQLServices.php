@@ -182,10 +182,10 @@ class SQLServices
             }
         }
         else {
-            echo "<li>No Keyword Found</li>";
+            return "<li>No Keyword Found</li>";
         }
 
-        echo $codeHtml;
+        return $codeHtml;
     }
 
     /*******************/

@@ -43,7 +43,7 @@ $(document).ready(function(){
 
     $("#keywordList").click(function(event)
     {
-        if(event.target.tagName == "INPUT")
+        if(event.target.tagName === "INPUT")
         {
             if(event.target.checked)
                 addTagToTotalTagList(event);
@@ -52,7 +52,7 @@ $(document).ready(function(){
                 deleteTagFromTotalTagList(event);
         }
 
-        if(event.target.tagName == "A")
+        if(event.target.tagName === "A")
         {
             $("#new-tag-modal").show(0);
             $("#new-tag-input").val($("#keyword-search").val());
