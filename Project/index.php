@@ -67,11 +67,14 @@ initSession();
 
 <?php
 
+/**
+ * Init Session with defaults values to prevent URL and SQL security problems
+ */
 function initSession() {
     if (!isset($_SESSION["user"]["isConnected"]) || !is_bool($_SESSION["user"]["isConnected"])) {
         $_SESSION["user"]["isConnected"] = false;
         $_SESSION["user"]["isAdmin"] = false;
-        $_SESSION["user"]["username"] = "user"; // init with a non user value to prevent SQL errors
+        $_SESSION["user"]["username"] = "user";
     }
     else if (!isset($_SESSION["user"]["isAdmin"]) || !is_bool($_SESSION["user"]["isAdmin"])) {
         $_SESSION["user"]["isAdmin"] = false;
