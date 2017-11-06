@@ -139,7 +139,7 @@ function displayImageStatus(status) {
 
 function openModal()
 {
-    $(".modal").show(0);
+    $(".modal").show(350);
 }
 function hideModal()
 {
