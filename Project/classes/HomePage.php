@@ -38,7 +38,7 @@ class HomePage
      * Generic Method for Images Displaying (Handle Keywords in $_GET)
      */
     private function displayAllImages() {
-        $images = $this->sqlService->getData('image', 'name_image');
+        $images = $this->sqlService->getData('image', 'distinct name_image');
 
         if (!is_null($images)) {
             ImageHandler::displayImagesWithAutomaticResizing($images);
@@ -56,7 +56,7 @@ class HomePage
             $whereClause = "ik.keyword_name = '$keywords'";
         }
 
-        $images = $this->sqlService->getData(self::TABLE_JOIN, 'name_image',
+        $images = $this->sqlService->getData(self::TABLE_JOIN, 'distinct name_image',
             array("where" => $whereClause)
         );
         ImageHandler::displayImagesWithAutomaticResizing($images);
