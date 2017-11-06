@@ -63,39 +63,18 @@ class ImageHandler
                     "where" => "name_image = '" . $_FILES["pictureToUpload"]["name"] . "'"
                 )
         ));
-        $keywordArray = $this->getArrayOfKeywordFromString($_POST['keyword_input']);
+        $tagArray = $_POST['tags'];
 
         // Link All KeyWord with Image
-        foreach ($keywordArray as $keyword)
+        foreach ($tagArray as $tag)
         {
-            $keywordExist = $this->sqlService->getData('keyword', 'name_keyword',
-                array("where" => "name_keyword = '$keyword'")
+            $keyword = $this->sqlService->getData('keyword', 'name_keyword',
+                array("where" => "name_keyword = '$tag'")
             );
-            // Create keyword if not exist
-            if(empty($keywordExist))
-            {
-                $this->addNewKeyword($keyword);
-            }
-            $this->linkKeywordToPicture($keyword, $imageID);
+            $this->linkKeywordToPicture($keyword[0]['name_keyword'], $imageID);
         }
     }
-    private function getArrayOfKeywordFromString($string) {
-        $keywordArray = $string;
-        $keywordArray = preg_replace('/\s+/', '', $keywordArray);
-        $keywordArray = explode(",", $keywordArray);
-        $keywordArray = array_unique($keywordArray);
 
-        return $keywordArray;
-    }
-    private function addNewKeyword($keyword) {
-        $this->sqlService->insertData('keyword',
-            array(
-                array(
-                'name_keyword' => $keyword,
-                )
-            )
-        );
-    }
     private function linkKeywordToPicture($keyword, $imageID) {
         $this->sqlService->insertData('image_keyword',
             array(

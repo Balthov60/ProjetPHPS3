@@ -21,8 +21,7 @@ $(document).ready(function () {
            xmlhttp.open("GET", "scripts/addImageToCart.php?imageID=" + imageID, true);
            xmlhttp.send(null);
 
-           $("#action-container")
-               .html("<p id='photo-already-in-cart'>Cette photo est déjà dans votre panier</p>");
+           $("#action-container").html("<p id='photo-already-in-cart'>Cette photo est déjà dans votre panier</p>");
        }
        else if(event.target.id === $("#submit-download").attr("id"))
        {
@@ -96,7 +95,6 @@ function getImageDetailsWithAJAX(imageName, callback)
 function displayContent(detailsString)
 {
     var detailsArray = detailsString.split("/");
-
     displayDetails(detailsArray[0], detailsArray[1]);
     displayImageStatus(detailsArray[2]);
 }
@@ -116,18 +114,18 @@ function displayDetails(description, price) {
 
 }
 function displayImageStatus(status) {
-    if (status === 'cart') {
-        $("#action-container")
-            .html("<p>Cette photo est déjà dans votre panier.</p>");
+
+    if (status === 'admin') {
+        $("#action-container").hide();
+    }
+    else if (status === 'cart') {
+        $("#action-container").html("<p>Cette photo est déjà dans votre panier.</p>");
     }
     else if (status === 'owned') {
-        $("#action-container")
-            .html("<input type='submit' name='submit-download' id='submit-download' " +
-                         "class='btn btn-primary' value='Télecharger'>");
+        $("#action-container").html("<p>Vous avez déjà acheté cette photo</p>"); 
     }
     else if (status === 'disconnected') {
-        $("#action-container")
-            .html("<a href='../../../ProjetPHPS3/Project/login.php'>Se connecter</a>");
+        $("#action-container").html("<a href='../../../ProjetPHPS3/Project/login.php'>Se connecter</a>");
     }
     else {
         $("#action-container")

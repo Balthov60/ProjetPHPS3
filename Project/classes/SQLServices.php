@@ -175,15 +175,17 @@ class SQLServices
     function displayKeywordList()
     {
         $keyword_list = $this->getData('keyword', 'name_keyword');
-
+        $codeHtml = "";
         if (isset($keyword_list)) {
             foreach ($keyword_list as $value) {
-                echo "<li><a>" . htmlspecialchars($value[0]) . "</a></li>";
+                $codeHtml.= "<li><input class='tags' type='checkbox' name='tags[]' value='".htmlspecialchars($value[0])."' id='".htmlspecialchars($value[0])."_tag'><p id='tag-text'>".htmlspecialchars($value[0])."</p></li>";
             }
         }
         else {
             echo "<li>No Keyword Found</li>";
         }
+
+        echo $codeHtml;
     }
 
     /*******************/
