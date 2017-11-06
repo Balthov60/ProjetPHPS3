@@ -3,6 +3,7 @@ include_once("HeaderBar.php");
 include_once("AdminPanel.php");
 include_once("ModalHandler.php");
 include_once("FooterBar.php");
+
 class AdminPanel
 {
     private $sqlService;
@@ -10,14 +11,14 @@ class AdminPanel
     // TODO : Enhance Graphics
     // TODO : Fix TOP & BOTTOM Space Issues
 
-    function __construct()
+    /**
+     * AdminPanel constructor. Display Admin Panel Page.
+     *
+     * @param SQLServices $sqlService
+     */
+    function __construct(SQLServices $sqlService)
     {
-        // TODO : Fix Include problem
-        $hostnameDB = "localhost";
-        $userDB = "root";
-        $passwordDB = '';
-        $dbName = "projetphps3";
-        $this->sqlService = new SQLServices($hostnameDB,$dbName,$userDB, $passwordDB);
+        $this->sqlService = $sqlService;
 
         new HeaderBar(true, true, "Panel", $this->sqlService);
 
@@ -26,10 +27,11 @@ class AdminPanel
         $this->displayUploadForm();
         $this->displayModifForm();
         echo "</div>";
-
-        new FooterBar();
     }
 
+    /**
+     * Display image upload form.
+     */
     function displayUploadForm()
     { ?>
         <div id='upload-form-container'>
@@ -53,12 +55,13 @@ class AdminPanel
                 </label>
 
                 <div class="submit-price-container ">
-                    <div class="col-xs-2 d-flex flex-row">
+                    <div class="flex-row">
                         <label for="price">
                             Price
                             <input type="text" class="form-control" name="price" title="price">
                         </label>
                     </div>
+
                     <input type="submit" id="submit-upload" name="submit" value="Upload">
                 </div>
             </form>
@@ -66,8 +69,11 @@ class AdminPanel
     <?php
     }
 
+    /**
+     * NOT IMPLEMENTED YET.
+     */
     function displayModifForm()
     {
-
+        //TODO: Implement Modif Form (possible improvement)
     }
 }

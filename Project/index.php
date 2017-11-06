@@ -28,7 +28,7 @@ initSession();
             if ($_SESSION["user"]["isAdmin"] == true)
             {
                 include_once("./classes/AdminPanel.php");
-                new AdminPanel();
+                new AdminPanel($sqlService);
             }
             else
             {
