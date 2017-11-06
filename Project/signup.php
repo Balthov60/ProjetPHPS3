@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,9 +19,9 @@ session_start();
         <?php handleError() ?>
 
         <input type="email" name="mail" class="form-control" placeholder="E-mail" required autofocus
-               <?php checkSessionFormFor('mail') ?>>
+               <?php checkSessionValueFor('mail') ?>>
         <input type="text" name="username" class="form-control" placeholder="Username" required
-               <?php checkSessionFormFor('username') ?>>
+               <?php checkSessionValueFor('username') ?>>
 
         <input type="password" name="password" class="form-control" placeholder="Password" required>
         <input type="password" name="password-confirmation" class="form-control" placeholder="Confirm Password" required>
@@ -39,6 +37,11 @@ session_start();
 
 <?php
 
+/**
+ * Check if the previous submission of this form get error and display it.
+ *
+ * @return null (Display method)
+ */
 function handleError() {
     if (isset($_GET['error'])) {
         if ($_GET['error'] == "passwordTooSmall")
@@ -64,7 +67,12 @@ function handleError() {
     }
 }
 
-function checkSessionFormFor($value) {
-    if (isset($_SESSION["form"][$value]))
-        echo "value='" . $_SESSION["form"][$value] . "'";
+/**
+ * Check if $inputName has a value in Session
+ *
+ * @param $imputName
+ */
+function checkSessionValueFor($imputName) {
+    if (isset($_SESSION["form"][$imputName]))
+        echo "value='" . $_SESSION["form"][$imputName] . "'";
 }
