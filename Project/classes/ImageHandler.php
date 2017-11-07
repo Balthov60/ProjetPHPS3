@@ -42,7 +42,7 @@ class ImageHandler
             $this->sqlService->insertData('image',
                 array(
                     array(
-                        'name_image' => $_FILES['pictureToUpload']["name"],
+                        'image_name' => $_FILES['pictureToUpload']["name"],
                         'price' => round($_POST["price"], 2),
                         'description' => htmlspecialchars($_POST["description"])
                     )
@@ -81,10 +81,10 @@ class ImageHandler
     private function linkKeywordsToImage()
     {
         // Get ImageID & Keywords
-        $imageID = $this->sqlService->extractValueFromArray(
-            $this->sqlService->getData('image', 'id_image',
+        $imageName = $this->sqlService->extractValueFromArray(
+            $this->sqlService->getData('image', 'image_name',
                 array(
-                    "where" => "name_image = '" . $_FILES["pictureToUpload"]["name"] . "'"
+                    "where" => "image_name = '" . $_FILES["pictureToUpload"]["name"] . "'"
                 )
             ));
         $tagArray = $_POST['tags'];
@@ -92,10 +92,10 @@ class ImageHandler
         // Link All KeyWord with Image
         foreach ($tagArray as $tag)
         {
-            $keyword = $this->sqlService->getData('keyword', 'name_keyword',
-                array("where" => "name_keyword = '$tag'")
+            $keyword = $this->sqlService->getData('keyword', 'keyword_name',
+                array("where" => "keyword_name = '$tag'")
             );
-            $this->linkKeywordToPicture($keyword[0]['name_keyword'], $imageID);
+            $this->linkKeywordToPicture($keyword[0]['keyword_name'], $imageName);
         }
     }
 
@@ -103,13 +103,13 @@ class ImageHandler
      * Link keyword to Image in DB.
      *
      * @param $keyword
-     * @param $imageID
+     * @param $imageName
      */
-    private function linkKeywordToPicture($keyword, $imageID) {
+    private function linkKeywordToPicture($keyword, $imageName) {
         $this->sqlService->insertData('image_keyword',
             array(
                 array(
-                    'id_image' => $imageID,
+                    'image_name' => $imageName,
                     'keyword_name' => $keyword,
                 )
             )

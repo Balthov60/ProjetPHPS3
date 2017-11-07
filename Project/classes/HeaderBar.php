@@ -255,7 +255,7 @@ class HeaderBar
      * Display keywords.
      */
     private function displayKeywords() {
-        $result = $this->sqlServices->getData("keyword", "name_keyword");
+        $result = $this->sqlServices->getData("keyword", "keyword_name");
 
         foreach($result as $value) {
             $this->displayTag($value[0]);

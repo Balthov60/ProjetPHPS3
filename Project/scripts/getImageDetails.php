@@ -45,7 +45,7 @@ else
  */
 function getDescription($imageName, SQLServices $sqlService)
 {
-    $result = $sqlService->getData("image", "description", array("where" => "name_image = '$imageName'"));
+    $result = $sqlService->getData("image", "description", array("where" => "image_name = '$imageName'"));
     if ($result[0]['description'] != "none")
         return $result[0]['description'];
     else
@@ -61,7 +61,7 @@ function getDescription($imageName, SQLServices $sqlService)
  */
 function getPrice($imageName, SQLServices $sqlService)
 {
-    $result = $sqlService->getData("image", "price", array("where" => "name_image = '$imageName'"));
+    $result = $sqlService->getData("image", "price", array("where" => "image_name = '$imageName'"));
     return $result[0]['price'];
 }
 

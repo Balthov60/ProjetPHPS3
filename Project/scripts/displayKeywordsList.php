@@ -12,11 +12,11 @@ if(isset($_GET['newKeyword'])) {
     $keywordAdded = $keyword;
     if (!$sqlService->keywordExist($keyword))
     {
-        $sqlService->insertData('keyword', array(array("name_keyword" => $keyword)));
+        $sqlService->insertData('keyword', array(array("keyword_name" => $keyword)));
     }
 }
 
-$keywordsList = $sqlService->getData('keyword', 'name_keyword');
+$keywordsList = $sqlService->getData('keyword', 'keyword_name');
 if (isset($keywordsList))
 {
     echo formatKeywordsListForHTMLInsertion($keywordsList, $keywordAdded);
@@ -46,7 +46,7 @@ function formatKeywordsListForHTMLInsertion($keywordsList, $keywordAdded)
     return $codeHtml;
 }
 
-//TODO: check previously ckecked keywords.
+//TODO: check previously ckecked keywords. NOT IMPLEMENTED YET
 /**
  * return "checked" if it as been added on this session.
  *

@@ -89,7 +89,7 @@ class CartPage
     private function displayDescriptionOf($cartItem)
     {
         $imageName = $cartItem['image_name'];
-        $result = $this->sqlService->getData('image', 'description', array("where" => "name_image = '$imageName'"));
+        $result = $this->sqlService->getData('image', 'description', array("where" => "image_name = '$imageName'"));
         echo "Description : {$result[0]['description']}";
     }
 
@@ -191,7 +191,7 @@ class CartPage
         $imageName = $cartItem['image_name'];
 
         $result = $this->sqlService->getData('image', 'price',
-            array("where" => "name_image = '$imageName'")
+            array("where" => "image_name = '$imageName'")
         );
 
         return $result[0]['price'];

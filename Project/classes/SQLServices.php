@@ -52,6 +52,7 @@ class SQLServices
                 $query .= "ORDER BY " . SQLServices::getSQLStringFromArray($options["order_by"]);
             }
         }
+
         $cursor = $this->db->query($query);
         if ($cursor == false)
             return null;
@@ -215,7 +216,7 @@ class SQLServices
      */
     public function keywordExist($keyword) {
         $query = "SELECT count(*) FROM keyword ";
-        $query .= "WHERE name_keyword = '$keyword' ";
+        $query .= "WHERE keyword_name = '$keyword' ";
 
         return $this->queryReturnData($query);
     }

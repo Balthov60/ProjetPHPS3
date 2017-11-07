@@ -30,7 +30,7 @@ class UserPanel
      * Display Images that the user bought.
      */
     private function displayUserImages() {
-        $images = $this->sqlService->getData("user_image ui JOIN image i ON ui.image_name = i.name_image",
+        $images = $this->sqlService->getData("user_image ui JOIN image i ON ui.image_name = i.image_name",
                                              "ui.image_name",
             array(
                 "where" => "username = '" . $_SESSION["user"]["username"] . "'"
