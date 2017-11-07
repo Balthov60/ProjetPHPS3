@@ -1,10 +1,17 @@
 <?php
 
-// TODO: Fill PHPDoc
 class SQLServices
 {
     private $db;
 
+    /**
+     * SQLServices constructor.
+     * 
+     * @param $host
+     * @param $dbname
+     * @param $user
+     * @param $password
+     */
     function __construct($host, $dbname, $user, $password) {
         try {
             $this->db =  new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8', $user, $password);
@@ -14,71 +21,12 @@ class SQLServices
     }
 
     /*********************/
-    /* Utilities Methods */
-    /*********************/
-
-    /**
-     * @param $array
-     * @return mixed
-     */
-    function extractValueFromArray($array)
-    {
-        foreach ($array as $key => $value)
-        {
-            foreach ($value as $key_value => $value_value)
-                return $value_value;
-        }
-    }
-
-    /**
-     * @param $array
-     * @return string with ', ' separation
-     */
-    static private function getSQLStringFromArray($array) {
-        if (!is_array($array))
-            return $array . " ";
-
-        $sqlString = "";
-        foreach ($array as $value)
-            $sqlString .= $value . ", ";
-
-        return substr($sqlString, 0, -2) . " ";
-    }
-
-    /**
-     * @param $array
-     * @return string with formatted for SQL insert
-     */
-    static private function formatDataForValueInsertion($array) {
-        $sqlString = "(";
-        foreach ($array as $value) {
-            if (is_string($value))
-                $sqlString .= "'$value'";
-            else
-                $sqlString .= $value;
-            $sqlString .= ", ";
-        }
-
-        return substr($sqlString, 0, -2) . ")";
-    }
-
-    /**
-     * @param $array
-     * @return string with formatted for SQL insert
-     */
-    static private function formatDataForKeyInsertion($array) {
-        $sqlString = "";
-        foreach ($array as $key => $value)
-            $sqlString .= $key . ", ";
-
-        return substr($sqlString, 0, -2) . ") ";
-    }
-
-    /*********************/
     /* Data Manipulation */
     /*********************/
 
     /**
+     * SQL SELECT on data.
+     *
      * @param $table
      * @param $select
      * @param null $options : where, group_by, limit, order_by
@@ -114,8 +62,10 @@ class SQLServices
     }
 
     /**
+     * SQL INSERT on data.
+     *
      * @param $table
-     * @param $values
+     * @param $values array of array (one array is one row insertion)
      */
     function insertData($table, $values)
     {
@@ -136,8 +86,10 @@ class SQLServices
     }
 
     /**
+     * SQL REMOVE on data.
+     *
      * @param $table
-     * @param $optionWhere
+     * @param $optionWhere : WHERE and LIMIT implemented.
      * @param $limit
      */
     function removeData($table, $optionWhere, $limit = null) {
@@ -154,8 +106,10 @@ class SQLServices
     }
 
     /**
+     * SQL UPDATE on data.
+     *
      * @param $table
-     * @param $optionWhere
+     * @param $optionWhere : ONLY WHERE implement yet.
      * @param $value
      */
     function updateData($table, $optionWhere, $value) {
@@ -169,9 +123,9 @@ class SQLServices
         $this->db->exec($query);
     }
 
-    /*******************/
-    /* Account Methods */
-    /*******************/
+    /*************************/
+    /* Specified SQL Methods */
+    /*************************/
 
     /**
      * Check If User exist, if his password is Good and if he is not an admin.
@@ -234,9 +188,118 @@ class SQLServices
         return $this->queryReturnData($query);
     }
 
+    /**
+     *  Remove .jpg/.jpeg/.png from db image name.
+     *
+     * @param $imageName
+     * @return bool|string
+     */
+    public function removeExtensionFromImageName($imageName) {
+        $idPos = strpos($imageName,'.jpg');
+        if ($idPos == false) {
+            $idPos = strpos($imageName,'.jpeg');
+
+            if ($idPos == false) {
+                $idPos = strPos($imageName, '.png');
+            }
+        }
+
+        return substr($imageName, 0, $idPos);
+    }
+
+    /**
+     * Check if keyword exist.
+     *
+     * @param $keyword
+     * @return bool
+     */
+    public function keywordExist($keyword) {
+        $query = "SELECT count(*) FROM keyword ";
+        $query .= "WHERE name_keyword = '$keyword' ";
+
+        return $this->queryReturnData($query);
+    }
+
+    /**
+     * check if the couple image username exist in cart db.
+     *
+     * @param $image
+     * @param $username
+     * @return bool
+     */
+    public function cartEntryExist($image, $username) {
+        $query = "SELECT count(*) FROM cart ";
+        $query .= "WHERE username = '$username' AND image_name = '$image' ";
+
+        return $this->queryReturnData($query);
+    }
+
     /*********************/
     /* Utilities Methods */
     /*********************/
+
+    /**
+     * extract single value from array.
+     *
+     * @param $array
+     * @return mixed
+     */
+    function extractValueFromArray($array)
+    {
+        return $array[0][0];
+    }
+
+    /**
+     * Get SQL formatted strings with ', ' separation from an array of string.
+     *
+     * @param $array
+     * @return string with ', ' separation
+     */
+    static private function getSQLStringFromArray($array) {
+        if (!is_array($array))
+            return $array . " ";
+
+        $sqlString = "";
+        foreach ($array as $value)
+            $sqlString .= $value . ", ";
+
+        return substr($sqlString, 0, -2) . " ";
+    }
+
+    /**
+     *  Get SQL formatted strings with ', ' separation from an array of string
+     *  With security to prevent SQL Injection.
+     *
+     * @param $array
+     * @return string with formatted for SQL insert
+     */
+    static private function formatDataForValueInsertion($array) {
+        $sqlString = "(";
+        foreach ($array as $value) {
+            if (is_string($value))
+                $sqlString .= "'$value'";
+            else
+                $sqlString .= $value;
+            $sqlString .= ", ";
+        }
+
+        return substr($sqlString, 0, -2) . ")";
+    }
+
+    /**
+     *  Get SQL formatted strings with ', ' separation from an array of string
+     *  For Key insertion.
+     *
+     * @param $array
+     * @return string with formatted for SQL insert
+     */
+    static private function formatDataForKeyInsertion($array) {
+        $sqlString = "";
+        foreach ($array as $key => $value)
+            $sqlString .= $key . ", ";
+
+        return substr($sqlString, 0, -2) . ") ";
+    }
 
     /**
      * Check If Query Return Anything.
@@ -251,32 +314,5 @@ class SQLServices
             return false;
 
         return true;
-    }
-
-    public function removeExtensionFromImageName($imageName) {
-        $idPos = strpos($imageName,'.jpg');
-        if ($idPos == false) {
-            $idPos = strpos($imageName,'.jpeg');
-
-            if ($idPos == false) {
-                $idPos = strPos($imageName, '.png');
-            }
-        }
-
-        return substr($imageName, 0, $idPos);
-    }
-
-    public function keywordExist($keyword) {
-        $query = "SELECT count(*) FROM keyword ";
-        $query .= "WHERE name_keyword = '$keyword' ";
-
-        return $this->queryReturnData($query);
-    }
-
-    public function cartEntryExist($image, $username) {
-        $query = "SELECT count(*) FROM cart ";
-        $query .= "WHERE username = '$username' AND image_name = '$image' ";
-
-        return $this->queryReturnData($query);
     }
 }

@@ -11,6 +11,7 @@ if (isset($_GET["imageName"]) && isset($_SESSION['user'])) // if $_SESSION['user
     $imageName = $_GET["imageName"];
     $description = getDescription($imageName, $sqlService);
     $price = getPrice($imageName, $sqlService);
+    $imageNameWithoutExtension = $sqlService->removeExtensionFromImageName($imageName);
 
     if ($_SESSION['user']['isConnected'])
     {
@@ -27,7 +28,7 @@ if (isset($_GET["imageName"]) && isset($_SESSION['user'])) // if $_SESSION['user
     }
     else
     {
-        echo $description . "/" . $price . "/" . $status;
+        echo $imageNameWithoutExtension . "/" . $description . "/" . $price . "/" . $status;
     }
 }
 else

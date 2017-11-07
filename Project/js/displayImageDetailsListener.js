@@ -90,18 +90,21 @@ function getImageDetailsWithAJAX(imageName, callback)
 /**
  * display price, description and status of the photo.
  *
- * @param detailsString string Format : description/price/status
+ * @param detailsString string Format : title/description/price/status
  */
 function displayContent(detailsString)
 {
     var detailsArray = detailsString.split("/");
-    displayDetails(detailsArray[0], detailsArray[1]);
-    displayImageStatus(detailsArray[2]);
+    displayDetails(detailsArray[0], detailsArray[1], detailsArray[2]);
+    displayImageStatus(detailsArray[3]);
 }
 
-function displayDetails(description, price) {
+function displayDetails(title, description, price) {
 
     var codeHtmlDetails = "" +
+        "<div>" +
+            "<h2>" + title + "</h2>" +
+        "</div>" +
         "<div id='desc-container'>" +
             "<p>Description : </p>" +
             "<p id='desc'>" + description + "</p>" +
