@@ -102,7 +102,7 @@ function displayContent(detailsString)
 function displayDetails(title, description, price) {
 
     var codeHtmlDetails = "" +
-        "<div>" +
+        "<div id='title-container'>" +
             "<h2>" + title + "</h2>" +
         "</div>" +
         "<div id='desc-container'>" +
