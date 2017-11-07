@@ -39,7 +39,7 @@ class UserPanel
 
         if (!empty($images))
         {
-            echo "<div class='container bg-secondary images-container'>";
+            echo "<div class='my-container bg-secondary main-page-content'>";
             ImageHandler::displayImagesWithAutomaticResizing($images, false);
             echo "</div>";
         }

@@ -3,11 +3,11 @@
 // Define padding with css value for dynamic implementation.
 include_once($_SERVER['DOCUMENT_ROOT'] . "/ProjetPHPS3/Project/includes/variables.inc.php");
 define("PADDING", $padding);
-
+define("ROW_WIDTH", $containerWidth - $containerPadding * 2 - 10); // we remove 10 more to avoid float error.
 class ImageHandler
 {
     private $sqlService;
-    private static $rowWidth = 1100;
+    private static $rowWidth = ROW_WIDTH;
 
     /**
      * ImageHandler constructor.

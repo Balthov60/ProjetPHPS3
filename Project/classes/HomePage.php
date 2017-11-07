@@ -23,7 +23,7 @@ class HomePage
         new HeaderBar($isConnected, $isAdmin, 'HomePage', $sqlService);
         ModalHandler::displayDetailsModal();
 
-        echo "<div class='container bg-secondary main-page-content'>";
+        echo "<div class='my-container bg-secondary main-page-content'>";
 
         if (!isset($_GET["keywords"]))
         {

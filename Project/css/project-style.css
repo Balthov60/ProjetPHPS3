@@ -1,3 +1,7 @@
+/********************/
+/* Basic HTML Style */
+/********************/
+
 .horizontal-layout
 {
     display: flex;
@@ -20,11 +24,13 @@
 
 .main-page-content
 {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 40px;
 }
 
+/**********/
 /* header */
+/**********/
 
 #logo
 {
@@ -54,12 +60,10 @@ header h2
     left: 50%;
     transform: translate(-50%, 0%);
 }
-.tags
-{
 
-}
-
+/**********/
 /* images */
+/**********/
 
 .images-container
 {
@@ -67,7 +71,9 @@ header h2
     margin-top: 20px;
 }
 
+/***************/
 /* Upload Form */
+/***************/
 
 #upload-form-container {
     width: 50%;
@@ -93,9 +99,7 @@ header h2
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-
-    margin-top: 20px;
+    align-items: baseline;
 }
 
 #submit-upload
@@ -123,9 +127,9 @@ header h2
     padding: 5px 15px;
 }
 
-
+/******************************/
 /* Keyword SearchBar and List */
-
+/******************************/
 
 #keyword-list-container
 {
@@ -168,7 +172,7 @@ header h2
     flex-direction: row;
 
     margin-top: -1px;
-    padding: 12px;
+    padding: 5px;
 
     border: 1px solid #ddd;
 
@@ -176,7 +180,13 @@ header h2
     color: black;
 
     text-decoration: none;
-    font-size: 18px;
+    font-size: 1em;
+}
+
+#keywords-list li p
+{
+    font-size: 0.8em;
+    margin: auto 10px;
 }
 
 
@@ -197,13 +207,14 @@ header h2
     cursor:pointer;
 }
 
-
-
-.tags {
+.tags
+{
     margin: 5px;
 }
 
+/*********/
 /* modal */
+/*********/
 
 .modal
 {
@@ -271,8 +282,9 @@ header h2
     margin: 0;
 }
 
-
+/*****************/
 /* Add tag modal */
+/*****************/
 
 #new-tag-modal
 {
@@ -314,7 +326,10 @@ header h2
     margin-right: 10%;
 
 }
+
+/*************/
 /* CartPanel */
+/*************/
 
 .empty-content
 {
@@ -370,7 +385,9 @@ header h2
     cursor: pointer;
 }
 
+/**********/
 /* footer */
+/**********/
 
 footer .main-footer-div
 {

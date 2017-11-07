@@ -6,7 +6,7 @@ class SQLServices
 
     /**
      * SQLServices constructor.
-     * 
+     *
      * @param $host
      * @param $dbname
      * @param $user
