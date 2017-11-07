@@ -44,7 +44,7 @@ class ImageHandler
                     array(
                         'image_name' => $_FILES['pictureToUpload']["name"],
                         'price' => round($_POST["price"], 2),
-                        'description' => htmlspecialchars($_POST["description"])
+                        'description' => htmlspecialchars(addslashes($_POST["description"]))
                     )
                 )
             );
