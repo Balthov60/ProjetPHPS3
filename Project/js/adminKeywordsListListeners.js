@@ -74,7 +74,9 @@ function getTagList(callback)
     xmlhttp.send(null);
 }
 
-
+/**
+ * Search Keyword that match the filter the user entered in the keyword search input
+ */
 function filterKeyword()
 {
 
