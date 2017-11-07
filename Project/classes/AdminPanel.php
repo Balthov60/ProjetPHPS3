@@ -121,7 +121,7 @@ class AdminPanel
         if (isset($_GET['success'])) {
             if ($_GET['success'] == true)
             {
-                echo "<p class='text-info'>La photo à bien été ajouté.</p>";
+                echo "<p class='text-info'>La photo a bien été ajoutée.</p>";
             }
         }
     }
