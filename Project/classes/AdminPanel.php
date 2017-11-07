@@ -39,7 +39,7 @@ class AdminPanel
 
                 <input type="file" class="form-control col-xs-2" name="pictureToUpload" value="Choisissez une image">
                 <div id="keyword-list-container">
-                    <input type="text" name="keyword_input" id="keyword-search"
+                    <input type="text" onkeyup="filterKeyword()" name="keyword_input" id="keyword-search"
                            placeholder="Cochez les mots-clé qui seront attribué à l'image">
 
                     <ul id="keywords-list">

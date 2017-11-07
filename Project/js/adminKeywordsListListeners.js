@@ -16,6 +16,7 @@ $(document).ready(function()
         }
     );
 
+
     // Register event for keywords list.
     keywordList.click(
         function(event)
@@ -71,6 +72,32 @@ function getTagList(callback)
     };
     xmlhttp.open("GET", "scripts/displayKeywordsList.php", true);
     xmlhttp.send(null);
+}
+
+
+function filterKeyword()
+{
+
+    var keywordSearch = document.getElementById('keyword-search');
+    var filter = keywordSearch.value.toUpperCase();
+
+    var keywordList = document.getElementById("keywords-list");
+    var keywordArray = keywordList.getElementsByTagName('li');
+    var nbTagAvailable = keywordArray.length;
+    // Loop through all list items, and hide those who don't match the search query
+    for (var i = 0; i < keywordArray.length; i++) {
+
+        if (keywordArray[i].innerHTML.toUpperCase().indexOf(filter) > -1)
+        {
+            keywordArray[i].style.display = "";
+        }
+        else
+        {
+            keywordArray[i].style.display = "none";
+            nbTagAvailable--;
+        }
+    }
+    document.getElementById('new-tag-link').style.display = ""; //Always display "New keyword";
 }
 
 /**
@@ -202,3 +229,4 @@ function addNewKeyword(keywordName, callback)
     xmlhttp.open("GET", "scripts/displayKeywordsList.php?newKeyword=" + keywordName, true);
     xmlhttp.send(null);
 }
+
