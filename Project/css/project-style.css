@@ -278,10 +278,15 @@ header h2
     bottom: 20px;
 }
 
-#action-container p {
+#action-container p
+{
     margin: 0;
 }
 
+#desc-container p
+{
+    margin-bottom: 10px;
+}
 /*****************/
 /* Add tag modal */
 /*****************/

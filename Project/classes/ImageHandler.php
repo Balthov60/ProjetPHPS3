@@ -34,7 +34,7 @@ class ImageHandler
     {
         if (!(move_uploaded_file($fileName, $targetFile)))
         {
-            header("Location:../index.php?error=unableToMoveFile");
+            header("Location:../index.php?page=panel&error=unableToMoveFile");
         }
         else
         {
@@ -43,7 +43,7 @@ class ImageHandler
                 array(
                     array(
                         'name_image' => $_FILES['pictureToUpload']["name"],
-                        'price' => $_POST["price"],
+                        'price' => round($_POST["price"], 2),
                         'description' => htmlspecialchars($_POST["description"])
                     )
                 )
@@ -51,7 +51,7 @@ class ImageHandler
 
             $this->linkKeywordsToImage();
             $this->addCopyright($_FILES['pictureToUpload']['name'], $imageFileType);
-            header("Location:../index?page=panel.php");
+            header("Location:../index.php?page=panel&success=true");
         }
     }
 

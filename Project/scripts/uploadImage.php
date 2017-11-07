@@ -10,36 +10,38 @@ $imageFileType = pathinfo($targetFile,PATHINFO_EXTENSION);
 /* Prevent access trough URL */
 
 if (!isset($_POST["submit"]))
+{
     header("Location:../index.php?error=emptyForm");
+}
 
 /* Test Values */
 
-if (!is_float($_POST["price"]))
+else if (!is_numeric($_POST["price"]))
 {
-    header("Location:../index.php?error=invalidPrice");
+    header("Location:../index.php?page=panel&error=invalidPrice");
 }
-if (strlen(htmlspecialchars($_POST['description'])) > 256)
+else if (strlen(htmlspecialchars($_POST['description'])) > 256)
 {
-    header("Location:../index.php?error=descriptionTooLong");
+    header("Location:../index.php?page=panel&error=descriptionTooLong");
 }
 
 /* Test if image is valid */
 
-if(!isValidImage())
+else if(!isValidImage())
 {
-    header("Location:../index.php?error=invalidImage");
+    header("Location:../index.php?page=panel&error=invalidImage");
 }
 else if(!fileAlreadyExist($targetFile))
 {
-    header("Location:../index.php?error=fileAlreadyExist");
+    header("Location:../index.php?page=panel&error=fileAlreadyExist");
 }
 else if(imageTooBig())
 {
-    header('Location:../index.php?error=imageTooBig');
+    header('Location:../index.php?page=panel&error=imageTooBig');
 }
 else if(!validExtension($imageFileType)) // Allow only JPG, JPEG & PNG
 {
-    header('Location:../index.php?error=invalidExtension');
+    header('Location:../index.php?page=panel&error=invalidExtension');
 }
 else
 {

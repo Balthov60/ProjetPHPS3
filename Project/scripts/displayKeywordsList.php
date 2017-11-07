@@ -39,13 +39,14 @@ function formatKeywordsListForHTMLInsertion($keywordsList, $keywordAdded)
     foreach ($keywordsList as $keyword) {
         $codeHtml.= "<li>
                         <input class='tags' type='checkbox' name='tags[]' value='$keyword[0]' 
-                        id='$keyword[0]_tag' " . displayIfisChecked($keyword[0], $keywordAdded) . ">
+                        id='$keyword[0]_tag' " . displayIfIsChecked($keyword[0], $keywordAdded) . ">
                         <p id='tag-text'>$keyword[0]</p>
                      </li>";
     }
     return $codeHtml;
 }
 
+//TODO: check previously ckecked keywords.
 /**
  * return "checked" if it as been added on this session.
  *
@@ -53,7 +54,7 @@ function formatKeywordsListForHTMLInsertion($keywordsList, $keywordAdded)
  * @param $keywordAdded
  * @return string
  */
-function displayIfisChecked($keywordName, $keywordAdded) {
+function displayIfIsChecked($keywordName, $keywordAdded) {
     if ($keywordAdded == $keywordName)
     {
         return "checked";

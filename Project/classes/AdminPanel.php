@@ -32,6 +32,8 @@ class AdminPanel
     function displayUploadForm()
     { ?>
         <div id='upload-form-container' class="main-page-content">
+            <?php $this->handleError() ?>
+            <?php $this->handleSuccess() ?>
             <form action="../../../ProjetPHPS3/Project/scripts/uploadImage.php"
                   method="post" enctype="multipart/form-data">
 
@@ -55,7 +57,7 @@ class AdminPanel
                     <div class="flex-row">
                         <label for="price">
                             Price
-                            <input type="text" class="form-control" name="price" title="price">
+                            <input type="number" step="0.01" class="form-control" name="price" title="price">
                         </label>
                     </div>
 
@@ -72,5 +74,55 @@ class AdminPanel
     function displayModifForm()
     {
         //TODO: Implement Modif Form (possible improvement)
+    }
+
+    /**
+     * Check if the previous submission of this form get error and display it.
+     */
+    function handleError() {
+        if (isset($_GET['error'])) {
+            if ($_GET['error'] == "invalidPrice")
+            {
+                echo "<p class='text-danger'>Le prix doit être une valeur numérique.</p>";
+            }
+            else if ($_GET['error'] == "descriptionTooLong")
+            {
+                echo "<p class='text-danger'>La description ne peut mesurer plus de 256 caractères.</p>";
+            }
+            else if ($_GET['error'] == "invalidImage")
+            {
+                echo "<p class='text-danger'>L'image n'est pas au bon format.</p>";
+            }
+            else if ($_GET['error'] == "fileAlreadyExist")
+            {
+                echo "<p class='text-danger'>Un fichier du même nom existe déjà.</p>";
+            }
+            else if ($_GET['error'] == "imageTooBig")
+            {
+                echo "<p class='text-danger'>La taille de l'image est trop grande.</p>";
+            }
+            else if ($_GET['error'] == "invalidExtension")
+            {
+                echo "<p class='text-danger'>
+                        L'extension de l'image n'est pas valide les formats possibles sont jpg/jpeg/png.
+                      </p>";
+            }
+            else if ($_GET['error'] == "unableToMoveFile")
+            {
+                echo "<p class='text-danger'>Problème lors du transfert de fichier.</p>";
+            }
+        }
+    }
+
+    /**
+     * Check if the previous submission of this form get success and display it.
+     */
+    function handleSuccess() {
+        if (isset($_GET['success'])) {
+            if ($_GET['success'] == true)
+            {
+                echo "<p class='text-info'>La photo à bien été ajouté.</p>";
+            }
+        }
     }
 }
